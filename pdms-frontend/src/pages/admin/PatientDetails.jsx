@@ -327,20 +327,27 @@ function PatientDetails() {
                               PH {d.diagnosis.refraction?.unaided?.re_pinhole}
                             </p>
 
-                            <p><b>PGP:</b> 
+                            {/* <p><b>PGP:</b> 
                               {d.diagnosis.refraction?.pgp?.re_sph} /
                               {d.diagnosis.refraction?.pgp?.re_cyl} × 
                               {d.diagnosis.refraction?.pgp?.re_axis} | 
                               ADD {d.diagnosis.refraction?.pgp?.re_add}
+                            </p> */}
+                            <p><b>PGP:</b> 
+                              {d.diagnosis.refraction?.pgp?.re_sph} /
+                              {d.diagnosis.refraction?.pgp?.re_cyl} × 
+                              {d.diagnosis.refraction?.pgp?.re_axis}
+                              | V {d.diagnosis.refraction?.pgp?.re_vision_before}
+                              | ADD {d.diagnosis.refraction?.pgp?.re_add}
+                              | V {d.diagnosis.refraction?.pgp?.re_vision_after}
                             </p>
-
                             <p><b>Retinoscopy ({d.diagnosis.refraction?.retinoscopy?.type || "—"}):</b> 
                               {d.diagnosis.refraction?.retinoscopy?.re_sph} /
                               {d.diagnosis.refraction?.retinoscopy?.re_cyl} × 
                               {d.diagnosis.refraction?.retinoscopy?.re_axis}
                             </p>
 
-                            <p><b>Final:</b> 
+                            {/* <p><b>Final:</b> 
                               {d.diagnosis.refraction?.final_refraction?.re_sph} /
                               {d.diagnosis.refraction?.final_refraction?.re_cyl} × 
                               {d.diagnosis.refraction?.final_refraction?.re_axis}
@@ -350,7 +357,23 @@ function PatientDetails() {
                               BCVA: {d.diagnosis.refraction?.final_refraction?.re_bcva}
                               @ {d.diagnosis.refraction?.final_refraction?.at} cm
 
+                            </p> */}
+                            <p><b>Final:</b> 
+                              {d.diagnosis.refraction?.final_refraction?.re_sph} /
+                              {d.diagnosis.refraction?.final_refraction?.re_cyl} × 
+                              {d.diagnosis.refraction?.final_refraction?.re_axis}
                             </p>
+
+                            <p>
+                              BCVA: {d.diagnosis.refraction?.final_refraction?.re_bcva}
+                            </p>
+
+                            <p>
+                              ADD: {d.diagnosis.refraction?.final_refraction?.re_add}
+                              | Near BCVA: {d.diagnosis.refraction?.final_refraction?.re_near_bcva}
+                              | @ {d.diagnosis.refraction?.final_refraction?.at} cm
+                            </p>
+
                           </div>
 
                           {/* LEFT EYE */}
@@ -363,20 +386,27 @@ function PatientDetails() {
                               PH {d.diagnosis.refraction?.unaided?.le_pinhole}
                             </p>
 
-                            <p><b>PGP:</b> 
+                            {/* <p><b>PGP:</b> 
                               {d.diagnosis.refraction?.pgp?.le_sph} /
                               {d.diagnosis.refraction?.pgp?.le_cyl} × 
                               {d.diagnosis.refraction?.pgp?.le_axis} | 
                               ADD {d.diagnosis.refraction?.pgp?.le_add}
+                            </p> */}
+                            <p><b>PGP:</b> 
+                              {d.diagnosis.refraction?.pgp?.le_sph} /
+                              {d.diagnosis.refraction?.pgp?.le_cyl} × 
+                              {d.diagnosis.refraction?.pgp?.le_axis}
+                              | V {d.diagnosis.refraction?.pgp?.le_vision_before}
+                              | ADD {d.diagnosis.refraction?.pgp?.le_add}
+                              | V {d.diagnosis.refraction?.pgp?.le_vision_after}
                             </p>
-
                             <p><b>Retinoscopy ({d.diagnosis.refraction?.retinoscopy?.type || "—"}):</b> 
                               {d.diagnosis.refraction?.retinoscopy?.le_sph} /
                               {d.diagnosis.refraction?.retinoscopy?.le_cyl} × 
                               {d.diagnosis.refraction?.retinoscopy?.le_axis}
                             </p>
 
-                            <p><b>Final:</b> 
+                            {/* <p><b>Final:</b> 
                               {d.diagnosis.refraction?.final_refraction?.le_sph} /
                               {d.diagnosis.refraction?.final_refraction?.le_cyl} × 
                               {d.diagnosis.refraction?.final_refraction?.le_axis}
@@ -386,7 +416,22 @@ function PatientDetails() {
                               BCVA: {d.diagnosis.refraction?.final_refraction?.le_bcva}
                               @ {d.diagnosis.refraction?.final_refraction?.at} cm
 
+                            </p> */}
+                            <p><b>Final:</b> 
+                              {d.diagnosis.refraction?.final_refraction?.le_sph} /
+                              {d.diagnosis.refraction?.final_refraction?.le_cyl} × 
+                              {d.diagnosis.refraction?.final_refraction?.le_axis}
                             </p>
+
+                            <p>
+                              BCVA: {d.diagnosis.refraction?.final_refraction?.le_bcva}
+                            </p>
+
+                            <p>
+                              ADD: {d.diagnosis.refraction?.final_refraction?.le_add}
+                              | Near BCVA: {d.diagnosis.refraction?.final_refraction?.le_near_bcva}
+                              | @ {d.diagnosis.refraction?.final_refraction?.at} cm
+                            </p>                           
                           </div>
 
                         </div>

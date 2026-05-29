@@ -1,3 +1,4 @@
+altgraph==0.17.5
 annotated-doc==0.0.4
 annotated-types==0.7.0
 anyio==4.13.0
@@ -10,15 +11,21 @@ fastapi==0.135.2
 greenlet==3.3.2
 h11==0.16.0
 idna==3.11
+packaging==26.0
 passlib==1.7.4
+pefile==2024.8.26
 psycopg2-binary==2.9.11
 pyasn1==0.6.3
 pycparser==3.0
 pydantic==2.12.5
 pydantic_core==2.41.5
+pyinstaller==6.19.0
+pyinstaller-hooks-contrib==2026.4
 python-dotenv==1.2.2
 python-jose==3.5.0
+pywin32-ctypes==0.2.3
 rsa==4.9.1
+setuptools==82.0.1
 six==1.17.0
 SQLAlchemy==2.0.48
 starlette==1.0.0

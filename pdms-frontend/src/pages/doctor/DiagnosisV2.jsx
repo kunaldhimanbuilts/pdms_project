@@ -845,17 +845,6 @@ const handleRefresh = () => {
                       updateNested("refraction", "unaided", "re_distance", e.target.value)
                     }
                   />
-
-                  <input
-                    placeholder="Right Eye Near"
-                    className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
-                    value={form.refraction.unaided.re_near || ""}
-                    onChange={(e) =>
-                      updateNested("refraction", "unaided", "re_near", e.target.value)
-                    }
-                    onKeyDown={handleEnterNext}
-                  />
-
                   <input
                     placeholder="Pinhole OD"
                     className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -867,11 +856,32 @@ const handleRefresh = () => {
                   />
 
                   <input
+                    placeholder="Right Eye Near"
+                    className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    value={form.refraction.unaided.re_near || ""}
+                    onChange={(e) =>
+                      updateNested("refraction", "unaided", "re_near", e.target.value)
+                    }
+                    onKeyDown={handleEnterNext}
+                  />
+
+                  
+
+                  <input
                     placeholder="Left Eye Distance"
                     className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                     value={form.refraction.unaided.le_distance || ""}
                     onChange={(e) =>
                       updateNested("refraction", "unaided", "le_distance", e.target.value)
+                    }
+                    onKeyDown={handleEnterNext}
+                  />
+                  <input
+                    placeholder="Pinhole OS"
+                    className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    value={form.refraction.unaided.le_pinhole || ""}
+                    onChange={(e) =>
+                      updateNested("refraction", "unaided", "le_pinhole", e.target.value)
                     }
                     onKeyDown={handleEnterNext}
                   />
@@ -885,16 +895,17 @@ const handleRefresh = () => {
                     }
                     onKeyDown={handleEnterNext}
                   />
-
                   <input
-                    placeholder="Pinhole OS"
-                    className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
-                    value={form.refraction.unaided.le_pinhole || ""}
+                    placeholder="Comment"
+                    className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400 col-span-2"
+                    value={form.refraction.unaided.comment || ""}
                     onChange={(e) =>
-                      updateNested("refraction", "unaided", "le_pinhole", e.target.value)
+                      updateNested("refraction", "unaided", "comment", e.target.value)
                     }
                     onKeyDown={handleEnterNext}
                   />
+
+                  
                 </div>
               </div>
 
@@ -902,7 +913,7 @@ const handleRefresh = () => {
               <div className="mb-2">
                 <p className="font-semibold">PGP</p>
 
-                <div className="grid grid-cols-5 gap-2">
+                <div className="grid grid-cols-6 gap-2">
                   <input
                     placeholder="OD SPH"
                     className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -933,7 +944,7 @@ const handleRefresh = () => {
                     onKeyDown={handleEnterNext}
                   />
                   
-                  <input
+                  {/* <input
                     placeholder="OD ADD"
                     className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                     value={form.refraction.pgp.re_add || ""}
@@ -941,8 +952,51 @@ const handleRefresh = () => {
                       updateNested("refraction", "pgp", "re_add", e.target.value)
                     }
                     onKeyDown={handleEnterNext}
+                  /> */}
+                  <input
+                    placeholder="OD VISION"
+                    value={form.refraction.pgp.re_vision_before || ""}
+                    className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    onKeyDown={handleEnterNext}
+                    onChange={(e) =>
+                      updateNested(
+                        "refraction",
+                        "pgp",
+                        "re_vision_before",
+                        e.target.value
+                      )
+                    }
                   />
 
+                  <input
+                    placeholder="OD ADD"
+                    value={form.refraction.pgp.re_add || ""}
+                    className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    onKeyDown={handleEnterNext}
+                    onChange={(e) =>
+                      updateNested(
+                        "refraction",
+                        "pgp",
+                        "re_add",
+                        e.target.value
+                      )
+                    }
+                  />
+
+                  <input
+                    placeholder="OD VISION"
+                    value={form.refraction.pgp.re_vision_after || ""}
+                    className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    onKeyDown={handleEnterNext}
+                    onChange={(e) =>
+                      updateNested(
+                        "refraction",
+                        "pgp",
+                        "re_vision_after",
+                        e.target.value
+                      )
+                    }
+                  />
                   {/* <input
                     placeholder="Lens Type"
                     className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -951,19 +1005,7 @@ const handleRefresh = () => {
                       updateNested("refraction", "pgp", "lens_type", e.target.value)
                     }
                   /> */}
-                  <select
-                    value={form.refraction.pgp.lens_type || ""}
-                    className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
-                    onChange={(e) =>
-                      updateNested("refraction", "pgp", "lens_type", e.target.value)
-                    }
-                    onKeyDown={handleEnterNext}
-                  >
-                    <option value="">Select Lens</option>
-                    <option value="Single Vision">Single Vision</option>
-                    <option value="Bifocal">Bifocal</option>
-                    <option value="Progressive">Progressive</option>
-                  </select>
+                  
 
                   <input
                     placeholder="OS SPH"
@@ -993,7 +1035,7 @@ const handleRefresh = () => {
                     onKeyDown={handleEnterNext}
                   />
                   
-                  <input
+                  {/* <input
                     placeholder="OS ADD"
                     className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                     value={form.refraction.pgp.le_add || ""}
@@ -1001,8 +1043,68 @@ const handleRefresh = () => {
                       updateNested("refraction", "pgp", "le_add", e.target.value)
                     }
                     onKeyDown={handleEnterNext}
+                  /> */}
+                  <input
+                    placeholder="OS VISION"
+                    className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    value={form.refraction.pgp.le_vision_before || ""}
+                    onChange={(e) =>
+                      updateNested(
+                        "refraction",
+                        "pgp",
+                        "le_vision_before",
+                        e.target.value
+                      )
+                    }
+                    onKeyDown={handleEnterNext}
                   />
 
+                  <input
+                    placeholder="OS ADD"
+                    className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    value={form.refraction.pgp.le_add || ""}
+                    onChange={(e) =>
+                      updateNested(
+                        "refraction",
+                        "pgp",
+                        "le_add",
+                        e.target.value
+                      )
+                    }
+                    onKeyDown={handleEnterNext}
+                  />
+
+                  <input
+                    placeholder="OS VISION"
+                    className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    value={form.refraction.pgp.le_vision_after || ""}
+                    onChange={(e) =>
+                      updateNested(
+                        "refraction",
+                        "pgp",
+                        "le_vision_after",
+                        e.target.value
+                      )
+                    }
+                    onKeyDown={handleEnterNext}
+                  />
+                  
+
+                </div>
+                <div className="grid grid-cols-3 gap-2 mt-2">
+                  <select
+                    value={form.refraction.pgp.lens_type || ""}
+                    className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    onChange={(e) =>
+                      updateNested("refraction", "pgp", "lens_type", e.target.value)
+                    }
+                    onKeyDown={handleEnterNext}
+                  >
+                    <option value="">Select Lens</option>
+                    <option value="Single Vision">Single Vision</option>
+                    <option value="Bifocal">Bifocal</option>
+                    <option value="Progressive">Progressive</option>
+                  </select>
                   <input
                     placeholder="Comment"
                     className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -1012,8 +1114,43 @@ const handleRefresh = () => {
                     }
                     onKeyDown={handleEnterNext}
                   />
+                </div>
+              </div>
+              <div>
+
+
+                <p className="font-semibold mb-2 ">Colour Vision</p>
+
+                <div className="grid grid-cols-2 gap-2 mb-4">
+
+                  <select
+                    value={form.ocular_exam.color_vision?.re || ""}
+                    onChange={(e) =>
+                      updateNested("ocular_exam", "color_vision", "re", e.target.value)
+                    }
+                    onKeyDown={handleEnterNext}
+                    className="border rounded-lg p-2"
+                  >
+                    <option value="">Right Eye</option>
+                    <option value="Normal">Normal</option>
+                    <option value="Defective">Defective</option>
+                  </select>
+
+                  <select
+                    value={form.ocular_exam.color_vision?.le || ""}
+                    onChange={(e) =>
+                      updateNested("ocular_exam", "color_vision", "le", e.target.value)
+                    }
+                    onKeyDown={handleEnterNext}
+                    className="border rounded-lg p-2"
+                  >
+                    <option value="">Left Eye</option>
+                    <option value="Normal">Normal</option>
+                    <option value="Defective">Defective</option>
+                  </select>
 
                 </div>
+
               </div>
 
               <div >
@@ -1151,7 +1288,7 @@ const handleRefresh = () => {
                   }
                   onKeyDown={handleEnterNext}
                 />
-                <input
+                {/* <input
                   placeholder="OD CHART"
                   className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                   value={form.refraction.final_refraction.re_chart || ""}
@@ -1159,7 +1296,43 @@ const handleRefresh = () => {
                     updateNested("refraction", "final_refraction", "re_chart", e.target.value)
                   }
                   onKeyDown={handleEnterNext}
-                />
+                /> */}
+
+                {/* <input
+                  placeholder="CHART"
+                  className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400 row-span-2"
+                  value={form.refraction.final_refraction.chart || ""}
+                  onChange={(e) =>
+                    updateNested(
+                      "refraction",
+                      "final_refraction",
+                      "chart",
+                      e.target.value
+                    )
+                  }
+                  onKeyDown={handleEnterNext}
+                /> */}
+                <select
+                  value={form.refraction.final_refraction.chart || ""}
+                  className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400 row-span-2 "
+                  onChange={(e) =>
+                    updateNested(
+                      "refraction",
+                      "final_refraction",
+                      "chart",
+                      e.target.value
+                    )
+                  }
+                  onKeyDown={handleEnterNext}
+                >
+                  <option value="">Select Chart</option>
+                  <option value="Snellen">Hindi Chart</option>
+                  <option value="LogMAR">E Chart</option>
+                  <option value="LogMAR">C Chart</option>
+                  <option value="LogMAR">English Chart, Number Chart</option>
+                  <option value="LogMAR">Picture Chart</option>
+              
+                </select>
                 <input
                   placeholder="OS SPH"
                   className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -1198,7 +1371,8 @@ const handleRefresh = () => {
                   }
                   onKeyDown={handleEnterNext}
                 />
-                <input
+                
+                {/* <input
                   placeholder="OS CHART"
                   className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                   value={form.refraction.final_refraction.le_chart || ""}
@@ -1206,8 +1380,102 @@ const handleRefresh = () => {
                     updateNested("refraction", "final_refraction", "le_chart", e.target.value)
                   }
                   onKeyDown={handleEnterNext}
-                />
+                /> */}
+
+
                 <input
+                  placeholder="OD ADD"
+                  className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  value={form.refraction.final_refraction.re_add || ""}
+                  onChange={(e) =>
+                    updateNested(
+                      "refraction",
+                      "final_refraction",
+                      "re_add",
+                      e.target.value
+                    )
+                  }
+                  onKeyDown={handleEnterNext}
+                />
+
+                <input
+                  placeholder="At (cm)"
+                  className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400 row-span-2 "
+                  value={form.refraction.final_refraction.at || ""}
+                  onChange={(e) =>
+                    updateNested(
+                      "refraction",
+                      "final_refraction",
+                      "at",
+                      e.target.value
+                    )
+                  }
+                  onKeyDown={handleEnterNext}
+                />
+
+                <input
+                  placeholder="OD BCVA"
+                  className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  value={form.refraction.final_refraction.re_near_bcva || ""}
+                  onChange={(e) =>
+                    updateNested(
+                      "refraction",
+                      "final_refraction",
+                      "re_near_bcva",
+                      e.target.value
+                    )
+                  }
+                  onKeyDown={handleEnterNext}
+                />
+                <select
+                  value={form.refraction.final_refraction.chart_type || ""}
+                  className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400 row-span-2 "
+                  onChange={(e) =>
+                    updateNested("refraction", "final_refraction", "chart_type", e.target.value)
+                  }
+                  onKeyDown={handleEnterNext}
+                >
+                  <option value="">Select Chart</option>
+                  <option value="Snellen">Hindi Chart</option>
+                  <option value="LogMAR">E Chart</option>
+                  <option value="LogMAR">C Chart</option>
+                  <option value="LogMAR">English Chart, Number Chart</option>
+                  <option value="LogMAR">Picture Chart</option>
+              
+                </select>
+                <div></div>
+                <input
+                  placeholder="OS ADD"
+                  className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  value={form.refraction.final_refraction.le_add || ""}
+                  onChange={(e) =>
+                    updateNested(
+                      "refraction",
+                      "final_refraction",
+                      "le_add",
+                      e.target.value
+                    )
+                  }
+                  onKeyDown={handleEnterNext}
+                />
+
+                
+
+                <input
+                  placeholder="OS BCVA"
+                  className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  value={form.refraction.final_refraction.le_near_bcva || ""}
+                  onChange={(e) =>
+                    updateNested(
+                      "refraction",
+                      "final_refraction",
+                      "le_near_bcva",
+                      e.target.value
+                    )
+                  }
+                  onKeyDown={handleEnterNext}
+                />
+                {/* <input
                   placeholder="ADD"
                   className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                   value={form.refraction.final_refraction.add || ""}
@@ -1215,9 +1483,9 @@ const handleRefresh = () => {
                     updateNested("refraction", "final_refraction", "add", e.target.value)
                   }
                   onKeyDown={handleEnterNext}
-                />
+                /> */}
 
-                <input
+                {/* <input
                   placeholder="At (cm)"
                   className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                   value={form.refraction.final_refraction.at || ""}
@@ -1225,7 +1493,7 @@ const handleRefresh = () => {
                     updateNested("refraction", "final_refraction", "at", e.target.value)
                   }
                   onKeyDown={handleEnterNext}
-                />
+                /> */}
                 {/* <input
                   placeholder="Chart Type"
                   className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400 col-span-2"
@@ -1234,18 +1502,7 @@ const handleRefresh = () => {
                     updateNested("refraction", "final_refraction", "chart_type", e.target.value)
                   }
                 /> */}
-                <select
-                  value={form.refraction.final_refraction.chart_type || ""}
-                  className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400 col-span-2"
-                  onChange={(e) =>
-                    updateNested("refraction", "final_refraction", "chart_type", e.target.value)
-                  }
-                  onKeyDown={handleEnterNext}
-                >
-                  <option value="">Select Chart</option>
-                  <option value="Snellen">Snellen</option>
-                  <option value="LogMAR">LogMAR</option>
-                </select>
+               
                 <input
                   placeholder="Comment"
                   className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400 col-span-5"
@@ -1320,10 +1577,15 @@ const handleRefresh = () => {
                 <div>
                   <p className="font-semibold">Slit Lamp Examination</p>
 
-                  <div className="grid grid-cols-2 gap-2">
+                  <div className="grid grid-cols-3 gap-2">
+                    <div></div>
+                    <p className="text-center font-bold">OD</p>
+                    <p className="text-center font-bold">OS</p>
+                    <p className="text-center font-semibold">Lid</p>
+
 
                     <input
-                      placeholder="Eyeball Right"
+                      placeholder="Lid Right"
                       className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                       value={form.ocular_exam.slit_lamp?.eyeball_re || ""}
                       onChange={(e) =>
@@ -1332,7 +1594,7 @@ const handleRefresh = () => {
                       onKeyDown={handleEnterNext}
                     />
                     <input
-                      placeholder="Eyeball Left"
+                      placeholder="Lid Left"
                       className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                       value={form.ocular_exam.slit_lamp?.eyeball_le || ""}
                       onChange={(e) =>
@@ -1340,6 +1602,7 @@ const handleRefresh = () => {
                       }
                       onKeyDown={handleEnterNext}
                     />
+                    <p className="text-center font-semibold">Conjunctiva</p>
 
                     <input
                       placeholder="Conjunctiva Right"
@@ -1359,6 +1622,7 @@ const handleRefresh = () => {
                       }
                       onKeyDown={handleEnterNext}
                     />
+                    <p className="text-center font-semibold">Sclera</p>
 
                     <input
                       placeholder="Sclera Right"
@@ -1378,6 +1642,7 @@ const handleRefresh = () => {
                       }
                       onKeyDown={handleEnterNext}
                     />
+                    <p className="text-center font-semibold">Cornea</p>
 
                     <input
                       placeholder="Cornea Right"
@@ -1397,6 +1662,7 @@ const handleRefresh = () => {
                       }
                       onKeyDown={handleEnterNext}
                     />
+                    <p className="text-center font-semibold">Anterior Chamber</p>
 
                     <input
                       placeholder="Anterior Chamber Right"
@@ -1416,6 +1682,7 @@ const handleRefresh = () => {
                       }
                       onKeyDown={handleEnterNext}
                     />
+                    <p className="text-center font-semibold">Iris</p>
 
                     <input
                       placeholder="Iris Right"
@@ -1435,6 +1702,7 @@ const handleRefresh = () => {
                       }
                       onKeyDown={handleEnterNext}
                     />
+                    <p className="text-center font-semibold">Pupil</p>
 
                     <input
                       placeholder="Pupil Right"
@@ -1604,7 +1872,7 @@ const handleRefresh = () => {
 
                 </div>
 
-                <div>
+                {/* <div>
 
 
                   <p className="font-semibold">Colour Vision</p>
@@ -1639,7 +1907,7 @@ const handleRefresh = () => {
 
                   </div>
 
-                </div>
+                </div> */}
 
               </div>
             )}
@@ -1974,10 +2242,11 @@ const handleRefresh = () => {
                 </div>
 
                 {/* 🔹 NEXT VISIT */}
+                <p className="font-semibold mb-2 ">Next visit date</p>
                 <input
                   type="date"
                   value={form.next_visit_date || ""}
-                  className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  className="border rounded-lg p-2 w-70 focus:outline-none focus:ring-2 focus:ring-blue-400"
                   onChange={(e) =>
                     setForm({ ...form, next_visit_date: e.target.value })
                   }
@@ -2083,6 +2352,7 @@ const handleRefresh = () => {
                     LE: {h.diagnosis.refraction?.final_refraction?.le_sph} /
                     {h.diagnosis.refraction?.final_refraction?.le_cyl}
                   </p>
+                  
                 </div>
 
                 {/* SLIT LAMP */}
