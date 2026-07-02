@@ -55,7 +55,21 @@ const [form, setForm] = useState({
   refraction: {
     unaided: {},
     pgp: {},
-    retinoscopy: {},
+    // retinoscopy: {},
+    retinoscopy: [
+      {
+        type: "",
+        re_sph: "",
+        re_cyl: "",
+        re_axis: "",
+        re_glow: "",
+        le_sph: "",
+        le_cyl: "",
+        le_axis: "",
+        le_glow: ""
+      }
+    ],
+
     final_refraction: {}
   },
 
@@ -254,7 +268,21 @@ const handleSave = async () => {
       refraction: {
         unaided: {},
         pgp: {},
-        retinoscopy: {},
+        // retinoscopy: {},
+        retinoscopy: [
+          {
+            type: "",
+            re_sph: "",
+            re_cyl: "",
+            re_axis: "",
+            re_glow: "",
+            le_sph: "",
+            le_cyl: "",
+            le_axis: "",
+            le_glow: ""
+          }
+        ],
+
         final_refraction: {}
       },
       ocular_exam: {
@@ -324,7 +352,22 @@ const handleRefresh = () => {
     refraction: {
       unaided: {},
       pgp: {},
-      retinoscopy: {},
+      // retinoscopy: {},
+
+      retinoscopy: [
+        {
+          type: "",
+          re_sph: "",
+          re_cyl: "",
+          re_axis: "",
+          re_glow: "",
+          le_sph: "",
+          le_cyl: "",
+          le_axis: "",
+          le_glow: ""
+        }
+      ],
+
       final_refraction: {}
     },
     ocular_exam: {
@@ -340,6 +383,61 @@ const handleRefresh = () => {
   setTimeout(() => {
       setSpinning(false); // stop after 1 sec
     }, 1000);
+};
+
+const updateRetinoscopy = (index, field, value) => {
+  setForm(prev => {
+    const retinoscopy = [...prev.refraction.retinoscopy];
+
+    retinoscopy[index] = {
+      ...retinoscopy[index],
+      [field]: value,
+    };
+
+    return {
+      ...prev,
+      refraction: {
+        ...prev.refraction,
+        retinoscopy,
+      },
+    };
+  });
+};
+
+const addRetinoscopy = () => {
+  setForm(prev => ({
+    ...prev,
+    refraction: {
+      ...prev.refraction,
+      retinoscopy: [
+        ...prev.refraction.retinoscopy,
+        {
+          type: "",
+          re_sph: "",
+          re_cyl: "",
+          re_axis: "",
+          re_glow: "",
+
+          le_sph: "",
+          le_cyl: "",
+          le_axis: "",
+          le_glow: ""
+        }
+      ]
+    }
+  }));
+};
+
+const removeRetinoscopy = (index) => {
+  setForm(prev => ({
+    ...prev,
+    refraction: {
+      ...prev.refraction,
+      retinoscopy: prev.refraction.retinoscopy.filter(
+        (_, i) => i !== index
+      )
+    }
+  }));
 };
   return ( 
 
@@ -1277,75 +1375,75 @@ const handleRefresh = () => {
                   </select>
 
                 </div> */}
-<div className="grid grid-cols-2 gap-2 mb-4">
+                <div className="grid grid-cols-2 gap-2 mb-4">
 
-  {/* Right Eye */}
-  <select
-    value={form.ocular_exam.color_vision?.re || ""}
-    onChange={(e) =>
-      updateNested("ocular_exam", "color_vision", "re", e.target.value)
-    }
-    onKeyDown={handleEnterNext}
-    className="border rounded-lg p-2"
-  >
-    <option value="">Right Eye</option>
-    <option value="Normal">Normal</option>
-    <option value="Defective">Defective</option>
-  </select>
+                  {/* Right Eye */}
+                  <select
+                    value={form.ocular_exam.color_vision?.re || ""}
+                    onChange={(e) =>
+                      updateNested("ocular_exam", "color_vision", "re", e.target.value)
+                    }
+                    onKeyDown={handleEnterNext}
+                    className="border rounded-lg p-2"
+                  >
+                    <option value="">Right Eye</option>
+                    <option value="Normal">Normal</option>
+                    <option value="Defective">Defective</option>
+                  </select>
 
-  {/* Left Eye */}
-  <select
-    value={form.ocular_exam.color_vision?.le || ""}
-    onChange={(e) =>
-      updateNested("ocular_exam", "color_vision", "le", e.target.value)
-    }
-    onKeyDown={handleEnterNext}
-    className="border rounded-lg p-2"
-  >
-    <option value="">Left Eye</option>
-    <option value="Normal">Normal</option>
-    <option value="Defective">Defective</option>
-  </select>
+                  {/* Left Eye */}
+                  <select
+                    value={form.ocular_exam.color_vision?.le || ""}
+                    onChange={(e) =>
+                      updateNested("ocular_exam", "color_vision", "le", e.target.value)
+                    }
+                    onKeyDown={handleEnterNext}
+                    className="border rounded-lg p-2"
+                  >
+                    <option value="">Left Eye</option>
+                    <option value="Normal">Normal</option>
+                    <option value="Defective">Defective</option>
+                  </select>
 
-  {/* Right Eye Comment */}
-  <input
-    type="text"
-    placeholder="Right Eye Comment"
-    className="border rounded-lg p-2"
-    value={form.ocular_exam.color_vision?.re_comment || ""}
-    onChange={(e) =>
-      updateNested(
-        "ocular_exam",
-        "color_vision",
-        "re_comment",
-        e.target.value
-      )
-    }
-    onKeyDown={handleEnterNext}
-  />
+                  {/* Right Eye Comment */}
+                  <input
+                    type="text"
+                    placeholder="Right Eye Comment"
+                    className="border rounded-lg p-2"
+                    value={form.ocular_exam.color_vision?.re_comment || ""}
+                    onChange={(e) =>
+                      updateNested(
+                        "ocular_exam",
+                        "color_vision",
+                        "re_comment",
+                        e.target.value
+                      )
+                    }
+                    onKeyDown={handleEnterNext}
+                  />
 
-  {/* Left Eye Comment */}
-  <input
-    type="text"
-    placeholder="Left Eye Comment"
-    className="border rounded-lg p-2"
-    value={form.ocular_exam.color_vision?.le_comment || ""}
-    onChange={(e) =>
-      updateNested(
-        "ocular_exam",
-        "color_vision",
-        "le_comment",
-        e.target.value
-      )
-    }
-    onKeyDown={handleEnterNext}
-  />
+                  {/* Left Eye Comment */}
+                  <input
+                    type="text"
+                    placeholder="Left Eye Comment"
+                    className="border rounded-lg p-2"
+                    value={form.ocular_exam.color_vision?.le_comment || ""}
+                    onChange={(e) =>
+                      updateNested(
+                        "ocular_exam",
+                        "color_vision",
+                        "le_comment",
+                        e.target.value
+                      )
+                    }
+                    onKeyDown={handleEnterNext}
+                  />
 
-</div>
+                </div>
               </div>
 
-              <div >
-                {/* <p className="font-semibold">RETINOSCOPY</p> */}
+              {/* <div >
+                
                 <div className="flex items-center gap-4 mb-2">
                   <p className="font-semibold">RETINOSCOPY</p>
 
@@ -1436,7 +1534,157 @@ const handleRefresh = () => {
                     onKeyDown={handleEnterNext}
                   />
                 </div>
+              </div> */}
+
+              <div className="mb-4">
+                <div className="flex items-center justify-between mb-3">
+                  <p className="font-semibold text-lg">RETINOSCOPY</p>
+
+                  <button
+                    type="button"
+                    onClick={addRetinoscopy}
+                    className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow"
+                  >
+                    + Add Retinoscopy
+                  </button>
+                </div>
+
+                {form.refraction.retinoscopy.map((item, index) => (
+                  <div
+                    key={index}
+                    className="border rounded-xl p-4 mb-4 bg-gray-50 shadow-sm"
+                  >
+                    {/* Header */}
+                    <div className="flex justify-between items-center mb-3">
+                      <h3 className="font-semibold">
+                        Retinoscopy #{index + 1}
+                      </h3>
+                      <div className="mb-3">
+                        <select
+                          value={item.type}
+                          onChange={(e) =>
+                            updateRetinoscopy(index, "type", e.target.value)
+                          }
+                          onKeyDown={handleEnterNext}
+                          className="border rounded-lg p-2 w-52 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                        >
+                          <option value="">Select Type</option>
+                          <option value="Dry">Dry</option>
+                          <option value="Wet">Wet</option>
+                          <option value="Cycloplegic">Cycloplegic</option>
+                        </select>
+                      </div>
+                      {form.refraction.retinoscopy.length > 1 && (
+                        <button
+                          type="button"
+                          onClick={() => removeRetinoscopy(index)}
+                          className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded"
+                        >
+                          Remove
+                        </button>
+                      )}
+                    </div>
+
+                    {/* Type */}
+                   
+
+                    {/* Right Eye */}
+                    <p className="font-medium mb-2">Right Eye (OD)</p>
+
+                    <div className="grid grid-cols-4 gap-2 mb-4">
+
+                      <input
+                        placeholder="SPH"
+                        value={item.re_sph}
+                        onChange={(e) =>
+                          updateRetinoscopy(index, "re_sph", e.target.value)
+                        }
+                        onKeyDown={handleEnterNext}
+                        className="border rounded-lg p-2"
+                      />
+
+                      <input
+                        placeholder="CYL"
+                        value={item.re_cyl}
+                        onChange={(e) =>
+                          updateRetinoscopy(index, "re_cyl", e.target.value)
+                        }
+                        onKeyDown={handleEnterNext}
+                        className="border rounded-lg p-2"
+                      />
+
+                      <input
+                        placeholder="AXIS"
+                        value={item.re_axis}
+                        onChange={(e) =>
+                          updateRetinoscopy(index, "re_axis", e.target.value)
+                        }
+                        onKeyDown={handleEnterNext}
+                        className="border rounded-lg p-2"
+                      />
+
+                      <input
+                        placeholder="GLOW"
+                        value={item.re_glow}
+                        onChange={(e) =>
+                          updateRetinoscopy(index, "re_glow", e.target.value)
+                        }
+                        onKeyDown={handleEnterNext}
+                        className="border rounded-lg p-2"
+                      />
+
+                    </div>
+
+                    {/* Left Eye */}
+                    <p className="font-medium mb-2">Left Eye (OS)</p>
+
+                    <div className="grid grid-cols-4 gap-2">
+
+                      <input
+                        placeholder="SPH"
+                        value={item.le_sph}
+                        onChange={(e) =>
+                          updateRetinoscopy(index, "le_sph", e.target.value)
+                        }
+                        onKeyDown={handleEnterNext}
+                        className="border rounded-lg p-2"
+                      />
+
+                      <input
+                        placeholder="CYL"
+                        value={item.le_cyl}
+                        onChange={(e) =>
+                          updateRetinoscopy(index, "le_cyl", e.target.value)
+                        }
+                        onKeyDown={handleEnterNext}
+                        className="border rounded-lg p-2"
+                      />
+
+                      <input
+                        placeholder="AXIS"
+                        value={item.le_axis}
+                        onChange={(e) =>
+                          updateRetinoscopy(index, "le_axis", e.target.value)
+                        }
+                        onKeyDown={handleEnterNext}
+                        className="border rounded-lg p-2"
+                      />
+
+                      <input
+                        placeholder="GLOW"
+                        value={item.le_glow}
+                        onChange={(e) =>
+                          updateRetinoscopy(index, "le_glow", e.target.value)
+                        }
+                        onKeyDown={handleEnterNext}
+                        className="border rounded-lg p-2"
+                      />
+
+                    </div>
+                  </div>
+                ))}
               </div>
+
               <div>
                 <p className="font-semibold">FINAL REFRACTION</p>
 
@@ -1627,11 +1875,11 @@ const handleRefresh = () => {
                   onKeyDown={handleEnterNext}
                 >
                   <option value="">Select Chart</option>
-                  <option value="Snellen">Hindi Chart</option>
-                  <option value="LogMAR">E Chart</option>
-                  <option value="LogMAR">C Chart</option>
-                  <option value="LogMAR">English Chart, Number Chart</option>
-                  <option value="LogMAR">Picture Chart</option>
+                  <option value="Hindi Chart">Hindi Chart</option>
+                  <option value="E Chart">E Chart</option>
+                  <option value="C Chart">C Chart</option>
+                  <option value="English Chart, Number Chart">English Chart, Number Chart</option>
+                  <option value="Picture Chart">Picture Chart</option>
               
                 </select>
                 <div></div>
