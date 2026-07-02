@@ -836,7 +836,7 @@ const handleRefresh = () => {
                 <div className="grid grid-cols-3 gap-2">
 
                   
-                  <input
+                  {/* <input
                     placeholder="Right Eye Distance"
                     className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                     value={form.refraction.unaided.re_distance || ""}
@@ -844,7 +844,44 @@ const handleRefresh = () => {
                     onChange={(e) =>
                       updateNested("refraction", "unaided", "re_distance", e.target.value)
                     }
-                  />
+                  /> */}
+
+                  <select
+                    className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    value={form.refraction.unaided.re_distance || ""}
+                    onChange={(e) =>
+                      updateNested("refraction", "unaided", "re_distance", e.target.value)
+                    }
+                    onKeyDown={handleEnterNext}
+                  >
+                    <option value="">Right Eye Distance</option>
+                    <option value="FFL">FFL</option>
+                    <option value="6/6">6/6</option>
+                    <option value="6/6P">6/6P</option>
+                    <option value="6/9">6/9</option>
+                    <option value="6/9P">6/9P</option>
+                    <option value="6/12">6/12</option>
+                    <option value="6/12P">6/12P</option>
+                    <option value="6/18">6/18</option>
+                    <option value="6/18P">6/18P</option>
+                    <option value="6/24">6/24</option>
+                    <option value="6/24P">6/24P</option>
+                    <option value="6/36">6/36</option>
+                    <option value="6/36P">6/36P</option>
+                    <option value="6/60">6/60</option>
+                    <option value="CF5M">CF5M</option>
+                    <option value="CF4M">CF4M</option>
+                    <option value="CF3M">CF3M</option>
+                    <option value="CF2M">CF2M</option>
+                    <option value="CF1M">CF1M</option>
+                    <option value="CF1/2M">CF1/2M</option>
+                    <option value="CFCF">CFCF</option>
+                    <option value="HM">HM+</option>
+                    <option value="PL+">PL+</option>
+                    <option value="PL-">PL-</option>
+                    <option value="NLP">NLP</option>
+                  </select>
+
                   <input
                     placeholder="Pinhole OD"
                     className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -855,7 +892,7 @@ const handleRefresh = () => {
                     onKeyDown={handleEnterNext}
                   />
 
-                  <input
+                  {/* <input
                     placeholder="Right Eye Near"
                     className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                     value={form.refraction.unaided.re_near || ""}
@@ -863,10 +900,34 @@ const handleRefresh = () => {
                       updateNested("refraction", "unaided", "re_near", e.target.value)
                     }
                     onKeyDown={handleEnterNext}
-                  />
-
+                  /> */}
+                  <select
+                    className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    value={form.refraction.unaided.re_near || ""}
+                    onChange={(e) =>
+                      updateNested("refraction", "unaided", "re_near", e.target.value)
+                    }
+                    onKeyDown={handleEnterNext}
+                  >
+                    <option value="">Right Eye Near</option>
+                    <option value="6/60">6/60</option>
+                    <option value="6/24">6/24</option>
+                    <option value="6/18">6/18</option>
+                    <option value="6/12">6/12</option>
+                    <option value="6/9">6/9</option>
+                    <option value="6/6">6/6</option>
+                    
+                    <option value="N5">N5</option>
+                    <option value="N6">N6</option>
+                    <option value="N8">N8</option>
+                    <option value="N10">N10</option>
+                    <option value="N12">N12</option>
+                    <option value="N18">N18</option>
+                    <option value="N24">N24</option>
+                    <option value="N36">N36</option>
+                  </select>
                   
-
+                  {/* 
                   <input
                     placeholder="Left Eye Distance"
                     className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -875,7 +936,45 @@ const handleRefresh = () => {
                       updateNested("refraction", "unaided", "le_distance", e.target.value)
                     }
                     onKeyDown={handleEnterNext}
-                  />
+                  /> */}
+
+                  <select
+                    className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    value={form.refraction.unaided.le_distance || ""}
+                    onChange={(e) =>
+                      updateNested("refraction", "unaided", "le_distance", e.target.value)
+                    }
+                    onKeyDown={handleEnterNext}
+                  >
+                    <option value="">Left Eye Distance</option>
+                    <option value="FFL">FFL</option>
+                    <option value="6/6">6/6</option>
+                    <option value="6/6P">6/6P</option>
+                    <option value="6/9">6/9</option>
+                    <option value="6/9P">6/9P</option>
+                    <option value="6/12">6/12</option>
+                    <option value="6/12P">6/12P</option>
+                    <option value="6/18">6/18</option>
+                    <option value="6/18P">6/18P</option>
+                    <option value="6/24">6/24</option>
+                    <option value="6/24P">6/24P</option>
+                    <option value="6/36">6/36</option>
+                    <option value="6/36P">6/36P</option>
+                    <option value="6/60">6/60</option>
+                    <option value="CF5M">CF5M</option>
+                    <option value="CF4M">CF4M</option>
+                    <option value="CF3M">CF3M</option>
+                    <option value="CF2M">CF2M</option>
+                    <option value="CF1M">CF1M</option>
+                    <option value="CF1/2M">CF1/2M</option>
+                    <option value="CFCF">CFCF</option>
+                    <option value="HM">HM+</option>
+                    <option value="PL+">PL+</option>
+                    <option value="PL-">PL-</option>
+                    <option value="NLP">NLP</option>
+                  </select>
+
+
                   <input
                     placeholder="Pinhole OS"
                     className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -886,7 +985,7 @@ const handleRefresh = () => {
                     onKeyDown={handleEnterNext}
                   />
 
-                  <input
+                  {/* <input
                     placeholder="Left Eye Near"
                     className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                     value={form.refraction.unaided.le_near || ""}
@@ -894,7 +993,35 @@ const handleRefresh = () => {
                       updateNested("refraction", "unaided", "le_near", e.target.value)
                     }
                     onKeyDown={handleEnterNext}
-                  />
+                  /> */}
+
+
+                  <select
+                    className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    value={form.refraction.unaided.le_near || ""}
+                    onChange={(e) =>
+                      updateNested("refraction", "unaided", "le_near", e.target.value)
+                    }
+                    onKeyDown={handleEnterNext}
+                  >
+                    <option value="">Left Eye Near</option>
+                    <option value="6/60">6/60</option>
+                    <option value="6/24">6/24</option>
+                    <option value="6/18">6/18</option>
+                    <option value="6/12">6/12</option>
+                    <option value="6/9">6/9</option>
+                    <option value="6/6">6/6</option>
+                    
+                    <option value="N5">N5</option>
+                    <option value="N6">N6</option>
+                    <option value="N8">N8</option>
+                    <option value="N10">N10</option>
+                    <option value="N12">N12</option>
+                    <option value="N18">N18</option>
+                    <option value="N24">N24</option>
+                    <option value="N36">N36</option>
+                  </select>
+
                   <input
                     placeholder="Comment"
                     className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400 col-span-2"
@@ -1121,7 +1248,7 @@ const handleRefresh = () => {
 
                 <p className="font-semibold mb-2 ">Colour Vision</p>
 
-                <div className="grid grid-cols-2 gap-2 mb-4">
+                {/* <div className="grid grid-cols-2 gap-2 mb-4">
 
                   <select
                     value={form.ocular_exam.color_vision?.re || ""}
@@ -1149,8 +1276,72 @@ const handleRefresh = () => {
                     <option value="Defective">Defective</option>
                   </select>
 
-                </div>
+                </div> */}
+<div className="grid grid-cols-2 gap-2 mb-4">
 
+  {/* Right Eye */}
+  <select
+    value={form.ocular_exam.color_vision?.re || ""}
+    onChange={(e) =>
+      updateNested("ocular_exam", "color_vision", "re", e.target.value)
+    }
+    onKeyDown={handleEnterNext}
+    className="border rounded-lg p-2"
+  >
+    <option value="">Right Eye</option>
+    <option value="Normal">Normal</option>
+    <option value="Defective">Defective</option>
+  </select>
+
+  {/* Left Eye */}
+  <select
+    value={form.ocular_exam.color_vision?.le || ""}
+    onChange={(e) =>
+      updateNested("ocular_exam", "color_vision", "le", e.target.value)
+    }
+    onKeyDown={handleEnterNext}
+    className="border rounded-lg p-2"
+  >
+    <option value="">Left Eye</option>
+    <option value="Normal">Normal</option>
+    <option value="Defective">Defective</option>
+  </select>
+
+  {/* Right Eye Comment */}
+  <input
+    type="text"
+    placeholder="Right Eye Comment"
+    className="border rounded-lg p-2"
+    value={form.ocular_exam.color_vision?.re_comment || ""}
+    onChange={(e) =>
+      updateNested(
+        "ocular_exam",
+        "color_vision",
+        "re_comment",
+        e.target.value
+      )
+    }
+    onKeyDown={handleEnterNext}
+  />
+
+  {/* Left Eye Comment */}
+  <input
+    type="text"
+    placeholder="Left Eye Comment"
+    className="border rounded-lg p-2"
+    value={form.ocular_exam.color_vision?.le_comment || ""}
+    onChange={(e) =>
+      updateNested(
+        "ocular_exam",
+        "color_vision",
+        "le_comment",
+        e.target.value
+      )
+    }
+    onKeyDown={handleEnterNext}
+  />
+
+</div>
               </div>
 
               <div >
@@ -1326,11 +1517,11 @@ const handleRefresh = () => {
                   onKeyDown={handleEnterNext}
                 >
                   <option value="">Select Chart</option>
-                  <option value="Snellen">Hindi Chart</option>
-                  <option value="LogMAR">E Chart</option>
-                  <option value="LogMAR">C Chart</option>
-                  <option value="LogMAR">English Chart, Number Chart</option>
-                  <option value="LogMAR">Picture Chart</option>
+                  <option value="Hindi Chart">Hindi Chart</option>
+                  <option value="E Chart">E Chart</option>
+                  <option value="C Chart">C Chart</option>
+                  <option value="English Chart, Number Chart">English Chart, Number Chart</option>
+                  <option value="Picture">Picture Chart</option>
               
                 </select>
                 <input
@@ -1584,7 +1775,7 @@ const handleRefresh = () => {
                     <p className="text-center font-semibold">Lid</p>
 
 
-                    <input
+                    {/* <input
                       placeholder="Lid Right"
                       className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                       value={form.ocular_exam.slit_lamp?.eyeball_re || ""}
@@ -1592,8 +1783,27 @@ const handleRefresh = () => {
                         updateNested("ocular_exam", "slit_lamp", "eyeball_re", e.target.value)
                       }
                       onKeyDown={handleEnterNext}
-                    />
-                    <input
+                    /> */}
+                    <select
+                      className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                      value={form.ocular_exam.slit_lamp?.eyeball_re || ""}
+                      onChange={(e) =>
+                        updateNested("ocular_exam", "slit_lamp", "eyeball_re", e.target.value)
+                      }
+                      onKeyDown={handleEnterNext}
+                    >
+                      
+                      <option value="Flat">Flat</option>
+                      <option value="Blepharitis">Blepharitis</option>
+                      <option value="Stye">Stye</option>
+                      <option value="Chalazion">Chalazion</option>
+                      <option value="Ptosis">Ptosis</option>
+                      <option value="Entropion">Entropion</option>
+                      <option value="Ectropion">Ectropion</option>
+                      <option value="Lagophthalmos">Lagophthalmos</option>
+                    </select>
+
+                    {/* <input
                       placeholder="Lid Left"
                       className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                       value={form.ocular_exam.slit_lamp?.eyeball_le || ""}
@@ -1601,10 +1811,29 @@ const handleRefresh = () => {
                         updateNested("ocular_exam", "slit_lamp", "eyeball_le", e.target.value)
                       }
                       onKeyDown={handleEnterNext}
-                    />
+                    /> */}
+
+                    <select
+                      className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                      value={form.ocular_exam.slit_lamp?.eyeball_le || ""}
+                      onChange={(e) =>
+                        updateNested("ocular_exam", "slit_lamp", "eyeball_le", e.target.value)
+                      }
+                      onKeyDown={handleEnterNext}
+                    >
+                      
+                      <option value="Flat">Flat</option>
+                      <option value="Blepharitis">Blepharitis</option>
+                      <option value="Stye">Stye</option>
+                      <option value="Chalazion">Chalazion</option>
+                      <option value="Ptosis">Ptosis</option>
+                      <option value="Entropion">Entropion</option>
+                      <option value="Ectropion">Ectropion</option>
+                      <option value="Lagophthalmos">Lagophthalmos</option>
+                    </select>
                     <p className="text-center font-semibold">Conjunctiva</p>
 
-                    <input
+                    {/* <input
                       placeholder="Conjunctiva Right"
                       className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                       value={form.ocular_exam.slit_lamp?.conj_re || ""}
@@ -1612,8 +1841,27 @@ const handleRefresh = () => {
                         updateNested("ocular_exam", "slit_lamp", "conj_re", e.target.value)
                       }
                       onKeyDown={handleEnterNext}
-                    />
-                    <input
+                    /> */}
+
+                    <select
+                      className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                      value={form.ocular_exam.slit_lamp?.conj_re || ""}
+                      onChange={(e) =>
+                        updateNested("ocular_exam", "slit_lamp", "conj_re", e.target.value)
+                      }
+                      onKeyDown={handleEnterNext}
+                    >
+                      <option value="Normal">Normal</option>
+                      <option value="Congestion">Congestion</option>
+                      <option value="Chemosis">Chemosis</option>
+                      <option value="Subconjunctival Hemorrhage">Subconjunctival Hemorrhage</option>
+                      <option value="Pterygium">Pterygium</option>
+                      <option value="Pinguecula">Pinguecula</option>
+                      <option value="Follicles">Follicles</option>
+                      <option value="Papillae">Papillae</option>
+                    </select>
+                    
+                    {/* <input
                       placeholder="Conjunctiva Left"
                       className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                       value={form.ocular_exam.slit_lamp?.conj_le || ""}
@@ -1621,10 +1869,29 @@ const handleRefresh = () => {
                         updateNested("ocular_exam", "slit_lamp", "conj_le", e.target.value)
                       }
                       onKeyDown={handleEnterNext}
-                    />
+                    /> */}
+
+                    <select
+                      className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                      value={form.ocular_exam.slit_lamp?.conj_le || ""}
+                      onChange={(e) =>
+                        updateNested("ocular_exam", "slit_lamp", "conj_le", e.target.value)
+                      }
+                      onKeyDown={handleEnterNext}
+                    >
+                      <option value="Normal">Normal</option>
+                      <option value="Congestion">Congestion</option>
+                      <option value="Chemosis">Chemosis</option>
+                      <option value="Subconjunctival Hemorrhage">Subconjunctival Hemorrhage</option>
+                      <option value="Pterygium">Pterygium</option>
+                      <option value="Pinguecula">Pinguecula</option>
+                      <option value="Follicles">Follicles</option>
+                      <option value="Papillae">Papillae</option>
+                    </select>
+
                     <p className="text-center font-semibold">Sclera</p>
 
-                    <input
+                    {/* <input
                       placeholder="Sclera Right"
                       className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                       value={form.ocular_exam.slit_lamp?.sclera_re || ""}
@@ -1632,7 +1899,26 @@ const handleRefresh = () => {
                         updateNested("ocular_exam", "slit_lamp", "sclera_re", e.target.value)
                       }
                       onKeyDown={handleEnterNext}
-                    />
+                    /> */}
+                    <select
+                      className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                      value={form.ocular_exam.slit_lamp?.sclera_re || ""}
+                      onChange={(e) =>
+                        updateNested("ocular_exam", "slit_lamp", "sclera_re", e.target.value)
+                      }
+                      onKeyDown={handleEnterNext}
+                    >
+                      
+                      <option value="Normal">Normal</option>
+                      <option value="Icterus">Icterus</option>
+                      <option value="Blue Sclera">Blue Sclera</option>
+                      <option value="Scleritis">Scleritis</option>
+                      <option value="Episcleritis">Episcleritis</option>
+                      <option value="Thinning">Thinning</option>
+                      <option value="Staphyloma">Staphyloma</option>
+                      <option value="Pigmentation">Pigmentation</option>                      
+                    </select>
+                    {/* 
                     <input
                       placeholder="Sclera Left"
                       className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -1641,10 +1927,28 @@ const handleRefresh = () => {
                         updateNested("ocular_exam", "slit_lamp", "sclera_le", e.target.value)
                       }
                       onKeyDown={handleEnterNext}
-                    />
+                    /> */}
+                    <select
+                      className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                      value={form.ocular_exam.slit_lamp?.sclera_le || ""}
+                      onChange={(e) =>
+                        updateNested("ocular_exam", "slit_lamp", "sclera_le", e.target.value)
+                      }
+                      onKeyDown={handleEnterNext}
+                    >
+                      
+                      <option value="Normal">Normal</option>
+                      <option value="Icterus">Icterus</option>
+                      <option value="Blue Sclera">Blue Sclera</option>
+                      <option value="Scleritis">Scleritis</option>
+                      <option value="Episcleritis">Episcleritis</option>
+                      <option value="Thinning">Thinning</option>
+                      <option value="Staphyloma">Staphyloma</option>
+                      <option value="Pigmentation">Pigmentation</option>                      
+                    </select>
                     <p className="text-center font-semibold">Cornea</p>
 
-                    <input
+                    {/* <input
                       placeholder="Cornea Right"
                       className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                       value={form.ocular_exam.slit_lamp?.cornea_re || ""}
@@ -1652,8 +1956,30 @@ const handleRefresh = () => {
                         updateNested("ocular_exam", "slit_lamp", "cornea_re", e.target.value)
                       }
                       onKeyDown={handleEnterNext}
-                    />
-                    <input
+                    /> */}
+
+                    <select
+                      className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                      value={form.ocular_exam.slit_lamp?.cornea_re || ""}
+                      onChange={(e) =>
+                        updateNested("ocular_exam", "slit_lamp", "cornea_re", e.target.value)
+                      }
+                      onKeyDown={handleEnterNext}
+                    >
+                      <option value="Clear">Clear</option>
+                      <option value="Nebular Opacity">Nebular Opacity</option>
+                      <option value="Macular Opacity">Macular Opacity</option>
+                      <option value="Leucoma">Leucoma</option>
+                      <option value="Ulcer">Ulcer</option>
+                      <option value="Scar">Scar</option>
+                      <option value="Edema">Edema</option>
+                      <option value="Keratitis">Keratitis</option>
+                      <option value="Foreign Body">Foreign Body</option>
+                      <option value="Pterygium">Pterygium</option>
+                      <option value="Dry Eye">Dry Eye</option>
+                    </select>
+
+                    {/* <input
                       placeholder="Cornea Left"
                       className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                       value={form.ocular_exam.slit_lamp?.cornea_le || ""}
@@ -1661,10 +1987,32 @@ const handleRefresh = () => {
                         updateNested("ocular_exam", "slit_lamp", "cornea_le", e.target.value)
                       }
                       onKeyDown={handleEnterNext}
-                    />
+                    /> */}
+
+                    <select
+                      className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                      value={form.ocular_exam.slit_lamp?.cornea_le || ""}
+                      onChange={(e) =>
+                        updateNested("ocular_exam", "slit_lamp", "cornea_le", e.target.value)
+                      }
+                      onKeyDown={handleEnterNext}
+                    >
+                      <option value="Clear">Clear</option>
+                      <option value="Nebular Opacity">Nebular Opacity</option>
+                      <option value="Macular Opacity">Macular Opacity</option>
+                      <option value="Leucoma">Leucoma</option>
+                      <option value="Ulcer">Ulcer</option>
+                      <option value="Scar">Scar</option>
+                      <option value="Edema">Edema</option>
+                      <option value="Keratitis">Keratitis</option>
+                      <option value="Foreign Body">Foreign Body</option>
+                      <option value="Pterygium">Pterygium</option>
+                      <option value="Dry Eye">Dry Eye</option>
+                    </select>
+
                     <p className="text-center font-semibold">Anterior Chamber</p>
 
-                    <input
+                    {/* <input
                       placeholder="Anterior Chamber Right"
                       className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                       value={form.ocular_exam.slit_lamp?.ac_re || ""}
@@ -1672,8 +2020,27 @@ const handleRefresh = () => {
                         updateNested("ocular_exam", "slit_lamp", "ac_re", e.target.value)
                       }
                       onKeyDown={handleEnterNext}
-                    />
-                    <input
+                    /> */}
+                    <select
+                      className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                      value={form.ocular_exam.slit_lamp?.ac_re || ""}
+                      onChange={(e) =>
+                        updateNested("ocular_exam", "slit_lamp", "ac_re", e.target.value)
+                      }
+                      onKeyDown={handleEnterNext}
+                    >
+                      <option value="Normal in contact and depth PACD=1CT">Normal in contact and depth PACD=1CT</option>
+                      <option value="Deep & Quiet">Deep & Quiet</option>
+                      <option value="Shallow">Shallow</option>
+                      <option value="Cells +">Cells +</option>
+                      <option value="Cells ++">Cells ++</option>
+                      <option value="Flare +">Flare +</option>
+                      <option value="Flare ++">Flare ++</option>
+                      <option value="Hypopyon">Hypopyon</option>
+                      <option value="Hyphema">Hyphema</option>
+                    </select>
+
+                    {/* <input
                       placeholder="Anterior Chamber Left"
                       className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                       value={form.ocular_exam.slit_lamp?.ac_le || ""}
@@ -1681,10 +2048,30 @@ const handleRefresh = () => {
                         updateNested("ocular_exam", "slit_lamp", "ac_le", e.target.value)
                       }
                       onKeyDown={handleEnterNext}
-                    />
+                    /> */}
+
+                    <select
+                      className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                      value={form.ocular_exam.slit_lamp?.ac_le || ""}
+                      onChange={(e) =>
+                        updateNested("ocular_exam", "slit_lamp", "ac_le", e.target.value)
+                      }
+                      onKeyDown={handleEnterNext}
+                    >
+                      <option value="Normal in contact and depth PACD=1CT">Normal in contact and depth PACD=1CT</option>
+                      <option value="Deep & Quiet">Deep & Quiet</option>
+                      <option value="Shallow">Shallow</option>
+                      <option value="Cells +">Cells +</option>
+                      <option value="Cells ++">Cells ++</option>
+                      <option value="Flare +">Flare +</option>
+                      <option value="Flare ++">Flare ++</option>
+                      <option value="Hypopyon">Hypopyon</option>
+                      <option value="Hyphema">Hyphema</option>
+                    </select>
+
                     <p className="text-center font-semibold">Iris</p>
 
-                    <input
+                    {/* <input
                       placeholder="Iris Right"
                       className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                       value={form.ocular_exam.slit_lamp?.iris_re || ""}
@@ -1692,8 +2079,25 @@ const handleRefresh = () => {
                         updateNested("ocular_exam", "slit_lamp", "iris_re", e.target.value)
                       }
                       onKeyDown={handleEnterNext}
-                    />
-                    <input
+                    /> */}
+
+                    <select
+                      className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                      value={form.ocular_exam.slit_lamp?.iris_re || ""}
+                      onChange={(e) =>
+                        updateNested("ocular_exam", "slit_lamp", "iris_re", e.target.value)
+                      }
+                      onKeyDown={handleEnterNext}
+                    >
+               
+                    <option value="Normal color and pattern">Normal color and pattern</option>
+                    <option value="Coloboma">Coloboma</option>
+                    <option value="Iridodialysis">Iridodialysis</option>
+                    <option value="Posterior Synechiae">Posterior Synechiae</option>
+                    <option value="Atrophy">Atrophy</option>
+                    </select>
+
+                    {/* <input
                       placeholder="Iris Left"
                       className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                       value={form.ocular_exam.slit_lamp?.iris_le || ""}
@@ -1701,10 +2105,25 @@ const handleRefresh = () => {
                         updateNested("ocular_exam", "slit_lamp", "iris_le", e.target.value)
                       }
                       onKeyDown={handleEnterNext}
-                    />
+                    /> */}
+                    <select
+                      className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                      value={form.ocular_exam.slit_lamp?.iris_le || ""}
+                      onChange={(e) =>
+                        updateNested("ocular_exam", "slit_lamp", "iris_le", e.target.value)
+                      }
+                      onKeyDown={handleEnterNext}
+                    >
+               
+                    <option value="Normal color and pattern">Normal color and pattern</option>
+                    <option value="Coloboma">Coloboma</option>
+                    <option value="Iridodialysis">Iridodialysis</option>
+                    <option value="Posterior Synechiae">Posterior Synechiae</option>
+                    <option value="Atrophy">Atrophy</option>
+                    </select>
                     <p className="text-center font-semibold">Pupil</p>
 
-                    <input
+                    {/* <input
                       placeholder="Pupil Right"
                       className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                       value={form.ocular_exam.slit_lamp?.pupil_re || ""}
@@ -1712,8 +2131,27 @@ const handleRefresh = () => {
                         updateNested("ocular_exam", "slit_lamp", "pupil_re", e.target.value)
                       }
                       onKeyDown={handleEnterNext}
-                    />
-                    <input
+                    /> */}
+
+                    <select
+                      className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                       value={form.ocular_exam.slit_lamp?.pupil_re || ""}
+                      onChange={(e) =>
+                        updateNested("ocular_exam", "slit_lamp", "pupil_re", e.target.value)
+                      }
+                      onKeyDown={handleEnterNext}
+                    >
+                      <option value="Round, Regular and Reacting">Round, Regular and Reacting</option>
+                      <option value="Round Reactive">Round Reactive</option>
+                      <option value="Sluggish">Sluggish</option>
+                      <option value="Fixed">Fixed</option>
+                      <option value="Irregular">Irregular</option>
+                      <option value="Dilated">Dilated</option>
+                      <option value="Miotic">Miotic</option>
+                      <option value="RAPD Positive">RAPD Positive</option>
+                    </select>
+
+                    {/* <input
                       placeholder="Pupil Left"
                       className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                       value={form.ocular_exam.slit_lamp?.pupil_le || ""}
@@ -1721,9 +2159,65 @@ const handleRefresh = () => {
                         updateNested("ocular_exam", "slit_lamp", "pupil_le", e.target.value)
                       }
                       onKeyDown={handleEnterNext}
+                    /> */}
+                    <select
+                      className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                       value={form.ocular_exam.slit_lamp?.pupil_le || ""}
+                      onChange={(e) =>
+                        updateNested("ocular_exam", "slit_lamp", "pupil_le", e.target.value)
+                      }
+                      onKeyDown={handleEnterNext}
+                    >
+                      <option value="Round, Regular and Reacting">Round, Regular and Reacting</option>
+                      <option value="Round Reactive">Round Reactive</option>
+                      <option value="Sluggish">Sluggish</option>
+                      <option value="Fixed">Fixed</option>
+                      <option value="Irregular">Irregular</option>
+                      <option value="Dilated">Dilated</option>
+                      <option value="Miotic">Miotic</option>
+                      <option value="RAPD Positive">RAPD Positive</option>
+                    </select>
+
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-2 mt-2 mb-4">
+                    <></>
+
+                    <input
+                      type="text"
+                      placeholder="Right Eye Comment"
+                      className="border rounded-lg p-2"
+                      value={form.ocular_exam.slit_lamp?.slit_re_comment || ""}
+                      onChange={(e) =>
+                        updateNested(
+                          "ocular_exam",
+                          "slit_lamp",
+                          "slit_re_comment",
+                          e.target.value
+                        )
+                      }
+                      onKeyDown={handleEnterNext}
+                    />
+
+                    <input
+                      type="text"
+                      placeholder="Left Eye Comment"
+                      className="border rounded-lg p-2"
+                      value={form.ocular_exam.slit_lamp?.slit_le_comment || ""}
+                      onChange={(e) =>
+                        updateNested(
+                          "ocular_exam",
+                          "slit_lamp",
+                          "slit_le_comment",
+                          e.target.value
+                        )
+                      }
+                      onKeyDown={handleEnterNext}
                     />
 
                   </div>
+
+
                 </div>
 
                 {/* 🔹 IOP */}
@@ -1783,7 +2277,7 @@ const handleRefresh = () => {
                 </div>
 
                 {/* 🔥 LACRIMAL */}
-                <div>
+                {/* <div>
                   <p className="font-semibold">Lacrimal Patency</p>
 
                   <div className="grid grid-cols-2 gap-2">
@@ -1806,7 +2300,63 @@ const handleRefresh = () => {
                       onKeyDown={handleEnterNext}
                     />
                   </div>
+                </div> */}
+                <div>
+                  <p className="font-semibold">Lacrimal Patency</p>
+
+                  <div className="grid grid-cols-2 gap-2">
+
+                    {/* Right Eye */}
+                    <select
+                      className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                      value={form.ocular_exam.lacrimal?.re || ""}
+                      onChange={(e) =>
+                        updateNested("ocular_exam", "lacrimal", "re", e.target.value)
+                      }
+                      onKeyDown={handleEnterNext}
+                    >
+                      <option value="">Right Eye</option>
+                      <option value="Patent">Patent</option>
+                      <option value="Partially Patent">Partially Patent</option>
+                      <option value="Blocked">Blocked</option>
+                      <option value="Regurgitation Positive">Regurgitation Positive</option>
+                      <option value="Regurgitation Negative">Regurgitation Negative</option>
+                      <option value="Dacryocystitis">Dacryocystitis</option>
+                    </select>
+
+                    {/* Left Eye */}
+                    <select
+                      className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                      value={form.ocular_exam.lacrimal?.le || ""}
+                      onChange={(e) =>
+                        updateNested("ocular_exam", "lacrimal", "le", e.target.value)
+                      }
+                      onKeyDown={handleEnterNext}
+                    >
+                      <option value="">Left Eye</option>
+                      <option value="Patent">Patent</option>
+                      <option value="Partially Patent">Partially Patent</option>
+                      <option value="Blocked">Blocked</option>
+                      <option value="Regurgitation Positive">Regurgitation Positive</option>
+                      <option value="Regurgitation Negative">Regurgitation Negative</option>
+                      <option value="Dacryocystitis">Dacryocystitis</option>
+                    </select>
+
+                    {/* Comment */}
+                    <input
+                      type="text"
+                      placeholder="Comment"
+                      className="border rounded-lg p-2 col-span-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                      value={form.ocular_exam.lacrimal?.comment || ""}
+                      onChange={(e) =>
+                        updateNested("ocular_exam", "lacrimal", "comment", e.target.value)
+                      }
+                      onKeyDown={handleEnterNext}
+                    />
+
+                  </div>
                 </div>
+
 
                 <div>
 
@@ -2047,7 +2597,7 @@ const handleRefresh = () => {
                 </div>
 
                 {/* 🔹 DIAGNOSIS */}
-                <div className="mb-4">
+                {/* <div className="mb-4">
                   <p className="font-semibold mb-4">Diagnosis</p>
 
                   <div className="grid grid-cols-2 gap-4 mb-4 ">
@@ -2079,8 +2629,118 @@ const handleRefresh = () => {
                     />
 
                   </div>
-                </div>
+                </div> */}
+                <div className="mb-4">
+                  <p className="font-semibold mb-4">Diagnosis</p>
 
+                  <div className="grid grid-cols-2 gap-4 mb-4">
+
+                    {/* Right Eye */}
+                    <select
+                      className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                      value={form.fundus.diagnosis_re || ""}
+                      onChange={(e) =>
+                        setForm({
+                          ...form,
+                          fundus: {
+                            ...form.fundus,
+                            diagnosis_re: e.target.value,
+                          },
+                        })
+                      }
+                      onKeyDown={handleEnterNext}
+                    >
+                      <option value="">Right Eye Diagnosis</option>
+                      <option value="Normal">Normal</option>
+                      <option value="Refractive Error">Refractive Error</option>
+                      <option value="Myopia">Myopia</option>
+                      <option value="Hypermetropia">Hypermetropia</option>
+                      <option value="Astigmatism">Astigmatism</option>
+                      <option value="Presbyopia">Presbyopia</option>
+                      <option value="Cataract">Cataract</option>
+                      <option value="Pseudophakia">Pseudophakia</option>
+                      <option value="Aphakia">Aphakia</option>
+                      <option value="Glaucoma">Glaucoma</option>
+                      <option value="Diabetic Retinopathy">Diabetic Retinopathy</option>
+                      <option value="Hypertensive Retinopathy">Hypertensive Retinopathy</option>
+                      <option value="Age Related Macular Degeneration">Age Related Macular Degeneration</option>
+                      <option value="Macular Edema">Macular Edema</option>
+                      <option value="Retinal Detachment">Retinal Detachment</option>
+                      <option value="Retinal Vein Occlusion">Retinal Vein Occlusion</option>
+                      <option value="Retinal Artery Occlusion">Retinal Artery Occlusion</option>
+                      <option value="Optic Atrophy">Optic Atrophy</option>
+                      <option value="Optic Neuritis">Optic Neuritis</option>
+                      <option value="Papilledema">Papilledema</option>
+                      <option value="Corneal Ulcer">Corneal Ulcer</option>
+                      <option value="Keratitis">Keratitis</option>
+                      <option value="Dry Eye">Dry Eye</option>
+                      <option value="Conjunctivitis">Conjunctivitis</option>
+                      <option value="Uveitis">Uveitis</option>
+                    </select>
+
+                    {/* Left Eye */}
+                    <select
+                      className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                      value={form.fundus.diagnosis_le || ""}
+                      onChange={(e) =>
+                        setForm({
+                          ...form,
+                          fundus: {
+                            ...form.fundus,
+                            diagnosis_le: e.target.value,
+                          },
+                        })
+                      }
+                      onKeyDown={handleEnterNext}
+                    >
+                      <option value="">Left Eye Diagnosis</option>
+                      <option value="Normal">Normal</option>
+                      <option value="Refractive Error">Refractive Error</option>
+                      <option value="Myopia">Myopia</option>
+                      <option value="Hypermetropia">Hypermetropia</option>
+                      <option value="Astigmatism">Astigmatism</option>
+                      <option value="Presbyopia">Presbyopia</option>
+                      <option value="Cataract">Cataract</option>
+                      <option value="Pseudophakia">Pseudophakia</option>
+                      <option value="Aphakia">Aphakia</option>
+                      <option value="Glaucoma">Glaucoma</option>
+                      <option value="Diabetic Retinopathy">Diabetic Retinopathy</option>
+                      <option value="Hypertensive Retinopathy">Hypertensive Retinopathy</option>
+                      <option value="Age Related Macular Degeneration">Age Related Macular Degeneration</option>
+                      <option value="Macular Edema">Macular Edema</option>
+                      <option value="Retinal Detachment">Retinal Detachment</option>
+                      <option value="Retinal Vein Occlusion">Retinal Vein Occlusion</option>
+                      <option value="Retinal Artery Occlusion">Retinal Artery Occlusion</option>
+                      <option value="Optic Atrophy">Optic Atrophy</option>
+                      <option value="Optic Neuritis">Optic Neuritis</option>
+                      <option value="Papilledema">Papilledema</option>
+                      <option value="Corneal Ulcer">Corneal Ulcer</option>
+                      <option value="Keratitis">Keratitis</option>
+                      <option value="Dry Eye">Dry Eye</option>
+                      <option value="Conjunctivitis">Conjunctivitis</option>
+                      <option value="Uveitis">Uveitis</option>
+                    </select>
+
+                    {/* Comment */}
+                    <input
+                      type="text"
+                      placeholder="Diagnosis Comment"
+                      className="border rounded-lg p-2 col-span-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                      value={form.fundus.diagnosis_comment || ""}
+                      onChange={(e) =>
+                        setForm({
+                          ...form,
+                          fundus: {
+                            ...form.fundus,
+                            diagnosis_comment: e.target.value,
+                          },
+                        })
+                      }
+                      onKeyDown={handleEnterNext}
+                    />
+
+                  </div>
+                </div>
                 {/* 🔥 CLINICAL IMPRESSION */}
                 <div className="mb-4">
 
