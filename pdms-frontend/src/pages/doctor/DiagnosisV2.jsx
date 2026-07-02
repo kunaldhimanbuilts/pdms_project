@@ -21,6 +21,28 @@ const [patient, setPatient] = useState(null);
 const [appointment, setAppointment] = useState(null);
 const [medicines, setMedicines] = useState([]);
 const [message, setMessage] = useState(null);
+const defaultSlitLamp = {
+  eyeball_re: "Flat",
+  eyeball_le: "Flat",
+
+  conj_re: "Normal",
+  conj_le: "Normal",
+
+  sclera_re: "Normal",
+  sclera_le: "Normal",
+
+  cornea_re: "Clear",
+  cornea_le: "Clear",
+
+  ac_re: "Normal in contact and depth PACD=1CT",
+  ac_le: "Normal in contact and depth PACD=1CT",
+
+  iris_re: "Normal color and pattern",
+  iris_le: "Normal color and pattern",
+
+  pupil_re: "Round, Regular and Reacting",
+  pupil_le: "Round, Regular and Reacting",
+};
 // full form state (future ready)
 // useEffect(() => {
 //   firstInputRef.current?.focus();
@@ -74,7 +96,7 @@ const [form, setForm] = useState({
   },
 
   ocular_exam: {
-    slit_lamp: {},
+    slit_lamp: { ...defaultSlitLamp },
     iop: {},
     lacrimal: {}
   },
@@ -286,7 +308,7 @@ const handleSave = async () => {
         final_refraction: {}
       },
       ocular_exam: {
-        slit_lamp: {},
+        slit_lamp: { ...defaultSlitLamp },
         iop: {},
         lacrimal: {}
       },
@@ -371,7 +393,7 @@ const handleRefresh = () => {
       final_refraction: {}
     },
     ocular_exam: {
-      slit_lamp: {},
+      slit_lamp: { ...defaultSlitLamp },
       iop: {},
       lacrimal: {}
     },
@@ -650,7 +672,11 @@ const removeRetinoscopy = (index) => {
                       <select
                         value={c.complaint || ""}
                         data-first
-                        className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                        className={`border rounded-lg p-2 w-full focus:outline-none focus:ring-2 ${
+                          errors.complaint
+                            ? "border-red-500 ring-2 ring-red-300"
+                            : "border-gray-300 focus:ring-blue-400"
+                        }`}
                         onChange={(e) => {
                           const updated = [...form.chief_complaints];
                           updated[i].complaint = e.target.value;
