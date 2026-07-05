@@ -2049,7 +2049,8 @@ const removeRetinoscopy = (index) => {
                     <p className="text-center font-semibold">Lid</p>
 
 
-                    {/* <input
+                    <input
+                      list="lid-right-options"
                       placeholder="Lid Right"
                       className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                       value={form.ocular_exam.slit_lamp?.eyeball_re || ""}
@@ -2057,8 +2058,19 @@ const removeRetinoscopy = (index) => {
                         updateNested("ocular_exam", "slit_lamp", "eyeball_re", e.target.value)
                       }
                       onKeyDown={handleEnterNext}
-                    /> */}
-                    <select
+                    />
+                    <datalist id="lid-right-options">
+                      <option value="Flat" />
+                      <option value="Blepharitis" />
+                      <option value="Stye" />
+                      <option value="Chalazion" />
+                      <option value="Ptosis" />
+                      <option value="Entropion" />
+                      <option value="Ectropion" />
+                      <option value="Lagophthalmos" />
+                    </datalist>
+                    
+                    {/* <select
                       className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                       value={form.ocular_exam.slit_lamp?.eyeball_re || ""}
                       onChange={(e) =>
@@ -2075,9 +2087,10 @@ const removeRetinoscopy = (index) => {
                       <option value="Entropion">Entropion</option>
                       <option value="Ectropion">Ectropion</option>
                       <option value="Lagophthalmos">Lagophthalmos</option>
-                    </select>
+                    </select> */}
 
-                    {/* <input
+                    <input
+                      list="lid-right-options"
                       placeholder="Lid Left"
                       className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                       value={form.ocular_exam.slit_lamp?.eyeball_le || ""}
@@ -2085,9 +2098,9 @@ const removeRetinoscopy = (index) => {
                         updateNested("ocular_exam", "slit_lamp", "eyeball_le", e.target.value)
                       }
                       onKeyDown={handleEnterNext}
-                    /> */}
+                    />
 
-                    <select
+                    {/* <select
                       className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                       value={form.ocular_exam.slit_lamp?.eyeball_le || ""}
                       onChange={(e) =>
@@ -2104,10 +2117,11 @@ const removeRetinoscopy = (index) => {
                       <option value="Entropion">Entropion</option>
                       <option value="Ectropion">Ectropion</option>
                       <option value="Lagophthalmos">Lagophthalmos</option>
-                    </select>
+                    </select> */}
                     <p className="text-center font-semibold">Conjunctiva</p>
 
-                    {/* <input
+                    <input
+                      list="conjunctiva-right-options"
                       placeholder="Conjunctiva Right"
                       className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                       value={form.ocular_exam.slit_lamp?.conj_re || ""}
@@ -2115,8 +2129,20 @@ const removeRetinoscopy = (index) => {
                         updateNested("ocular_exam", "slit_lamp", "conj_re", e.target.value)
                       }
                       onKeyDown={handleEnterNext}
-                    /> */}
+                    />
 
+                    <datalist id="conjunctiva-right-options">
+                      <option value="Normal" />
+                      <option value="Congestion" />
+                      <option value="Chemosis" />
+                      <option value="Subconjunctival Hemorrhage" />
+                      <option value="Pterygium" />
+                      <option value="Pinguecula" />
+                      <option value="Follicles" />
+                      <option value="Papillae" />
+                    </datalist>
+
+                   {/* 
                     <select
                       className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                       value={form.ocular_exam.slit_lamp?.conj_re || ""}
@@ -2133,9 +2159,10 @@ const removeRetinoscopy = (index) => {
                       <option value="Pinguecula">Pinguecula</option>
                       <option value="Follicles">Follicles</option>
                       <option value="Papillae">Papillae</option>
-                    </select>
+                    </select> */}
                     
-                    {/* <input
+                    <input
+                      list="conjunctiva-right-options"
                       placeholder="Conjunctiva Left"
                       className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                       value={form.ocular_exam.slit_lamp?.conj_le || ""}
@@ -2143,8 +2170,8 @@ const removeRetinoscopy = (index) => {
                         updateNested("ocular_exam", "slit_lamp", "conj_le", e.target.value)
                       }
                       onKeyDown={handleEnterNext}
-                    /> */}
-
+                    />
+{/* 
                     <select
                       className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                       value={form.ocular_exam.slit_lamp?.conj_le || ""}
@@ -2161,11 +2188,12 @@ const removeRetinoscopy = (index) => {
                       <option value="Pinguecula">Pinguecula</option>
                       <option value="Follicles">Follicles</option>
                       <option value="Papillae">Papillae</option>
-                    </select>
+                    </select> */}
 
                     <p className="text-center font-semibold">Sclera</p>
 
-                    {/* <input
+                    <input
+                      list="sclera-right-options"
                       placeholder="Sclera Right"
                       className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                       value={form.ocular_exam.slit_lamp?.sclera_re || ""}
@@ -2173,8 +2201,8 @@ const removeRetinoscopy = (index) => {
                         updateNested("ocular_exam", "slit_lamp", "sclera_re", e.target.value)
                       }
                       onKeyDown={handleEnterNext}
-                    /> */}
-                    <select
+                    />
+                    {/* <select
                       className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                       value={form.ocular_exam.slit_lamp?.sclera_re || ""}
                       onChange={(e) =>
@@ -2191,9 +2219,10 @@ const removeRetinoscopy = (index) => {
                       <option value="Thinning">Thinning</option>
                       <option value="Staphyloma">Staphyloma</option>
                       <option value="Pigmentation">Pigmentation</option>                      
-                    </select>
-                    {/* 
+                    </select> */}
+                    
                     <input
+                      list="sclera-right-options"
                       placeholder="Sclera Left"
                       className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                       value={form.ocular_exam.slit_lamp?.sclera_le || ""}
@@ -2201,8 +2230,20 @@ const removeRetinoscopy = (index) => {
                         updateNested("ocular_exam", "slit_lamp", "sclera_le", e.target.value)
                       }
                       onKeyDown={handleEnterNext}
-                    /> */}
-                    <select
+                    />
+
+                    <datalist id="sclera-right-options">
+                      <option value="Normal" />
+                      <option value="Icterus" />
+                      <option value="Blue Sclera" />
+                      <option value="Scleritis" />
+                      <option value="Episcleritis" />
+                      <option value="Thinning" />
+                      <option value="Staphyloma" />
+                      <option value="Pigmentation" />
+                    </datalist>
+
+                    {/* <select
                       className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                       value={form.ocular_exam.slit_lamp?.sclera_le || ""}
                       onChange={(e) =>
@@ -2219,10 +2260,11 @@ const removeRetinoscopy = (index) => {
                       <option value="Thinning">Thinning</option>
                       <option value="Staphyloma">Staphyloma</option>
                       <option value="Pigmentation">Pigmentation</option>                      
-                    </select>
+                    </select> */}
                     <p className="text-center font-semibold">Cornea</p>
 
-                    {/* <input
+                    <input
+                      list="cornea-options"
                       placeholder="Cornea Right"
                       className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                       value={form.ocular_exam.slit_lamp?.cornea_re || ""}
@@ -2230,9 +2272,9 @@ const removeRetinoscopy = (index) => {
                         updateNested("ocular_exam", "slit_lamp", "cornea_re", e.target.value)
                       }
                       onKeyDown={handleEnterNext}
-                    /> */}
+                    />
 
-                    <select
+                    {/* <select
                       className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                       value={form.ocular_exam.slit_lamp?.cornea_re || ""}
                       onChange={(e) =>
@@ -2251,9 +2293,10 @@ const removeRetinoscopy = (index) => {
                       <option value="Foreign Body">Foreign Body</option>
                       <option value="Pterygium">Pterygium</option>
                       <option value="Dry Eye">Dry Eye</option>
-                    </select>
+                    </select> */}
 
-                    {/* <input
+                    <input
+                      list="cornea-options"
                       placeholder="Cornea Left"
                       className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                       value={form.ocular_exam.slit_lamp?.cornea_le || ""}
@@ -2261,9 +2304,22 @@ const removeRetinoscopy = (index) => {
                         updateNested("ocular_exam", "slit_lamp", "cornea_le", e.target.value)
                       }
                       onKeyDown={handleEnterNext}
-                    /> */}
-
-                    <select
+                    />
+                    
+                    <datalist id="cornea-options">
+                        <option value="Clear" />
+                        <option value="Nebular Opacity" />
+                        <option value="Macular Opacity" />
+                        <option value="Leucoma" />
+                        <option value="Ulcer" />
+                        <option value="Scar" />
+                        <option value="Edema" />
+                        <option value="Keratitis" />
+                        <option value="Foreign Body" />
+                        <option value="Pterygium" />
+                        <option value="Dry Eye" />
+                    </datalist>
+                    {/* <select
                       className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                       value={form.ocular_exam.slit_lamp?.cornea_le || ""}
                       onChange={(e) =>
@@ -2282,11 +2338,12 @@ const removeRetinoscopy = (index) => {
                       <option value="Foreign Body">Foreign Body</option>
                       <option value="Pterygium">Pterygium</option>
                       <option value="Dry Eye">Dry Eye</option>
-                    </select>
+                    </select> */}
 
                     <p className="text-center font-semibold">Anterior Chamber</p>
 
-                    {/* <input
+                    <input
+                      list="anterior-chamber-right-options"
                       placeholder="Anterior Chamber Right"
                       className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                       value={form.ocular_exam.slit_lamp?.ac_re || ""}
@@ -2294,8 +2351,8 @@ const removeRetinoscopy = (index) => {
                         updateNested("ocular_exam", "slit_lamp", "ac_re", e.target.value)
                       }
                       onKeyDown={handleEnterNext}
-                    /> */}
-                    <select
+                    />
+                    {/* <select
                       className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                       value={form.ocular_exam.slit_lamp?.ac_re || ""}
                       onChange={(e) =>
@@ -2312,9 +2369,10 @@ const removeRetinoscopy = (index) => {
                       <option value="Flare ++">Flare ++</option>
                       <option value="Hypopyon">Hypopyon</option>
                       <option value="Hyphema">Hyphema</option>
-                    </select>
+                    </select> */}
 
-                    {/* <input
+                    <input
+                      list="anterior-chamber-right-options"
                       placeholder="Anterior Chamber Left"
                       className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                       value={form.ocular_exam.slit_lamp?.ac_le || ""}
@@ -2322,9 +2380,19 @@ const removeRetinoscopy = (index) => {
                         updateNested("ocular_exam", "slit_lamp", "ac_le", e.target.value)
                       }
                       onKeyDown={handleEnterNext}
-                    /> */}
-
-                    <select
+                    />
+                    <datalist id="anterior-chamber-right-options">
+                      <option value="Normal in contact and depth PACD=1CT" />
+                      <option value="Deep & Quiet" />
+                      <option value="Shallow" />
+                      <option value="Cells +" />
+                      <option value="Cells ++" />
+                      <option value="Flare +" />
+                      <option value="Flare ++" />
+                      <option value="Hypopyon" />
+                      <option value="Hyphema" />
+                    </datalist>
+                    {/* <select
                       className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                       value={form.ocular_exam.slit_lamp?.ac_le || ""}
                       onChange={(e) =>
@@ -2341,11 +2409,12 @@ const removeRetinoscopy = (index) => {
                       <option value="Flare ++">Flare ++</option>
                       <option value="Hypopyon">Hypopyon</option>
                       <option value="Hyphema">Hyphema</option>
-                    </select>
+                    </select> */}
 
                     <p className="text-center font-semibold">Iris</p>
 
-                    {/* <input
+                    <input
+                      list="iris-right-options"
                       placeholder="Iris Right"
                       className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                       value={form.ocular_exam.slit_lamp?.iris_re || ""}
@@ -2353,9 +2422,9 @@ const removeRetinoscopy = (index) => {
                         updateNested("ocular_exam", "slit_lamp", "iris_re", e.target.value)
                       }
                       onKeyDown={handleEnterNext}
-                    /> */}
+                    />
 
-                    <select
+                    {/* <select
                       className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                       value={form.ocular_exam.slit_lamp?.iris_re || ""}
                       onChange={(e) =>
@@ -2369,9 +2438,10 @@ const removeRetinoscopy = (index) => {
                     <option value="Iridodialysis">Iridodialysis</option>
                     <option value="Posterior Synechiae">Posterior Synechiae</option>
                     <option value="Atrophy">Atrophy</option>
-                    </select>
+                    </select> */}
 
-                    {/* <input
+                    <input
+                      list="iris-right-options"
                       placeholder="Iris Left"
                       className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                       value={form.ocular_exam.slit_lamp?.iris_le || ""}
@@ -2379,8 +2449,16 @@ const removeRetinoscopy = (index) => {
                         updateNested("ocular_exam", "slit_lamp", "iris_le", e.target.value)
                       }
                       onKeyDown={handleEnterNext}
-                    /> */}
-                    <select
+                    />
+                    <datalist id="iris-right-options">
+                      <option value="Normal color and pattern" />
+                      <option value="Coloboma" />
+                      <option value="Iridodialysis" />
+                      <option value="Posterior Synechiae" />
+                      <option value="Atrophy" />
+                    </datalist>
+
+                    {/* <select
                       className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                       value={form.ocular_exam.slit_lamp?.iris_le || ""}
                       onChange={(e) =>
@@ -2394,10 +2472,11 @@ const removeRetinoscopy = (index) => {
                     <option value="Iridodialysis">Iridodialysis</option>
                     <option value="Posterior Synechiae">Posterior Synechiae</option>
                     <option value="Atrophy">Atrophy</option>
-                    </select>
+                    </select> */}
                     <p className="text-center font-semibold">Pupil</p>
 
-                    {/* <input
+                    <input
+                      list="pupil-right-options"
                       placeholder="Pupil Right"
                       className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                       value={form.ocular_exam.slit_lamp?.pupil_re || ""}
@@ -2405,9 +2484,9 @@ const removeRetinoscopy = (index) => {
                         updateNested("ocular_exam", "slit_lamp", "pupil_re", e.target.value)
                       }
                       onKeyDown={handleEnterNext}
-                    /> */}
+                    />
 
-                    <select
+                    {/* <select
                       className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                        value={form.ocular_exam.slit_lamp?.pupil_re || ""}
                       onChange={(e) =>
@@ -2423,9 +2502,10 @@ const removeRetinoscopy = (index) => {
                       <option value="Dilated">Dilated</option>
                       <option value="Miotic">Miotic</option>
                       <option value="RAPD Positive">RAPD Positive</option>
-                    </select>
+                    </select> */}
 
-                    {/* <input
+                    <input
+                      list="pupil-right-options"
                       placeholder="Pupil Left"
                       className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                       value={form.ocular_exam.slit_lamp?.pupil_le || ""}
@@ -2433,8 +2513,19 @@ const removeRetinoscopy = (index) => {
                         updateNested("ocular_exam", "slit_lamp", "pupil_le", e.target.value)
                       }
                       onKeyDown={handleEnterNext}
-                    /> */}
-                    <select
+                    />
+                    <datalist id="pupil-right-options">
+                      <option value="Round, Regular and Reacting" />
+                      <option value="Round Reactive" />
+                      <option value="Sluggish" />
+                      <option value="Fixed" />
+                      <option value="Irregular" />
+                      <option value="Dilated" />
+                      <option value="Miotic" />
+                      <option value="RAPD Positive" />
+                    </datalist>
+
+                    {/* <select
                       className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                        value={form.ocular_exam.slit_lamp?.pupil_le || ""}
                       onChange={(e) =>
@@ -2450,7 +2541,7 @@ const removeRetinoscopy = (index) => {
                       <option value="Dilated">Dilated</option>
                       <option value="Miotic">Miotic</option>
                       <option value="RAPD Positive">RAPD Positive</option>
-                    </select>
+                    </select> */}
 
                   </div>
 
@@ -2871,12 +2962,13 @@ const removeRetinoscopy = (index) => {
                 </div>
 
                 {/* 🔹 DIAGNOSIS */}
-                {/* <div className="mb-4">
+                <div className="mb-4">
                   <p className="font-semibold mb-4">Diagnosis</p>
 
                   <div className="grid grid-cols-2 gap-4 mb-4 ">
 
                     <input
+                      list="diagnosis-right-options"
                       placeholder="Right Eye"
                       className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                       value={form.fundus.diagnosis_re || ""}
@@ -2890,6 +2982,7 @@ const removeRetinoscopy = (index) => {
                     />
 
                     <input
+                      list="diagnosis-right-options"
                       placeholder="Left Eye"
                       className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                       value={form.fundus.diagnosis_le || ""}
@@ -2901,15 +2994,60 @@ const removeRetinoscopy = (index) => {
                       }
                       onKeyDown={handleEnterNext}
                     />
+                    <datalist id="diagnosis-right-options">
+                      <option value="Normal" />
+                      <option value="Refractive Error" />
+                      <option value="Myopia" />
+                      <option value="Hypermetropia" />
+                      <option value="Astigmatism" />
+                      <option value="Presbyopia" />
+                      <option value="Cataract" />
+                      <option value="Pseudophakia" />
+                      <option value="Aphakia" />
+                      <option value="Glaucoma" />
+                      <option value="Diabetic Retinopathy" />
+                      <option value="Hypertensive Retinopathy" />
+                      <option value="Age Related Macular Degeneration" />
+                      <option value="Macular Edema" />
+                      <option value="Retinal Detachment" />
+                      <option value="Retinal Vein Occlusion" />
+                      <option value="Retinal Artery Occlusion" />
+                      <option value="Optic Atrophy" />
+                      <option value="Optic Neuritis" />
+                      <option value="Papilledema" />
+                      <option value="Corneal Ulcer" />
+                      <option value="Keratitis" />
+                      <option value="Dry Eye" />
+                      <option value="Conjunctivitis" />
+                      <option value="Uveitis" />
+                    </datalist>
+
+                    <input
+                      type="text"
+                      placeholder="Diagnosis Comment"
+                      className="border rounded-lg p-2 col-span-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                      value={form.fundus.diagnosis_comment || ""}
+                      onChange={(e) =>
+                        setForm({
+                          ...form,
+                          fundus: {
+                            ...form.fundus,
+                            diagnosis_comment: e.target.value,
+                          },
+                        })
+                      }
+                      onKeyDown={handleEnterNext}
+                    />
 
                   </div>
-                </div> */}
-                <div className="mb-4">
+
+                </div>
+                {/* <div className="mb-4">
                   <p className="font-semibold mb-4">Diagnosis</p>
 
                   <div className="grid grid-cols-2 gap-4 mb-4">
 
-                    {/* Right Eye */}
+                    
                     <select
                       className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                       value={form.fundus.diagnosis_re || ""}
@@ -2952,7 +3090,7 @@ const removeRetinoscopy = (index) => {
                       <option value="Uveitis">Uveitis</option>
                     </select>
 
-                    {/* Left Eye */}
+                  
                     <select
                       className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                       value={form.fundus.diagnosis_le || ""}
@@ -2995,7 +3133,7 @@ const removeRetinoscopy = (index) => {
                       <option value="Uveitis">Uveitis</option>
                     </select>
 
-                    {/* Comment */}
+                  
                     <input
                       type="text"
                       placeholder="Diagnosis Comment"
@@ -3014,7 +3152,7 @@ const removeRetinoscopy = (index) => {
                     />
 
                   </div>
-                </div>
+                </div> */}
                 {/* 🔥 CLINICAL IMPRESSION */}
                 <div className="mb-4">
 
@@ -3078,6 +3216,8 @@ const removeRetinoscopy = (index) => {
                         <option value="tablet">Tablet</option>
                         <option value="syrup">Syrup</option>
                         <option value="eye_drop">Eye Drop</option>
+                        <option value="eye_drop">Capsules</option>
+                        <option value="eye_drop">Eye wrap</option>
                       </select>
 
                       {/* ✅ MEDICINE (filtered like V1) */}
