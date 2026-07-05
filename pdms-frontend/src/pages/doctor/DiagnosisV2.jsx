@@ -101,8 +101,15 @@ const [form, setForm] = useState({
     lacrimal: {}
   },
 
-  fundus: {},
-
+  // fundus: {},
+  fundus: {
+    lens: {
+      dilated: "",
+      lens_used: "",
+      drop_used: "",
+      comment: "",
+    },
+  },
   prescriptions: [{}]
 });
 
@@ -312,7 +319,17 @@ const handleSave = async () => {
         iop: {},
         lacrimal: {}
       },
-      fundus: {},
+      // fundus: {},
+
+      fundus: {
+        lens: {
+          dilated: "",
+          lens_used: "",
+          drop_used: "",
+          comment: "",
+        },
+      },
+
       prescriptions: [{}]
     });
   } catch (err) {
@@ -397,7 +414,16 @@ const handleRefresh = () => {
       iop: {},
       lacrimal: {}
     },
-    fundus: {},
+    // fundus: {},
+    fundus: {
+      lens: {
+        dilated: "",
+        lens_used: "",
+        drop_used: "",
+        comment: "",
+      },
+    },
+
     prescriptions: [{}]
     
 
@@ -957,7 +983,7 @@ const removeRetinoscopy = (index) => {
               <div>
                 <p className="font-semibold">UNAIDED</p>
 
-                <div className="grid grid-cols-3 gap-2">
+                <div className="grid grid-cols-5 gap-2">
 
                   
                   {/* <input
@@ -1000,12 +1026,31 @@ const removeRetinoscopy = (index) => {
                     <option value="CF1M">CF1M</option>
                     <option value="CF1/2M">CF1/2M</option>
                     <option value="CFCF">CFCF</option>
-                    <option value="HM">HM+</option>
+                    <option value="HM+">HM+</option>
                     <option value="PL+">PL+</option>
                     <option value="PL-">PL-</option>
                     <option value="NLP">NLP</option>
                   </select>
-
+                  <select
+                    className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400 row-span-2"
+                    value={form.refraction.unaided.distance_chart || ""}
+                    onChange={(e) =>
+                      updateNested(
+                        "refraction",
+                        "unaided",
+                        "distance_chart",
+                        e.target.value
+                      )
+                    }
+                    onKeyDown={handleEnterNext}
+                  >
+                    <option value="">Select Chart</option>
+                    <option value="Hindi Chart">Hindi Chart</option>
+                    <option value="E Chart">E Chart</option>
+                    <option value="C Chart">C Chart</option>
+                    <option value="English Chart, Number Chart">English Chart, Number Chart</option>
+                    <option value="Picture">Picture Chart</option>
+                  </select>
                   <input
                     placeholder="Pinhole OD"
                     className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -1050,7 +1095,26 @@ const removeRetinoscopy = (index) => {
                     <option value="N24">N24</option>
                     <option value="N36">N36</option>
                   </select>
-                  
+                  <select
+                    className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400 row-span-2"
+                    value={form.refraction.unaided.near_chart || ""}
+                    onChange={(e) =>
+                      updateNested(
+                        "refraction",
+                        "unaided",
+                        "near_chart",
+                        e.target.value
+                      )
+                    }
+                    onKeyDown={handleEnterNext}
+                  >
+                    <option value="">Select Chart</option>
+                    <option value="Hindi Chart">Hindi Chart</option>
+                    <option value="E Chart">E Chart</option>
+                    <option value="C Chart">C Chart</option>
+                    <option value="English Chart, Number Chart">English Chart, Number Chart</option>
+                    <option value="Picture">Picture Chart</option>
+                  </select>
                   {/* 
                   <input
                     placeholder="Left Eye Distance"
@@ -1092,7 +1156,7 @@ const removeRetinoscopy = (index) => {
                     <option value="CF1M">CF1M</option>
                     <option value="CF1/2M">CF1/2M</option>
                     <option value="CFCF">CFCF</option>
-                    <option value="HM">HM+</option>
+                    <option value="HM+">HM+</option>
                     <option value="PL+">PL+</option>
                     <option value="PL-">PL-</option>
                     <option value="NLP">NLP</option>
@@ -1744,7 +1808,7 @@ const removeRetinoscopy = (index) => {
                   onKeyDown={handleEnterNext}
                 />
 
-                <input
+                {/* <input
                   placeholder="OD BCVA"
                   className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                   value={form.refraction.final_refraction.re_bcva || ""}
@@ -1752,31 +1816,49 @@ const removeRetinoscopy = (index) => {
                     updateNested("refraction", "final_refraction", "re_bcva", e.target.value)
                   }
                   onKeyDown={handleEnterNext}
-                />
-                {/* <input
-                  placeholder="OD CHART"
-                  className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
-                  value={form.refraction.final_refraction.re_chart || ""}
-                  onChange={(e) =>
-                    updateNested("refraction", "final_refraction", "re_chart", e.target.value)
-                  }
-                  onKeyDown={handleEnterNext}
                 /> */}
-
-                {/* <input
-                  placeholder="CHART"
-                  className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400 row-span-2"
-                  value={form.refraction.final_refraction.chart || ""}
+                <select
+                  className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  value={form.refraction.final_refraction.re_bcva || ""}
                   onChange={(e) =>
                     updateNested(
                       "refraction",
                       "final_refraction",
-                      "chart",
+                      "re_bcva",
                       e.target.value
                     )
                   }
                   onKeyDown={handleEnterNext}
-                /> */}
+                >
+                  <option value="">OD BCVA Distance</option>
+                  <option value="FFL">FFL</option>
+                  <option value="6/6">6/6</option>
+                  <option value="6/6P">6/6P</option>
+                  <option value="6/9">6/9</option>
+                  <option value="6/9P">6/9P</option>
+                  <option value="6/12">6/12</option>
+                  <option value="6/12P">6/12P</option>
+                  <option value="6/18">6/18</option>
+                  <option value="6/18P">6/18P</option>
+                  <option value="6/24">6/24</option>
+                  <option value="6/24P">6/24P</option>
+                  <option value="6/36">6/36</option>
+                  <option value="6/36P">6/36P</option>
+                  <option value="6/60">6/60</option>
+                  <option value="CF5M">CF5M</option>
+                  <option value="CF4M">CF4M</option>
+                  <option value="CF3M">CF3M</option>
+                  <option value="CF2M">CF2M</option>
+                  <option value="CF1M">CF1M</option>
+                  <option value="CF1/2M">CF1/2M</option>
+                  <option value="CFCF">CFCF</option>
+                  <option value="HM+">HM+</option>
+                  <option value="PL+">PL+</option>
+                  <option value="PL-">PL-</option>
+                  <option value="NLP">NLP</option>
+                </select>
+
+                
                 <select
                   value={form.refraction.final_refraction.chart || ""}
                   className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400 row-span-2 "
@@ -1827,7 +1909,7 @@ const removeRetinoscopy = (index) => {
                   onKeyDown={handleEnterNext}
                 />
 
-                <input
+                {/* <input
                   placeholder="OS BCVA"
                   className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                   value={form.refraction.final_refraction.le_bcva || ""}
@@ -1836,7 +1918,44 @@ const removeRetinoscopy = (index) => {
                   }
                   onKeyDown={handleEnterNext}
                 />
-                
+                 */}
+
+                <select
+                  className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  value={form.refraction.final_refraction.le_bcva || ""}
+                  onChange={(e) =>
+                    updateNested("refraction", "final_refraction", "le_bcva", e.target.value)
+                  }
+                  onKeyDown={handleEnterNext}
+                >
+                  <option value="">OS BCVA Near</option>
+                  <option value="FFL">FFL</option>
+                  <option value="6/6">6/6</option>
+                  <option value="6/6P">6/6P</option>
+                  <option value="6/9">6/9</option>
+                  <option value="6/9P">6/9P</option>
+                  <option value="6/12">6/12</option>
+                  <option value="6/12P">6/12P</option>
+                  <option value="6/18">6/18</option>
+                  <option value="6/18P">6/18P</option>
+                  <option value="6/24">6/24</option>
+                  <option value="6/24P">6/24P</option>
+                  <option value="6/36">6/36</option>
+                  <option value="6/36P">6/36P</option>
+                  <option value="6/60">6/60</option>
+                  <option value="CF5M">CF5M</option>
+                  <option value="CF4M">CF4M</option>
+                  <option value="CF3M">CF3M</option>
+                  <option value="CF2M">CF2M</option>
+                  <option value="CF1M">CF1M</option>
+                  <option value="CF1/2M">CF1/2M</option>
+                  <option value="CFCF">CFCF</option>
+                  <option value="HM+">HM+</option>
+                  <option value="PL+">PL+</option>
+                  <option value="PL-">PL-</option>
+                  <option value="NLP">NLP</option>
+                </select>
+
                 {/* <input
                   placeholder="OS CHART"
                   className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -1878,7 +1997,7 @@ const removeRetinoscopy = (index) => {
                   onKeyDown={handleEnterNext}
                 />
 
-                <input
+                {/* <input
                   placeholder="OD BCVA"
                   className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                   value={form.refraction.final_refraction.re_near_bcva || ""}
@@ -1891,7 +2010,37 @@ const removeRetinoscopy = (index) => {
                     )
                   }
                   onKeyDown={handleEnterNext}
-                />
+                /> */}
+                <select
+                  className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  value={form.refraction.final_refraction.re_near_bcva || ""}
+                  onChange={(e) =>
+                    updateNested(
+                      "refraction",
+                      "final_refraction",
+                      "re_near_bcva",
+                      e.target.value
+                    )
+                  }
+                  onKeyDown={handleEnterNext}
+                >
+                  <option value="">OD BCVA Near</option>
+                  <option value="6/60">6/60</option>
+                  <option value="6/24">6/24</option>
+                  <option value="6/18">6/18</option>
+                  <option value="6/12">6/12</option>
+                  <option value="6/9">6/9</option>
+                  <option value="6/6">6/6</option>
+                  <option value="N5">N5</option>
+                  <option value="N6">N6</option>
+                  <option value="N8">N8</option>
+                  <option value="N10">N10</option>
+                  <option value="N12">N12</option>
+                  <option value="N18">N18</option>
+                  <option value="N24">N24</option>
+                  <option value="N36">N36</option>
+                </select>
+
                 <select
                   value={form.refraction.final_refraction.chart_type || ""}
                   className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400 row-span-2 "
@@ -1926,7 +2075,7 @@ const removeRetinoscopy = (index) => {
 
                 
 
-                <input
+                {/* <input
                   placeholder="OS BCVA"
                   className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                   value={form.refraction.final_refraction.le_near_bcva || ""}
@@ -1939,7 +2088,38 @@ const removeRetinoscopy = (index) => {
                     )
                   }
                   onKeyDown={handleEnterNext}
-                />
+                /> */}
+                <select
+                  className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  value={form.refraction.final_refraction.le_near_bcva || ""}
+                  onChange={(e) =>
+                    updateNested(
+                      "refraction",
+                      "final_refraction",
+                      "le_near_bcva",
+                      e.target.value
+                    )
+                  }
+                  onKeyDown={handleEnterNext}
+                >
+                  <option value="">OS BCVA Near</option> 
+                  <option value="6/60">6/60</option>
+                  <option value="6/24">6/24</option>
+                  <option value="6/18">6/18</option>
+                  <option value="6/12">6/12</option>
+                  <option value="6/9">6/9</option>
+                  <option value="6/6">6/6</option>
+                  <option value="N5">N5</option>
+                  <option value="N6">N6</option>
+                  <option value="N8">N8</option>
+                  <option value="N10">N10</option>
+                  <option value="N12">N12</option>
+                  <option value="N18">N18</option>
+                  <option value="N24">N24</option>
+                  <option value="N36">N36</option>
+                 
+                </select>
+
                 {/* <input
                   placeholder="ADD"
                   className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -2827,16 +3007,6 @@ const removeRetinoscopy = (index) => {
               </div>
             )}
           </div>
-          {/* <div className="border p-3 rounded">
-            <div
-              onClick={() => toggleSection("fundus")}
-              className="font-bold cursor-pointer"
-            >
-              FUNDUS AND PRESCRIPTION ⬇
-            </div>
-
-            {openSection === "fundus" && (
-              <div className="mt-3 space-y-4"> */}
           <div className="bg-white rounded-xl shadow">
 
             <div
@@ -2849,6 +3019,97 @@ const removeRetinoscopy = (index) => {
 
             {openSection === "fundus" && (
               <div className="p-4 border-t">
+                                
+                {/* Lens */}
+                <div className="mb-4">
+                  <p className="font-semibold">Lens</p>
+                  <div className="grid grid-cols-4 gap-2">
+                
+
+                    <select
+                        className="border rounded-lg p-2"
+                        
+                        value={form.fundus?.lens?.dilated || ""}
+                        onChange={(e)=>
+                            updateNested(
+                                "fundus",
+                                "lens",
+                                "dilated",
+                                e.target.value
+                            )
+                        }
+                        onKeyDown={handleEnterNext}
+                    >
+                        <option value="">Dilated?</option>
+                        <option>Yes</option>
+                        <option>No</option>
+                    </select>
+
+                    <select
+                        className="border rounded-lg p-2"
+                        value={form.fundus?.lens?.lens_used || ""}
+                        onChange={(e)=>
+                            updateNested(
+                                "fundus",
+                                "lens",
+                                "lens_used",
+                                e.target.value
+                            )
+                        }
+                        onKeyDown={handleEnterNext}
+                    >
+                        <option value="">Lens Used</option>
+                        <option value="90D">90D</option>
+                        <option value="78D">78D</option>
+                        <option value="20D">20D</option>
+                        <option value="Indirect">Indirect Ophthalmoscopy</option>
+                        <option value="Contact Lens">Contact Lens</option>
+                        <option value="Other">Other</option>
+                    </select>
+
+                    <select
+                        className="border rounded-lg p-2"
+                        value={form.fundus?.lens?.drop_used || ""}
+                        onChange={(e)=>
+                            updateNested(
+                                "fundus",
+                                "lens",
+                                "drop_used",
+                                e.target.value
+                            )
+                        }
+                        onKeyDown={handleEnterNext}
+                    >
+                        <option value="">Drop Used</option>
+                        <option>Phenylephrine</option>                       
+                        <option value="Tropicamide">Tropicamide</option>
+                        <option value="Tropicamide + Phenylephrine">
+                          Tropicamide + Phenylephrine
+                        </option>
+                        <option value="Cyclopentolate">Cyclopentolate</option>
+                        <option value="Atropine">Atropine</option>
+                        <option>None</option>
+                    </select>
+
+                    <input
+                        placeholder="Comment"
+                        className="border rounded-lg p-2"
+                        value={form.fundus?.lens?.comment || ""}
+                        onChange={(e)=>
+                            updateNested(
+                                "fundus",
+                                "lens",
+                                "comment",
+                                e.target.value
+                            )
+                        }
+                        onKeyDown={handleEnterNext}
+                    />
+
+                
+                  </div> 
+                </div>                
+               
                 {/* 🔹 FUNDUS */}
                 <div className="mb-4">
                   <p className="font-semibold">Fundus Examination</p>
@@ -3216,8 +3477,11 @@ const removeRetinoscopy = (index) => {
                         <option value="tablet">Tablet</option>
                         <option value="syrup">Syrup</option>
                         <option value="eye_drop">Eye Drop</option>
-                        <option value="eye_drop">Capsules</option>
-                        <option value="eye_drop">Eye wrap</option>
+                        <option value="capsules">Capsules</option>
+                        <option value="eye_wipes">Eye wipe</option>
+                        <option value="cream">Cream</option>
+      
+
                       </select>
 
                       {/* ✅ MEDICINE (filtered like V1) */}
@@ -3244,7 +3508,7 @@ const removeRetinoscopy = (index) => {
                       </select>
 
                       {/* DOSAGE */}
-                      <input
+                      {/* <input
                         placeholder="Dosage"
                         // className={`border p-2 ${errors.prescription ? "border-red-500" : ""}`}
                         className={`border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400 ${errors.prescription ? "border-red-500" : ""}`}
@@ -3255,10 +3519,55 @@ const removeRetinoscopy = (index) => {
                           setForm({ ...form, prescriptions: updated });
                         }}
                         onKeyDown={handleEnterNext}
+                      /> */}
+
+                      <input
+                        list="dosage-options"
+                        placeholder="Dosage"
+                        className={`border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400 ${
+                          errors.prescription ? "border-red-500" : ""
+                        }`}
+                        value={p.dosage || ""}
+                        onChange={(e) => {
+                          const updated = [...form.prescriptions];
+                          updated[i].dosage = e.target.value;
+                          setForm({ ...form, prescriptions: updated });
+                        }}
+                        onKeyDown={handleEnterNext}
                       />
 
+                      <datalist id="dosage-options">
+                        <option value="OD - Once daily" />
+                        <option value="BD - Twice daily" />
+                        <option value="TID - Three times daily" />
+                        <option value="QID - Four times daily" />
+                        <option value="QH - Every hour" />
+                        <option value="Q2H - Every 2 hours" />
+                        <option value="Q3H - Every 3 hours" />
+                        <option value="Q4H - Every 4 hours" />
+                        <option value="HS - At bedtime" />
+                        <option value="BBF - Before breakfast" />
+                        <option value="AC - Before food" />
+                        <option value="PC - After food" />
+                        <option value="SOS - If needed" />
+                        <option value="SS - One half" />
+                        <option value="TW - Twice a week" />
+                        <option value="QW - Once weekly" />
+                      </datalist>
                       {/* DURATION */}
+                      {/* <input
+                        placeholder="Duration"
+                        className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                        value={p.duration || ""}
+                        onChange={(e) => {
+                          const updated = [...form.prescriptions];
+                          updated[i].duration = e.target.value;
+                          setForm({ ...form, prescriptions: updated });
+                        }}
+                        onKeyDown={handleEnterNext}
+                      /> */}
                       <input
+                        list="duration-options"
                         placeholder="Duration"
                         className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                         value={p.duration || ""}
@@ -3270,6 +3579,19 @@ const removeRetinoscopy = (index) => {
                         onKeyDown={handleEnterNext}
                       />
 
+                      <datalist id="duration-options">
+                        <option value="1 day" />
+                        <option value="2 days" />
+                        <option value="3 days" />
+                        <option value="5 days" />
+                        <option value="1 week" />
+                        <option value="2 weeks" />
+                        <option value="1 month" />
+                        <option value="2 months" />
+                        <option value="3 months" />
+                        <option value="6 months" />
+                        <option value="1 year" />
+                      </datalist>
                       {/* INSTRUCTIONS */}
                       <input
                         placeholder="Instructions"
