@@ -143,16 +143,28 @@ const [form, setForm] = useState({
     iop: {},
     lacrimal: {}
   },
+  post_dilated_exam: {
+    pupil: {
+      re_size: "",
+      re_reaction: "",
+      le_size: "",
+      le_reaction: "",
+    },
 
-  // fundus: {},
-  fundus: {
     lens: {
-      dilated: "",
-      lens_used: "",
-      drop_used: "",
-      comment: "",
+      re: "",
+      le: "",
     },
   },
+  fundus: {},
+  // fundus: {
+  //   lens: {
+  //     dilated: "",
+  //     lens_used: "",
+  //     drop_used: "",
+  //     comment: "",
+  //   },
+  // },
   prescriptions: [{}]
 });
 
@@ -308,6 +320,7 @@ const handleSave = async () => {
 
       refraction: form.refraction,
       ocular_exam: form.ocular_exam,
+      post_dilated_exam: form.post_dilated_exam,
       fundus: form.fundus,
 
       clinical_impression: form.clinical_impression,
@@ -362,16 +375,30 @@ const handleSave = async () => {
         iop: {},
         lacrimal: {}
       },
-      // fundus: {},
+      post_dilated_exam: {
+        pupil: {
+          re_size: "",
+          re_reaction: "",
+          le_size: "",
+          le_reaction: "",
+        },
 
-      fundus: {
         lens: {
-          dilated: "",
-          lens_used: "",
-          drop_used: "",
-          comment: "",
+          re: "",
+          le: "",
         },
       },
+      
+      fundus: {},
+
+      // fundus: {
+      //   lens: {
+      //     dilated: "",
+      //     lens_used: "",
+      //     drop_used: "",
+      //     comment: "",
+      //   },
+      // },
 
       prescriptions: [{}]
     });
@@ -457,15 +484,29 @@ const handleRefresh = () => {
       iop: {},
       lacrimal: {}
     },
-    // fundus: {},
-    fundus: {
+    post_dilated_exam: {
+      pupil: {
+        re_size: "",
+        re_reaction: "",
+        le_size: "",
+        le_reaction: "",
+      },
+
       lens: {
-        dilated: "",
-        lens_used: "",
-        drop_used: "",
-        comment: "",
+        re: "",
+        le: "",
       },
     },
+
+    fundus: {},
+    // fundus: {
+    //   lens: {
+    //     dilated: "",
+    //     lens_used: "",
+    //     drop_used: "",
+    //     comment: "",
+    //   },
+    // },
 
     prescriptions: [{}]
     
@@ -3088,97 +3129,146 @@ const removeRetinoscopy = (index) => {
 
             {openSection === "fundus" && (
               <div className="p-4 border-t">
-                                
-                {/* Lens */}
                 <div className="mb-4">
-                  <p className="font-semibold">Lens</p>
-                  <div className="grid grid-cols-4 gap-2">
-                
+                  <p className="font-semibold">Post Dilated Examination</p>
+
+                  <div className="grid grid-cols-5 gap-2">
+
+                    <div></div>
+                    <p className="text-center font-semibold col-span-2">Right Eye</p>
+                    <p className="text-center font-semibold col-span-2">Left Eye</p> 
+                    <p>Pupil Size</p>
 
                     <select
-                        className="border rounded-lg p-2"
-                        
-                        value={form.fundus?.lens?.dilated || ""}
+                        onKeyDown={handleEnterNext}
+                        className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                        value={form.post_dilated_exam.pupil.re_size}
                         onChange={(e)=>
                             updateNested(
-                                "fundus",
-                                "lens",
-                                "dilated",
+                                "post_dilated_exam",
+                                "pupil",
+                                "re_size",
                                 e.target.value
                             )
                         }
-                        onKeyDown={handleEnterNext}
                     >
-                        <option value="">Dilated?</option>
-                        <option>Yes</option>
-                        <option>No</option>
+                        <option value="">Select(mm)</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
                     </select>
-
                     <select
-                        className="border rounded-lg p-2"
-                        value={form.fundus?.lens?.lens_used || ""}
+                        onKeyDown={handleEnterNext}
+                        className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                        value={form.post_dilated_exam.pupil.re_reaction}
                         onChange={(e)=>
                             updateNested(
-                                "fundus",
-                                "lens",
-                                "lens_used",
+                                "post_dilated_exam",
+                                "pupil",
+                                "re_reaction",
                                 e.target.value
                             )
                         }
-                        onKeyDown={handleEnterNext}
                     >
-                        <option value="">Lens Used</option>
-                        <option value="90D">90D</option>
-                        <option value="78D">78D</option>
-                        <option value="20D">20D</option>
-                        <option value="Indirect">Indirect Ophthalmoscopy</option>
-                        <option value="Contact Lens">Contact Lens</option>
-                        <option value="Other">Other</option>
+                        <option value="">Select</option>
+                        <option value="Brisk">Brisk</option>
+                        <option value="Sluggish">Sluggish</option>
+                        <option value="Absent">Absent</option>
                     </select>
-
                     <select
-                        className="border rounded-lg p-2"
-                        value={form.fundus?.lens?.drop_used || ""}
+                        onKeyDown={handleEnterNext}
+                        className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                        value={form.post_dilated_exam.pupil.le_size}
                         onChange={(e)=>
                             updateNested(
-                                "fundus",
-                                "lens",
-                                "drop_used",
+                                "post_dilated_exam",
+                                "pupil",
+                                "le_size",
                                 e.target.value
                             )
                         }
-                        onKeyDown={handleEnterNext}
                     >
-                        <option value="">Drop Used</option>
-                        <option>Phenylephrine</option>                       
-                        <option value="Tropicamide">Tropicamide</option>
-                        <option value="Tropicamide + Phenylephrine">
-                          Tropicamide + Phenylephrine
-                        </option>
-                        <option value="Cyclopentolate">Cyclopentolate</option>
-                        <option value="Atropine">Atropine</option>
-                        <option>None</option>
+                        <option value="">Select(mm)</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                    </select>
+                    <select
+                        onKeyDown={handleEnterNext}
+                        className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                        value={form.post_dilated_exam.pupil.le_reaction}
+                        onChange={(e)=>
+                            updateNested(
+                                "post_dilated_exam",
+                                "pupil",
+                                "le_reaction",
+                                e.target.value
+                            )
+                        }
+                    >
+                        <option value="">Select</option>
+                        <option value="Brisk">Brisk</option>
+                        <option value="Sluggish">Sluggish</option>
+                        <option value="Absent">Absent</option>
                     </select>
 
-                    <input
-                        placeholder="Comment"
-                        className="border rounded-lg p-2"
-                        value={form.fundus?.lens?.comment || ""}
+                    <p>Lens</p>
+                    <select
+                        onKeyDown={handleEnterNext}
+                        className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400 col-span-2"
+                        value={form.post_dilated_exam.lens.re}
                         onChange={(e)=>
                             updateNested(
-                                "fundus",
+                                "post_dilated_exam",
                                 "lens",
-                                "comment",
+                                "re",
                                 e.target.value
                             )
                         }
+                    >
+                        <option value="">Select</option>
+                        <option value="Clear">Clear</option>
+                        <option value="NS1">NS1</option>
+                        <option value="NS2">NS2</option>
+                        <option value="NS3">NS3</option>
+                        <option value="NS4">NS4</option>
+                        <option value="PCIOL">PCIOL</option>
+                    </select>
+                    <select
                         onKeyDown={handleEnterNext}
-                    />
+                        className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400 col-span-2"
+                        value={form.post_dilated_exam.lens.le}
+                        onChange={(e)=>
+                            updateNested(
+                                "post_dilated_exam",
+                                "lens",
+                                "le",
+                                e.target.value
+                            )
+                        }
+                    >
+                        <option value="">Select</option>
+                        <option value="Clear">Clear</option>
+                        <option value="NS1">NS1</option>
+                        <option value="NS2">NS2</option>
+                        <option value="NS3">NS3</option>
+                        <option value="NS4">NS4</option>
+                        <option value="PCIOL">PCIOL</option>
+                    </select>
 
-                
-                  </div> 
-                </div>                
-               
+
+                  </div>
+                </div>
                 {/* 🔹 FUNDUS */}
                 <div className="mb-4">
                   <p className="font-semibold">Fundus Examination</p>
@@ -3189,8 +3279,9 @@ const removeRetinoscopy = (index) => {
                     <p className="text-center font-semibold">Right Eye</p>
                     <p className="text-center font-semibold">Left Eye</p>
 
+
                     {/* MEDIA */}
-                    <p>Media</p>
+                    {/* <p>Media</p>
                     <input
                       value={form.fundus.media_re || ""}
                       className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -3212,10 +3303,74 @@ const removeRetinoscopy = (index) => {
                         })
                       }
                       onKeyDown={handleEnterNext}
-                    />
+                    /> */}
+                    <p>Media</p>
 
+                    <select
+                      value={form.fundus.media_re || ""}
+                      className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                      onChange={(e) =>
+                        setForm({
+                          ...form,
+                          fundus: {
+                            ...form.fundus,
+                            media_re: e.target.value,
+                          },
+                        })
+                      }
+                      onKeyDown={handleEnterNext}
+                    >
+                      <option value="">Select</option>
+                      <option value="Cataract">Cataract</option>
+                      <option value="Vitritis">Vitritis</option>
+                      <option value="Vitreous_Hemorrhage">Vitreous Hemorrhage</option>
+                      <option value="IOFB">IOFB</option>
+                      <option value="Corneal_Scar">Corneal Scar</option>
+                      <option value="Corneal_Edema">Corneal Edema</option>
+                      <option value="PCO">PCO</option>
+                      <option value="AC_Reaction">AC Reaction</option>
+                      <option value="Asteroid_Hyalosis">Asteroid Hyalosis</option>
+                      <option value="Hyphaema">Hyphaema</option>
+                      <option value="Corneal_infiltrate">Corneal infiltrate</option>
+                      <option value="Gas_in_vitreous_cavity">Gas in vitreous cavity</option>
+                      <option value="Air_in_vitreous_cavity">Air in vitreous cavity</option>
+
+
+                    </select>
+
+                    <select
+                      value={form.fundus.media_le || ""}
+                      className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                      onChange={(e) =>
+                        setForm({
+                          ...form,
+                          fundus: {
+                            ...form.fundus,
+                            media_le: e.target.value,
+                          },
+                        })
+                      }
+                      onKeyDown={handleEnterNext}
+                    >
+                      <option value="">Select</option>
+                      <option value="Cataract">Cataract</option>
+                      <option value="Vitritis">Vitritis</option>
+                      <option value="Vitreous_Hemorrhage">Vitreous Hemorrhage</option>
+                      <option value="IOFB">IOFB</option>
+                      <option value="Corneal_Scar">Corneal Scar</option>
+                      <option value="Corneal_Edema">Corneal Edema</option>
+                      <option value="PCO">PCO</option>
+                      <option value="AC_Reaction">AC Reaction</option>
+                      <option value="Asteroid_Hyalosis">Asteroid Hyalosis</option>
+                      <option value="Hyphaema">Hyphaema</option>
+                      <option value="Corneal_infiltrate">Corneal infiltrate</option>
+                      <option value="Gas_in_vitreous_cavity">Gas in vitreous cavity</option>
+                      <option value="Air_in_vitreous_cavity">Air in vitreous cavity</option>
+
+
+                    </select>
                     {/* PVD */}
-                    <p>PVD</p>
+                    {/* <p>PVD</p>
                     <input
                       value={form.fundus.pvd_re || ""}
                       className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -3236,10 +3391,48 @@ const removeRetinoscopy = (index) => {
                         })
                       }
                       onKeyDown={handleEnterNext}
-                    />
+                    /> */}
+                    <p>PVD</p>
 
+                    <select
+                      value={form.fundus.pvd_re || ""}
+                      className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                      onChange={(e) =>
+                        setForm({
+                          ...form,
+                          fundus: {
+                            ...form.fundus,
+                            pvd_re: e.target.value,
+                          },
+                        })
+                      }
+                      onKeyDown={handleEnterNext}
+                    >
+                      <option value="">Select</option>
+                      <option value="Present">Present</option>
+                      <option value="Absent">Absent</option>
+                    </select>
+
+                    <select
+                      value={form.fundus.pvd_le || ""}
+                      className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                      onChange={(e) =>
+                        setForm({
+                          ...form,
+                          fundus: {
+                            ...form.fundus,
+                            pvd_le: e.target.value,
+                          },
+                        })
+                      }
+                      onKeyDown={handleEnterNext}
+                    >
+                      <option value="">Select</option>
+                      <option value="Present">Present</option>
+                      <option value="Absent">Absent</option>
+                    </select>
                     {/* CDR */}
-                    <p>CDR</p>
+                    {/* <p>CDR</p>
                     <input
                       value={form.fundus.cdr_re || ""}
                       className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -3261,8 +3454,117 @@ const removeRetinoscopy = (index) => {
                         })
                       }
                       onKeyDown={handleEnterNext}
-                    />
+                    /> */}
+                    <p>Optic Disc Size</p>
 
+                    <select
+                      value={form.fundus.opticsize_re || ""}
+                      className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                      onChange={(e) =>
+                        setForm({
+                          ...form,
+                          fundus: {
+                            ...form.fundus,
+                            opticsize_re: e.target.value,
+                          },
+                        })
+                      }
+                      onKeyDown={handleEnterNext}
+                    >
+                      <option value="">Select</option>
+                      <option value="Small Size Disc">Small Size Disc</option>
+                      <option value="Medium Size Disc">Medium Size Disc</option>
+                      <option value="Large Size Disc">Large Size Disc</option>
+                    </select>
+
+                    <select
+                      value={form.fundus.opticsize_le || ""}
+                      className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                      onChange={(e) =>
+                        setForm({
+                          ...form,
+                          fundus: {
+                            ...form.fundus,
+                            opticsize_le: e.target.value,
+                          },
+                        })
+                      }
+                      onKeyDown={handleEnterNext}
+                    >
+                      <option value="">Select</option>
+                      <option value="Small Size Disc">Small Size Disc</option>
+                      <option value="Medium Size Disc">Medium Size Disc</option>
+                      <option value="Large Size Disc">Large Size Disc</option>
+                    </select>
+
+
+                    <p>CDR</p>
+
+                    <select
+                      value={form.fundus.cdr_re || ""}
+                      className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                      onChange={(e) =>
+                        setForm({
+                          ...form,
+                          fundus: {
+                            ...form.fundus,
+                            cdr_re: e.target.value,
+                          },
+                        })
+                      }
+                      onKeyDown={handleEnterNext}
+                    >
+                      <option value="">Select</option>
+                      <option value="0.1">0.1</option>
+                      <option value="0.2">0.2</option>
+                      <option value="0.3">0.3</option>
+                      <option value="0.4">0.4</option>
+                      <option value="0.5">0.5</option>
+                      <option value="0.55">0.55</option>
+                      <option value="0.6">0.6</option>
+                      <option value="0.65">0.65</option>
+                      <option value="0.7">0.7</option>
+                      <option value="0.75">0.75</option>
+                      <option value="0.8">0.8</option>
+                      <option value="0.85">0.85</option>
+                      <option value="0.9">0.9</option>
+                      <option value="0.95">0.95</option>
+                      <option value="Near_Total_Cupping">Near Total Cupping</option>
+                      <option value="Total_Cupping">Total Cupping</option>
+                    </select>
+
+                    <select
+                      value={form.fundus.cdr_le || ""}
+                      className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                      onChange={(e) =>
+                        setForm({
+                          ...form,
+                          fundus: {
+                            ...form.fundus,
+                            cdr_le: e.target.value,
+                          },
+                        })
+                      }
+                      onKeyDown={handleEnterNext}
+                    >
+                      <option value="">Select</option>
+                      <option value="0.1">0.1</option>
+                      <option value="0.2">0.2</option>
+                      <option value="0.3">0.3</option>
+                      <option value="0.4">0.4</option>
+                      <option value="0.5">0.5</option>
+                      <option value="0.55">0.55</option>
+                      <option value="0.6">0.6</option>
+                      <option value="0.65">0.65</option>
+                      <option value="0.7">0.7</option>
+                      <option value="0.75">0.75</option>
+                      <option value="0.8">0.8</option>
+                      <option value="0.85">0.85</option>
+                      <option value="0.9">0.9</option>
+                      <option value="0.95">0.95</option>
+                      <option value="Near_Total_Cupping">Near Total Cupping</option>
+                      <option value="Total_Cupping">Total Cupping</option>
+                    </select>
                     {/* OPTIC DISC */}
                     <p>Optic Disc</p>
                     <input
@@ -3287,7 +3589,55 @@ const removeRetinoscopy = (index) => {
                       }
                       onKeyDown={handleEnterNext}
                     />
+                    <p>Fundus</p>
 
+                    <select
+                      value={form.fundus.fundus_re || ""}
+                      className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                      onChange={(e) =>
+                        setForm({
+                          ...form,
+                          fundus: {
+                            ...form.fundus,
+                            fundus_re: e.target.value,
+                          },
+                        })
+                      }
+                      onKeyDown={handleEnterNext}
+                    >
+                      <option value="">Select</option>
+                      <option value="Retina ON.Fundus is withdraw">Retina ON.Fundus is withdraw</option>
+                      <option value="supero_temporal">Supero Temporal</option>
+                      <option value="supero_nasal">Supero Nasal</option>
+                      <option value="infero_temporal">Infero Temporal</option>
+                      <option value="infero_nasal">Infero Nasal</option>
+                      <option value="multiple">Multiple</option>
+                    
+                    </select>
+
+                    <select
+                      value={form.fundus.fundus_le || ""}
+                      className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                      onChange={(e) =>
+                        setForm({
+                          ...form,
+                          fundus: {
+                            ...form.fundus,
+                            fundus_le: e.target.value,
+                          },
+                        })
+                      }
+                      onKeyDown={handleEnterNext}
+                    >
+                      <option value="">Select</option>
+                      <option value="Retina ON.Fundus is withdraw">Retina ON.Fundus is withdraw</option>
+                      <option value="supero_temporal">Supero Temporal</option>
+                      <option value="supero_nasal">Supero Nasal</option>
+                      <option value="infero_temporal">Infero Temporal</option>
+                      <option value="infero_nasal">Infero Nasal</option>
+                      <option value="multiple">Multiple</option>
+                    
+                    </select>
                   </div>
                 </div>
 
