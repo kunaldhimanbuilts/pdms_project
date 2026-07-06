@@ -1034,32 +1034,12 @@ const removeRetinoscopy = (index) => {
                     }
                     onKeyDown={handleEnterNext}
                   >
-                    <option value="">Right Eye Distance</option>
-                    <option value="FFL">FFL</option>
-                    <option value="6/6">6/6</option>
-                    <option value="6/6P">6/6P</option>
-                    <option value="6/9">6/9</option>
-                    <option value="6/9P">6/9P</option>
-                    <option value="6/12">6/12</option>
-                    <option value="6/12P">6/12P</option>
-                    <option value="6/18">6/18</option>
-                    <option value="6/18P">6/18P</option>
-                    <option value="6/24">6/24</option>
-                    <option value="6/24P">6/24P</option>
-                    <option value="6/36">6/36</option>
-                    <option value="6/36P">6/36P</option>
-                    <option value="6/60">6/60</option>
-                    <option value="CF5M">CF5M</option>
-                    <option value="CF4M">CF4M</option>
-                    <option value="CF3M">CF3M</option>
-                    <option value="CF2M">CF2M</option>
-                    <option value="CF1M">CF1M</option>
-                    <option value="CF1/2M">CF1/2M</option>
-                    <option value="CFCF">CFCF</option>
-                    <option value="HM+">HM+</option>
-                    <option value="PL+">PL+</option>
-                    <option value="PL-">PL-</option>
-                    <option value="NLP">NLP</option>
+                    <option value="">Right Eye Distance</option>                   
+                    {visionOptions.map((vision) => (
+                      <option key={vision} value={vision}>
+                        {vision}
+                      </option>
+                    ))}
                   </select>
                   
                   <input
@@ -1109,21 +1089,11 @@ const removeRetinoscopy = (index) => {
                     onKeyDown={handleEnterNext}
                   >
                     <option value="">Right Eye Near</option>
-                    <option value="6/60">6/60</option>
-                    <option value="6/24">6/24</option>
-                    <option value="6/18">6/18</option>
-                    <option value="6/12">6/12</option>
-                    <option value="6/9">6/9</option>
-                    <option value="6/6">6/6</option>
-                    
-                    <option value="N5">N5</option>
-                    <option value="N6">N6</option>
-                    <option value="N8">N8</option>
-                    <option value="N10">N10</option>
-                    <option value="N12">N12</option>
-                    <option value="N18">N18</option>
-                    <option value="N24">N24</option>
-                    <option value="N36">N36</option>
+                    {visionAfterOptions.map((vision) => (
+                      <option key={vision} value={vision}>
+                        {vision}
+                      </option>
+                    ))}
                   </select>
                   <select
                     className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400 row-span-2"
@@ -1164,32 +1134,12 @@ const removeRetinoscopy = (index) => {
                     }
                     onKeyDown={handleEnterNext}
                   >
-                    <option value="">Left Eye Distance</option>
-                    <option value="FFL">FFL</option>
-                    <option value="6/6">6/6</option>
-                    <option value="6/6P">6/6P</option>
-                    <option value="6/9">6/9</option>
-                    <option value="6/9P">6/9P</option>
-                    <option value="6/12">6/12</option>
-                    <option value="6/12P">6/12P</option>
-                    <option value="6/18">6/18</option>
-                    <option value="6/18P">6/18P</option>
-                    <option value="6/24">6/24</option>
-                    <option value="6/24P">6/24P</option>
-                    <option value="6/36">6/36</option>
-                    <option value="6/36P">6/36P</option>
-                    <option value="6/60">6/60</option>
-                    <option value="CF5M">CF5M</option>
-                    <option value="CF4M">CF4M</option>
-                    <option value="CF3M">CF3M</option>
-                    <option value="CF2M">CF2M</option>
-                    <option value="CF1M">CF1M</option>
-                    <option value="CF1/2M">CF1/2M</option>
-                    <option value="CFCF">CFCF</option>
-                    <option value="HM+">HM+</option>
-                    <option value="PL+">PL+</option>
-                    <option value="PL-">PL-</option>
-                    <option value="NLP">NLP</option>
+                    <option value="">Left Eye Distance</option>                   
+                    {visionOptions.map((vision) => (
+                      <option key={vision} value={vision}>
+                        {vision}
+                      </option>
+                    ))}
                   </select>
 
 
@@ -1223,21 +1173,11 @@ const removeRetinoscopy = (index) => {
                     onKeyDown={handleEnterNext}
                   >
                     <option value="">Left Eye Near</option>
-                    <option value="6/60">6/60</option>
-                    <option value="6/24">6/24</option>
-                    <option value="6/18">6/18</option>
-                    <option value="6/12">6/12</option>
-                    <option value="6/9">6/9</option>
-                    <option value="6/6">6/6</option>
-                    
-                    <option value="N5">N5</option>
-                    <option value="N6">N6</option>
-                    <option value="N8">N8</option>
-                    <option value="N10">N10</option>
-                    <option value="N12">N12</option>
-                    <option value="N18">N18</option>
-                    <option value="N24">N24</option>
-                    <option value="N36">N36</option>
+                    {visionAfterOptions.map((vision) => (
+                      <option key={vision} value={vision}>
+                        {vision}
+                      </option>
+                    ))}
                   </select>
 
                   <input
@@ -1940,31 +1880,12 @@ const removeRetinoscopy = (index) => {
                   onKeyDown={handleEnterNext}
                 >
                   <option value="">OD BCVA Distance</option>
-                  <option value="FFL">FFL</option>
-                  <option value="6/6">6/6</option>
-                  <option value="6/6P">6/6P</option>
-                  <option value="6/9">6/9</option>
-                  <option value="6/9P">6/9P</option>
-                  <option value="6/12">6/12</option>
-                  <option value="6/12P">6/12P</option>
-                  <option value="6/18">6/18</option>
-                  <option value="6/18P">6/18P</option>
-                  <option value="6/24">6/24</option>
-                  <option value="6/24P">6/24P</option>
-                  <option value="6/36">6/36</option>
-                  <option value="6/36P">6/36P</option>
-                  <option value="6/60">6/60</option>
-                  <option value="CF5M">CF5M</option>
-                  <option value="CF4M">CF4M</option>
-                  <option value="CF3M">CF3M</option>
-                  <option value="CF2M">CF2M</option>
-                  <option value="CF1M">CF1M</option>
-                  <option value="CF1/2M">CF1/2M</option>
-                  <option value="CFCF">CFCF</option>
-                  <option value="HM+">HM+</option>
-                  <option value="PL+">PL+</option>
-                  <option value="PL-">PL-</option>
-                  <option value="NLP">NLP</option>
+                  
+                    {visionOptions.map((vision) => (
+                      <option key={vision} value={vision}>
+                        {vision}
+                      </option>
+                    ))}
                 </select>
 
                 
@@ -2038,31 +1959,12 @@ const removeRetinoscopy = (index) => {
                   onKeyDown={handleEnterNext}
                 >
                   <option value="">OS BCVA Distance</option>
-                  <option value="FFL">FFL</option>
-                  <option value="6/6">6/6</option>
-                  <option value="6/6P">6/6P</option>
-                  <option value="6/9">6/9</option>
-                  <option value="6/9P">6/9P</option>
-                  <option value="6/12">6/12</option>
-                  <option value="6/12P">6/12P</option>
-                  <option value="6/18">6/18</option>
-                  <option value="6/18P">6/18P</option>
-                  <option value="6/24">6/24</option>
-                  <option value="6/24P">6/24P</option>
-                  <option value="6/36">6/36</option>
-                  <option value="6/36P">6/36P</option>
-                  <option value="6/60">6/60</option>
-                  <option value="CF5M">CF5M</option>
-                  <option value="CF4M">CF4M</option>
-                  <option value="CF3M">CF3M</option>
-                  <option value="CF2M">CF2M</option>
-                  <option value="CF1M">CF1M</option>
-                  <option value="CF1/2M">CF1/2M</option>
-                  <option value="CFCF">CFCF</option>
-                  <option value="HM+">HM+</option>
-                  <option value="PL+">PL+</option>
-                  <option value="PL-">PL-</option>
-                  <option value="NLP">NLP</option>
+                 
+                    {visionOptions.map((vision) => (
+                      <option key={vision} value={vision}>
+                        {vision}
+                      </option>
+                    ))}
                 </select>
 
                 {/* <input
@@ -2134,20 +2036,12 @@ const removeRetinoscopy = (index) => {
                   onKeyDown={handleEnterNext}
                 >
                   <option value="">OD BCVA Near</option>
-                  <option value="6/60">6/60</option>
-                  <option value="6/24">6/24</option>
-                  <option value="6/18">6/18</option>
-                  <option value="6/12">6/12</option>
-                  <option value="6/9">6/9</option>
-                  <option value="6/6">6/6</option>
-                  <option value="N5">N5</option>
-                  <option value="N6">N6</option>
-                  <option value="N8">N8</option>
-                  <option value="N10">N10</option>
-                  <option value="N12">N12</option>
-                  <option value="N18">N18</option>
-                  <option value="N24">N24</option>
-                  <option value="N36">N36</option>
+                  
+                    {visionAfterOptions.map((vision) => (
+                      <option key={vision} value={vision}>
+                        {vision}
+                      </option>
+                    ))}
                 </select>
 
                 <select
@@ -2212,20 +2106,12 @@ const removeRetinoscopy = (index) => {
                   onKeyDown={handleEnterNext}
                 >
                   <option value="">OS BCVA Near</option> 
-                  <option value="6/60">6/60</option>
-                  <option value="6/24">6/24</option>
-                  <option value="6/18">6/18</option>
-                  <option value="6/12">6/12</option>
-                  <option value="6/9">6/9</option>
-                  <option value="6/6">6/6</option>
-                  <option value="N5">N5</option>
-                  <option value="N6">N6</option>
-                  <option value="N8">N8</option>
-                  <option value="N10">N10</option>
-                  <option value="N12">N12</option>
-                  <option value="N18">N18</option>
-                  <option value="N24">N24</option>
-                  <option value="N36">N36</option>
+                  
+                    {visionAfterOptions.map((vision) => (
+                      <option key={vision} value={vision}>
+                        {vision}
+                      </option>
+                    ))}
                  
                 </select>
 
@@ -3161,6 +3047,9 @@ const removeRetinoscopy = (index) => {
                         <option value="6">6</option>
                         <option value="7">7</option>
                         <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
                     </select>
                     <select
                         onKeyDown={handleEnterNext}
@@ -3176,9 +3065,9 @@ const removeRetinoscopy = (index) => {
                         }
                     >
                         <option value="">Select</option>
-                        <option value="Brisk">Brisk</option>
-                        <option value="Sluggish">Sluggish</option>
-                        <option value="Absent">Absent</option>
+                        <option value="Post_dilated">Post Dilated</option>
+                        <option value="Un_dilated">Un Dilated</option>
+                   
                     </select>
                     <select
                         onKeyDown={handleEnterNext}
@@ -3202,6 +3091,9 @@ const removeRetinoscopy = (index) => {
                         <option value="6">6</option>
                         <option value="7">7</option>
                         <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
                     </select>
                     <select
                         onKeyDown={handleEnterNext}
@@ -3217,9 +3109,8 @@ const removeRetinoscopy = (index) => {
                         }
                     >
                         <option value="">Select</option>
-                        <option value="Brisk">Brisk</option>
-                        <option value="Sluggish">Sluggish</option>
-                        <option value="Absent">Absent</option>
+                        <option value="Post_dilated">Post Dilated</option>
+                        <option value="Un_dilated">Un Dilated</option>
                     </select>
 
                     <p>Lens</p>
@@ -3238,11 +3129,9 @@ const removeRetinoscopy = (index) => {
                     >
                         <option value="">Select</option>
                         <option value="Clear">Clear</option>
-                        <option value="NS1">NS1</option>
-                        <option value="NS2">NS2</option>
-                        <option value="NS3">NS3</option>
-                        <option value="NS4">NS4</option>
+                        <option value="ACIOL">ACIOL</option>
                         <option value="PCIOL">PCIOL</option>
+                        <option value="Aphakia">Aphakia</option>
                     </select>
                     <select
                         onKeyDown={handleEnterNext}
@@ -3259,11 +3148,9 @@ const removeRetinoscopy = (index) => {
                     >
                         <option value="">Select</option>
                         <option value="Clear">Clear</option>
-                        <option value="NS1">NS1</option>
-                        <option value="NS2">NS2</option>
-                        <option value="NS3">NS3</option>
-                        <option value="NS4">NS4</option>
+                        <option value="ACIOL">ACIOL</option>
                         <option value="PCIOL">PCIOL</option>
+                        <option value="Aphakia">Aphakia</option>
                     </select>
 
 
