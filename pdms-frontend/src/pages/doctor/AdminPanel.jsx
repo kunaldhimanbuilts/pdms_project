@@ -98,7 +98,7 @@ function AdminPanel() {
         <option value="syrup">Syrup</option>
         <option value="eye_drop">Eye Drop</option>
         <option value="capsules">Capsules</option>
-        <option value="cream">Cream</option>
+        <option value="ointment">Ointment</option>
         <option value="eye_wipes">Eye Wipes</option>
 
       </select>
