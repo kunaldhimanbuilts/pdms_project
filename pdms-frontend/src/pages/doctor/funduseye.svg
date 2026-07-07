@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100" width="100%" height="100%">
+  <style>
+    .label-text {
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      font-weight: bold;
+      text-anchor: middle;
+    }
+    .blue-stroke {
+      fill: none;
+      stroke: #16246f;
+      stroke-width: 2;
+    }
+    .red-fill {
+      fill: #8f0e0e;
+    }
+    .blue-fill {
+      fill: #16246f;
+    }
+  </style>
+
+  <g id="od_side" transform="translate(0, 0)">
+    <text x="50" y="20" class="label-text blue-fill">OD</text>
+    <circle cx="50" cy="60" r="35" class="blue-stroke" />
+    <circle cx="75" cy="60" r="10" class="blue-stroke" />
+  </g>
+
+  <g id="os_side" transform="translate(100, 0)">
+    <text x="50" y="20" class="label-text red-fill">OS</text>
+    <circle cx="50" cy="60" r="35" class="blue-stroke" />
+    <circle cx="25" cy="60" r="10" class="blue-stroke" />
+  </g>
+</svg>

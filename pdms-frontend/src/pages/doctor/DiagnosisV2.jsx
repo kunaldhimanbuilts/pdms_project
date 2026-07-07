@@ -3,7 +3,7 @@ import { useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import api from "../../services/api";
-import DiagnosisPrint from "./DiagnosisPrint";
+import DiagnosisPrintA4 from "./DiagnosisPrintA4";
 export default function DiagnosisV2() {
 
 const { id } = useParams();
@@ -3463,12 +3463,11 @@ const removeRetinoscopy = (index) => {
 
           </div>
         </div> */}
-        <DiagnosisPrint
+        <DiagnosisPrintA4
             patient={patient}
             appointment={appointment}
-            form={form}
+            printData={form}
             medicines={medicines}
-            history={history}
             getMedicineName={getMedicineName}
             calculateAge={calculateAge}
         />

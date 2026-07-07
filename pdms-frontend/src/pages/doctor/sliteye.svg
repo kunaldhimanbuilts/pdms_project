@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 280">
+  <style>
+    .eye {
+      fill: none;
+      stroke: #082742;
+      stroke-width: 8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .iris {
+      fill: none;
+      stroke: #082742;
+      stroke-width: 8;
+    }
+
+    .pupil {
+      fill: #082742;
+    }
+
+    .od {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 44px;
+      font-weight: bold;
+      fill: #082742;
+    }
+
+    .os {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 44px;
+      font-weight: bold;
+      fill: #b50000;
+    }
+  </style>
+
+  <!-- OD -->
+  <text x="250" y="42" text-anchor="middle" class="od">OD</text>
+
+  <path class="eye"
+        d="M5 170
+           Q125 65 245 65
+           Q365 65 485 170
+           Q365 275 245 275
+           Q125 275 5 170Z"/>
+
+  <circle class="iris"
+          cx="245"
+          cy="170"
+          r="102"/>
+  <circle class="pupil"
+          cx="245"
+          cy="170"
+          r="30"/>
+
+  <!-- OS -->
+  <text x="780" y="42" text-anchor="middle" class="os">OS</text>
+
+  <path class="eye"
+        d="M540 170
+           Q660 65 780 65
+           Q900 65 1020 170
+           Q900 275 780 275
+           Q660 275 540 170Z"/>
+
+
+  <circle class="iris"
+          cx="780"
+          cy="170"
+          r="102"/>
+  <circle class="pupil"
+          cx="780"
+          cy="170"
+          r="30"/>
+</svg>

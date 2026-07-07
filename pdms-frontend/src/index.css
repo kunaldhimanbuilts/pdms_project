@@ -2,6 +2,7 @@ body {
   font-family: sans-serif;
   background: linear-gradient(to right, #e0f2fe, #f0fdf4);
 }
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -9,209 +10,161 @@ body {
 .input {
   @apply border p-2 rounded w-full;
 }
-/* .print-area {
+
+.print-area {
   display: none;
+}
+
+/* Show only while printing */
+@media print {
+  .print-area {
+    display: block !important;
+  }
+}
+.a4-page {
+  width: 210mm;
+  min-height: 297mm;
+  margin: 0 auto;
+  background: #fff;
+  padding: 2mm;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #111827;
+}
+
+/* Tables only inside print page */
+
+.a4-page table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.a4-page th,
+.a4-page td {
+  border: 1px solid #cfd6df;
+  padding: 5px;
+  font-size: 11px;
+  vertical-align: middle;
+}
+
+.a4-page th {
+  background: #f8fafc;
+  color: #213c8f;
+  font-weight: 700;
+}
+
+/* Slit Lamp / Fundus */
+
+.slit-table,
+.fundus-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.slit-table td,
+.fundus-table td {
+  border: 1px solid #d5dce5;
+  padding: 4px;
+  font-size: 10px;
+}
+
+/* Utility */
+
+.print-title {
+  background: #213c8f;
+  color: white;
+  font-weight: bold;
+  padding: 6px 12px;
+  text-transform: uppercase;
+  font-size: 13px;
+}
+
+.print-box {
+  border: 1px solid #cfd6df;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.page-break {
+  page-break-inside: avoid;
+}
+
+/* ===========================
+   PRINT
+=========================== */
+
+@page {
+  size: A4 portrait;
+  margin: 1mm;
 }
 
 @media print {
 
-  @page {
-    size: A4;
-    margin: 0;
-  }
-
+  html,
   body {
+    width: 210mm;
+    height: auto;
+    margin: 0;
+    padding: 0;
     background: white !important;
-    font-size: 14px;
-    overflow: hidden;
+    color: black;
+
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
   }
 
-  .no-print {
-    display: none !important;
+  body * {
+    visibility: hidden;
+  }
+
+  .print-area,
+  .print-area * {
+    visibility: visible;
   }
 
   .print-area {
     position: absolute;
-    top: 0;
-    left: 0;
-    display: block;
+    inset: 0;
+    width: 100%;
+    background: white;
   }
+
   .a4-page {
     width: 210mm;
-    min-height: 297mm;
-    padding: 15mm;
-    margin: auto;
-    font-family: Arial, sans-serif;
+    min-height: 285mm;
+    margin: 0 auto;
+    padding: 0;
+    background: white;
+    overflow: hidden;
     page-break-after: avoid;
     page-break-inside: avoid;
-    break-inside: avoid;
+    box-shadow: none;
   }
 
-  .header {
-    display: flex;
-    justify-content: space-between;
-    border-bottom: 2px solid #000;
-    padding-bottom: 10px;
-    margin-bottom: 15px;
+  .a4-page table {
+    page-break-inside: avoid;
   }
 
-  .clinic-left {
-    display: flex;
-    align-items: center;
+  tr,
+  td,
+  th {
+    page-break-inside: avoid;
   }
 
-  .logo-img {
-    height: 60px;
-    margin-right: 10px;
+  img,
+  svg {
+    max-width: 100%;
+    page-break-inside: avoid;
   }
 
-  .tagline {
-    font-size: 12px;
-    color: gray;
-  }
-
-  .doctor-info {
-    text-align: right;
-    font-size: 12px;
-  }
-
-  .patient-box {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    border: 1px solid #000;
-    padding: 10px;
-    margin-bottom: 15px;
-  }
-
-  .section {
-    margin-bottom: 15px;
-  }
-
-  .section h3 {
-    border-bottom: 1px solid #000;
-    margin-bottom: 5px;
-  }
-
-  .allergy {
-    color: red;
-    font-weight: bold;
-  }
-
-  .med-table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-
-  .med-table th,
-  .med-table td {
-    border: 1px solid #000;
-    padding: 6px;
-    text-align: center;
-  }
-
-  .footer {
-    margin-top: 40px;
-    text-align: right;
-  }
-
-
-  html, body {
-    height: auto !important;
-    overflow: hidden !important;
-  }
-
-  .flex {
-    display: block !important;
-  }
-} */
-
-/* 🔴 HIDE PRINT AREAS BY DEFAULT */
-.print-area-v1,
-.print-area-v2 {
-  display: none;
-}
-
-/* 🔴 PRINT MODE */
-@media print {
-
-  @page {
-    size: A4;
-    margin: 0;
-  }
-
-  body {
-    background: white !important;
-    font-size: 13px;
-  }
-
-  /* 🔥 HIDE NORMAL UI */
   .no-print {
     display: none !important;
   }
 
-  /* 🟢 SHOW ONLY ONE PRINT AREA */
-  .print-area-v1,
-  .print-area-v2 {
-    display: block;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-  }
-
-  /* 🔴 COMMON A4 STYLE */
-  .a4-page {
-    width: 210mm;
-    min-height: 297mm;
-    padding: 15mm;
-    margin: auto;
-    font-family: Arial, sans-serif;
-  }
-
-  /* 🔴 HEADER */
-  .header {
-    display: flex;
-    justify-content: space-between;
-    border-bottom: 2px solid black;
-    padding-bottom: 10px;
-    margin-bottom: 15px;
-  }
-
-  /* 🔴 PATIENT BOX */
-  .patient-box {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    border: 1px solid black;
-    padding: 10px;
-    margin-bottom: 15px;
-  }
-
-  /* 🔴 SECTIONS */
-  .section {
-    margin-bottom: 12px;
-  }
-
-  .section h3 {
-    border-bottom: 1px solid black;
-    margin-bottom: 5px;
-    font-size: 14px;
-  }
-
-  /* 🔴 TABLE */
-  table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-
-  th, td {
-    border: 1px solid black;
-    padding: 6px;
-    text-align: center;
-  }
-
-  /* 🔴 FOOTER */
-  .footer {
-    margin-top: 40px;
-    text-align: right;
+  button,
+  input,
+  textarea,
+  select {
+    box-shadow: none !important;
   }
 }

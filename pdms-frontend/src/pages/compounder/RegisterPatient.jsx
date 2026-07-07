@@ -8,6 +8,7 @@ function RegisterPatient() {
   const [form, setForm] = useState({
     name: "",
     dob: "",
+    age: "",
     gender: "",
     blood_group: "",
     marital_status: "",
@@ -21,6 +22,7 @@ function RegisterPatient() {
     time: "",
     notes: ""
   });
+
   const [slots, setSlots] = useState([]);
   const [bookedSlots, setBookedSlots] = useState([]);
     
@@ -122,6 +124,54 @@ function RegisterPatient() {
       alert("Error occurred ❌");
     }
   };
+  // const calculateAge = (dob) => {
+  //   if (!dob) return "—";
+
+  //   const birthDate = new Date(dob);
+  //   const today = new Date();
+
+  //   let age = today.getFullYear() - birthDate.getFullYear();
+  //   const m = today.getMonth() - birthDate.getMonth();
+
+  //   if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+  //     age--;
+  //   }
+
+  //   return age;
+  // };
+  const calculateAge = (dob) => {
+    if (!dob) return "";
+
+    const birth = new Date(dob);
+    const today = new Date();
+
+    let age = today.getFullYear() - birth.getFullYear();
+
+    if (
+      today.getMonth() < birth.getMonth() ||
+      (today.getMonth() === birth.getMonth() &&
+        today.getDate() < birth.getDate())
+    ) {
+      age--;
+    }
+
+    return age;
+  };
+
+  const ageToDOB = (age) => {
+    if (!age) return "";
+
+    const today = new Date();
+
+    const dob = new Date(
+      today.getFullYear() - Number(age),
+      today.getMonth(),
+      today.getDate()
+    );
+
+    return dob.toISOString().split("T")[0];
+  };
+
   const handleEnterNext = (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
@@ -147,7 +197,64 @@ function RegisterPatient() {
     const first = document.querySelector("input");
     first?.focus();
   }, []);
+  // const formatDate = (date) => {
+  //   return date.toISOString().split("T")[0]; // YYYY-MM-DD
+  // };
 
+  // const selectToday = () => {
+  //   setForm((prev) => ({
+  //     ...prev,
+  //     date: formatDate(new Date()),
+  //   }));
+  // };
+
+  // const selectTomorrow = () => {
+  //   const tomorrow = new Date();
+  //   tomorrow.setDate(tomorrow.getDate() + 1);
+
+  //   setForm((prev) => ({
+  //     ...prev,
+  //     date: formatDate(tomorrow),
+  //   }));
+  // };
+
+  // const today = formatDate(new Date());
+
+  // const tomorrow = new Date();
+  // tomorrow.setDate(tomorrow.getDate() + 1);
+
+  // const tomorrowDate = formatDate(tomorrow);
+const formatDate = (date) => {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
+};
+
+const selectToday = () => {
+  setForm(prev => ({
+    ...prev,
+    date: formatDate(new Date()),
+  }));
+};
+
+const selectTomorrow = () => {
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+
+  setForm(prev => ({
+    ...prev,
+    date: formatDate(tomorrow),
+  }));
+};
+
+const today = formatDate(new Date());
+
+const tomorrow = new Date();
+tomorrow.setDate(tomorrow.getDate() + 1);
+
+const tomorrowDate = formatDate(tomorrow);
   return (
     <div className="min-h-screen bg-gradient-to-r from-blue-100 via-white to-green-100 p-6">
 
@@ -175,7 +282,45 @@ function RegisterPatient() {
 
             <div className="p-4 grid grid-cols-2 md:grid-cols-3 gap-4">
               <input name="name" placeholder="Full Name" className="input" onChange={handleChange} onKeyDown={handleEnterNext} />
-              <input type="date" name="dob" className="input" onChange={handleChange} onKeyDown={handleEnterNext}/>
+              {/* <input type="date" name="dob" className="input" onChange={handleChange} onKeyDown={handleEnterNext}/>
+              <div className="input flex items-center">
+                Age: {calculateAge(form.dob)} Years
+              </div> */}
+
+              <input
+                type="date"
+                value={form.dob}
+                onKeyDown={handleEnterNext}
+                className="input flex items-center"
+                onChange={(e) => {
+                  const dob = e.target.value;
+
+                  setForm(prev => ({
+                    ...prev,
+                    dob,
+                    age: calculateAge(dob),
+                  }));
+                }}
+              />
+
+              <input
+                type="number"
+                placeholder="AGE"
+                onKeyDown={handleEnterNext}
+                className="input flex items-center"
+                min="0"
+                max="120"
+                value={form.age}
+                onChange={(e) => {
+                  const age = e.target.value;
+
+                  setForm(prev => ({
+                    ...prev,
+                    age,
+                    dob: ageToDOB(age),
+                  }));
+                }}
+              />
 
               <select name="gender" className="input" onChange={handleChange} onKeyDown={handleEnterNext}>
                 <option>Select Gender</option>
@@ -214,13 +359,14 @@ function RegisterPatient() {
 
             <div className="p-4 grid grid-cols-2 md:grid-cols-3 gap-4">
               <input name="phone" placeholder="Contact Number" className="input" onChange={handleChange} onKeyDown={handleEnterNext}/>
-              <input name="email" placeholder="Email Address" className="input" onChange={handleChange} onKeyDown={handleEnterNext}/>
+              
+              <input name="emergency_person" placeholder="Father/Husband Name" className="input" onChange={handleChange} onKeyDown={handleEnterNext}/>
               <input name="address" placeholder="Address" className="input col-span-2 md:col-span-3" onChange={handleChange} onKeyDown={handleEnterNext}/>
             </div>
 
             <div className="p-4 grid grid-cols-2 gap-4">
               <input name="emergency_contact" placeholder="Alternative Number" className="input" onChange={handleChange} onKeyDown={handleEnterNext}/>
-              <input name="emergency_person" placeholder="Father/Husband Name" className="input" onChange={handleChange} onKeyDown={handleEnterNext}/>
+              <input name="email" placeholder="Email Address" className="input" onChange={handleChange} onKeyDown={handleEnterNext}/>
             </div>
           </div>
 
@@ -230,7 +376,7 @@ function RegisterPatient() {
               Schedule Appointment
             </div>
 
-            <div className="p-4 grid grid-cols-2 md:grid-cols-3 gap-4">
+            <div className="p-4 grid grid-cols-2 md:grid-cols-4 gap-4">
               {/* <input name="doctor_id" placeholder="Doctor" className="input" onChange={handleChange} /> */}
 
               <select name="doctor_id" className="input" onChange={handleChange} onKeyDown={handleEnterNext}>
@@ -242,8 +388,41 @@ function RegisterPatient() {
                 ))}
               </select>
 
-              <input type="date" name="date" className="input" onChange={handleChange} />
+              {/* <input type="date" name="date" className="input" onChange={handleChange} /> */}
               {/* <input type="time" name="time" className="input" onChange={handleChange} /> */}
+              <input
+                  type="date"
+                  name="date"
+                  className="input flex-1"
+                  value={form.date}
+                  onChange={handleChange}
+                />
+
+                <button
+                  type="button"
+                  onClick={selectToday}
+                  className={`px-6 py-2 rounded border-2 font-bold
+                  ${
+                      form.date === today
+                          ? "bg-blue-600 text-white border-blue-600"
+                          : "border-black bg-white hover:bg-blue-100"
+                  }`}
+                >
+                  TODAY
+                </button>
+
+                <button
+                  type="button"
+                  onClick={selectTomorrow}
+                  className={`px-6 py-2 rounded border-2 font-bold
+                  ${
+                      form.date === tomorrowDate
+                          ? "bg-blue-600 text-white border-blue-600"
+                          : "border-black bg-white hover:bg-blue-100"
+                  }`}
+                >
+                  TOMORROW
+                </button>
 
 
               
