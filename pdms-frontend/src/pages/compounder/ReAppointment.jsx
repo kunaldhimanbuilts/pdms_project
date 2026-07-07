@@ -144,7 +144,37 @@ function ReAppointment() {
   useEffect(() => {
     codeRef.current?.focus();
   }, []);
+  const formatDate = (date) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
 
+    return `${year}-${month}-${day}`;
+  };
+
+  const selectToday = () => {
+    setAppointment((prev) => ({
+      ...prev,
+      date: formatDate(new Date()),
+    }));
+  };
+
+  const selectTomorrow = () => {
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+
+    setAppointment((prev) => ({
+      ...prev,
+      date: formatDate(tomorrow),
+    }));
+  };
+
+  const today = formatDate(new Date());
+
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+
+  const tomorrowDate = formatDate(tomorrow);
   return (
     <div className="min-h-screen bg-gradient-to-r from-blue-200 via-white to-green-200 p-6">
 
@@ -294,15 +324,7 @@ function ReAppointment() {
               {/* FORM */}
 
 
-              <div className="p-4 grid grid-cols-3 gap-4">
-
-                {/* <input
-                  placeholder="Doctor"
-                  className="input bg-white"
-                  onChange={(e) =>
-                    setAppointment({ ...appointment, doctor_id: e.target.value })
-                  }
-                /> */}
+              <div className="p-4 grid grid-cols-4 gap-4">
                 <select
                   ref={doctorRef}
                   className="input bg-white"
@@ -318,22 +340,47 @@ function ReAppointment() {
                     </option>
                   ))}
                 </select>
-                <input
+                {/* <input
                   type="date"
                   className="input bg-white"
                   onChange={(e) =>
                     setAppointment({ ...appointment, date: e.target.value })
                   }
                   onKeyDown={handleEnterNext}
-                />
-
-                {/* <input
-                  type="time"
-                  className="input bg-white"
-                  onChange={(e) =>
-                    setAppointment({ ...appointment, time: e.target.value })
-                  }
                 /> */}
+                <input
+                  type="date"
+                  className="input bg-white"
+                  value={appointment.date}
+                  onChange={(e) =>
+                    setAppointment({ ...appointment, date: e.target.value })
+                  }
+                  onKeyDown={handleEnterNext}
+                />
+                <button
+                  type="button"
+                  onClick={selectToday}
+                  className={`px-6 py-2 rounded border-2 font-bold
+                    ${
+                      appointment.date === today
+                        ? "bg-blue-600 text-white border-blue-600"
+                        : "border-black bg-white hover:bg-blue-100"
+                    }`}
+                >
+                  TODAY
+                </button>
+                <button
+                  type="button"
+                  onClick={selectTomorrow}
+                  className={`px-6 py-2 rounded border-2 font-bold
+                    ${
+                      appointment.date === tomorrowDate
+                        ? "bg-blue-600 text-white border-blue-600"
+                        : "border-black bg-white hover:bg-blue-100"
+                    }`}
+                >
+                  TOMORROW
+                </button>               
                 
               </div>
               <div className="grid grid-cols-4 gap-3 mt-4">

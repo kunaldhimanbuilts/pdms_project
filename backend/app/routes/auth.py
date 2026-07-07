@@ -40,5 +40,9 @@ def login(data: LoginRequest, db: Session = Depends(get_db)):
 
     return {
         "access_token": token,
-        "role": user.role
+        "role": user.role,
+        "user": {
+        "id": user.id,
+        "name": user.name
+        }
     }

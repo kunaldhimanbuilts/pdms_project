@@ -1,6 +1,8 @@
 import React from "react";
 import eye from "./sliteye.svg";
 import feye from "./funduseye.svg";
+
+import logo from "./logo.png";
 export default function DiagnosisPrintA4({
   patient,
   appointment,
@@ -10,7 +12,7 @@ export default function DiagnosisPrintA4({
 }) {
 
   const today = new Date().toLocaleDateString("en-GB");
-
+  const doctor = JSON.parse(localStorage.getItem("doctor") || "{}");
   return (
     <div className="print-area">
       <div className="a4-page bg-white">
@@ -28,7 +30,7 @@ export default function DiagnosisPrintA4({
               {/* LOGO */}
 
               <img
-                src="/logo.png"
+                src={logo}
                 alt="logo"
                 className="w-14 h-14 object-contain"
               />
@@ -64,8 +66,8 @@ export default function DiagnosisPrintA4({
                 Mob: +91 8077799516
               </p>
 
-              <p className="italic font-semibold text-[15px] mt-2 text-gray-700">
-                OPD Prescription
+              <p className="italic font-semibold text-[13px] mt-2 text-gray-700">
+                OPD Prescription(Valid for 10 days)
               </p>
 
             </div>
@@ -175,7 +177,7 @@ export default function DiagnosisPrintA4({
                 </span>
 
                 <span className="ml-2 font-bold text-[13px]">
-                  Dr. Deepak Kumar
+                   {doctor?.name || "Doctor"}
                 </span>
 
                 <span className="ml-2 text-gray-600 text-[13px]">
@@ -830,44 +832,6 @@ export default function DiagnosisPrintA4({
             </div>
 
         </div>     
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
       
       </div>
 

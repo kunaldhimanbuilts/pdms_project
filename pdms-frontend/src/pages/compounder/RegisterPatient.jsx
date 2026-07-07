@@ -6,6 +6,7 @@ function RegisterPatient() {
   const navigate = useNavigate(); 
   const [doctors, setDoctors] = useState([]);
   const [form, setForm] = useState({
+    title: "",
     name: "",
     dob: "",
     age: "",
@@ -67,30 +68,13 @@ function RegisterPatient() {
     };
     fetchDoctors();
   }, []);
-  // const handleSubmit = async () => {
-  //   try {
-  //     // 1️⃣ Create patient
-  //     const patientRes = await api.post("/patients/", form);
-
-  //     const patientId = patientRes.data.id;
-
-  //     // 2️⃣ Create appointment
-  //     await api.post("/appointments/", {
-  //       patient_id: patientId,
-  //       doctor_id: form.doctor_id,
-  //       date: form.date,
-  //       time: form.time,
-  //       notes: form.notes
-  //     });
-
-  //     alert("Patient Registered Successfully ✅");
-
-  //   } catch (err) {
-  //     alert("Error occurred ❌");
-  //   }
-  // };
   const handleSubmit = async () => {
     try {
+      const patientData = {
+        ...form,
+        name: `${form.title} ${form.name}`.trim(),
+      };
+      
       const patientRes = await api.post("/patients/", form);
       const patientId = patientRes.data.id;
 
@@ -124,21 +108,7 @@ function RegisterPatient() {
       alert("Error occurred ❌");
     }
   };
-  // const calculateAge = (dob) => {
-  //   if (!dob) return "—";
 
-  //   const birthDate = new Date(dob);
-  //   const today = new Date();
-
-  //   let age = today.getFullYear() - birthDate.getFullYear();
-  //   const m = today.getMonth() - birthDate.getMonth();
-
-  //   if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-  //     age--;
-  //   }
-
-  //   return age;
-  // };
   const calculateAge = (dob) => {
     if (!dob) return "";
 
@@ -197,64 +167,38 @@ function RegisterPatient() {
     const first = document.querySelector("input");
     first?.focus();
   }, []);
-  // const formatDate = (date) => {
-  //   return date.toISOString().split("T")[0]; // YYYY-MM-DD
-  // };
+  
+  const formatDate = (date) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
 
-  // const selectToday = () => {
-  //   setForm((prev) => ({
-  //     ...prev,
-  //     date: formatDate(new Date()),
-  //   }));
-  // };
+    return `${year}-${month}-${day}`;
+  };
 
-  // const selectTomorrow = () => {
-  //   const tomorrow = new Date();
-  //   tomorrow.setDate(tomorrow.getDate() + 1);
+  const selectToday = () => {
+    setForm(prev => ({
+      ...prev,
+      date: formatDate(new Date()),
+    }));
+  };
 
-  //   setForm((prev) => ({
-  //     ...prev,
-  //     date: formatDate(tomorrow),
-  //   }));
-  // };
+  const selectTomorrow = () => {
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
 
-  // const today = formatDate(new Date());
+    setForm(prev => ({
+      ...prev,
+      date: formatDate(tomorrow),
+    }));
+  };
 
-  // const tomorrow = new Date();
-  // tomorrow.setDate(tomorrow.getDate() + 1);
+  const today = formatDate(new Date());
 
-  // const tomorrowDate = formatDate(tomorrow);
-const formatDate = (date) => {
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, "0");
-  const day = String(date.getDate()).padStart(2, "0");
-
-  return `${year}-${month}-${day}`;
-};
-
-const selectToday = () => {
-  setForm(prev => ({
-    ...prev,
-    date: formatDate(new Date()),
-  }));
-};
-
-const selectTomorrow = () => {
   const tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
 
-  setForm(prev => ({
-    ...prev,
-    date: formatDate(tomorrow),
-  }));
-};
-
-const today = formatDate(new Date());
-
-const tomorrow = new Date();
-tomorrow.setDate(tomorrow.getDate() + 1);
-
-const tomorrowDate = formatDate(tomorrow);
+  const tomorrowDate = formatDate(tomorrow);
   return (
     <div className="min-h-screen bg-gradient-to-r from-blue-100 via-white to-green-100 p-6">
 
@@ -281,7 +225,36 @@ const tomorrowDate = formatDate(tomorrow);
             </div>
 
             <div className="p-4 grid grid-cols-2 md:grid-cols-3 gap-4">
-              <input name="name" placeholder="Full Name" className="input" onChange={handleChange} onKeyDown={handleEnterNext} />
+              {/* <input name="name" placeholder="Full Name" className="input" onChange={handleChange} onKeyDown={handleEnterNext} /> */}
+
+              <div className="flex gap-2 ">
+                <select
+                  name="title"
+                  className="input "
+                  value={form.title}
+                  onChange={handleChange}
+                  onKeyDown={handleEnterNext}
+                >
+                  <option value="">Title</option>
+                  <option value="Mr.">Mr.</option>
+                  <option value="Mrs.">Mrs.</option>
+                  <option value="Miss">Miss</option>
+                  <option value="Master">Master</option>
+                  <option value="Baby">Baby</option>
+                  <option value="Prof.">Prof.</option>
+                  <option value="Dr.">Dr.</option>
+                </select>
+
+                <input
+                  name="name"
+                  className="input"
+                  placeholder="Full Name"
+                  value={form.name}
+                  onChange={handleChange}
+                  onKeyDown={handleEnterNext}
+                />
+              </div>
+
               {/* <input type="date" name="dob" className="input" onChange={handleChange} onKeyDown={handleEnterNext}/>
               <div className="input flex items-center">
                 Age: {calculateAge(form.dob)} Years

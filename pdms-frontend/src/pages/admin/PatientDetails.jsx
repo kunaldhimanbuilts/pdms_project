@@ -285,274 +285,668 @@ function PatientDetails() {
                       </div>
 
                       {/* 🔴 COMPLAINT BLOCK */}
-                      <div className="bg-white p-3 rounded-lg shadow-sm">
-                        <p className="font-semibold text-red-600 mb-1">Chief Complaints</p>
-                        {d.diagnosis.chief_complaints?.map((c,i)=>(
-                          <p key={i}>
-                           • {c.complaint} ({c.eye}) - {c.duration} | {c.comment || "—"}
-                          </p>
-                        ))}
-                      </div>
-                      <div className="bg-white p-3 rounded-lg shadow-sm">
-                        <p className="font-semibold text-gray-700 mb-1">Systemic History</p>
-
-                        {d.diagnosis.systemic_history?.map((s,i)=>(
-                          <p key={i}>
-                            • {s.disease} ({s.duration}) - {s.comment || "—"}
-                          </p>
-                        ))}
-                      </div>
-                      {/* 🔴 HISTORY BLOCK */}
-                      <div className="bg-white p-3 rounded-lg shadow-sm">
-                        <p className="font-semibold text-gray-700 mb-1">History</p>
-                        <p><b>HPI:</b> {d.diagnosis.history_present_illness || "—"}</p>
-                        <p><b>Surgery:</b> {d.diagnosis.surgery_history || "—"}</p>
-                        <p><b>Allergy:</b> {d.diagnosis.allergy_history || "—"}</p>
-                      </div>
-
-                      {/* 🔵 REFRACTION (2 COLUMN) */}
-                      
-                      <div className="bg-white p-3 rounded-lg shadow-sm">
-                        <p className="font-semibold text-blue-600 mb-2">Refraction</p>
-
-                        <div className="grid grid-cols-2 gap-4">
-
-                          {/* RIGHT EYE */}
-                          <div>
-                            <p className="font-semibold text-green-600">Right Eye (RE)</p>
-
-                            <p><b>Unaided:</b> 
-                              D {d.diagnosis.refraction?.unaided?.re_distance} | 
-                              N {d.diagnosis.refraction?.unaided?.re_near} | 
-                              PH {d.diagnosis.refraction?.unaided?.re_pinhole}
-                            </p>
-
-                            {/* <p><b>PGP:</b> 
-                              {d.diagnosis.refraction?.pgp?.re_sph} /
-                              {d.diagnosis.refraction?.pgp?.re_cyl} × 
-                              {d.diagnosis.refraction?.pgp?.re_axis} | 
-                              ADD {d.diagnosis.refraction?.pgp?.re_add}
-                            </p> */}
-                            <p><b>PGP:</b> 
-                              {d.diagnosis.refraction?.pgp?.re_sph} /
-                              {d.diagnosis.refraction?.pgp?.re_cyl} × 
-                              {d.diagnosis.refraction?.pgp?.re_axis}
-                              | V {d.diagnosis.refraction?.pgp?.re_vision_before}
-                              | ADD {d.diagnosis.refraction?.pgp?.re_add}
-                              | V {d.diagnosis.refraction?.pgp?.re_vision_after}
-                            </p>
-                            <p><b>Retinoscopy ({d.diagnosis.refraction?.retinoscopy?.type || "—"}):</b> 
-                              {d.diagnosis.refraction?.retinoscopy?.re_sph} /
-                              {d.diagnosis.refraction?.retinoscopy?.re_cyl} × 
-                              {d.diagnosis.refraction?.retinoscopy?.re_axis}
-                            </p>
-
-                            {/* <p><b>Final:</b> 
-                              {d.diagnosis.refraction?.final_refraction?.re_sph} /
-                              {d.diagnosis.refraction?.final_refraction?.re_cyl} × 
-                              {d.diagnosis.refraction?.final_refraction?.re_axis}
-                            </p>
-
-                            <p>
-                              BCVA: {d.diagnosis.refraction?.final_refraction?.re_bcva}
-                              @ {d.diagnosis.refraction?.final_refraction?.at} cm
-
-                            </p> */}
-                            <p><b>Final:</b> 
-                              {d.diagnosis.refraction?.final_refraction?.re_sph} /
-                              {d.diagnosis.refraction?.final_refraction?.re_cyl} × 
-                              {d.diagnosis.refraction?.final_refraction?.re_axis}
-                            </p>
-
-                            <p>
-                              BCVA: {d.diagnosis.refraction?.final_refraction?.re_bcva}
-                            </p>
-
-                            <p>
-                              ADD: {d.diagnosis.refraction?.final_refraction?.re_add}
-                              | Near BCVA: {d.diagnosis.refraction?.final_refraction?.re_near_bcva}
-                              | @ {d.diagnosis.refraction?.final_refraction?.at} cm
-                            </p>
-
-                          </div>
-
-                          {/* LEFT EYE */}
-                          <div>
-                            <p className="font-semibold text-purple-600">Left Eye (LE)</p>
-
-                            <p><b>Unaided:</b> 
-                              D {d.diagnosis.refraction?.unaided?.le_distance} | 
-                              N {d.diagnosis.refraction?.unaided?.le_near} | 
-                              PH {d.diagnosis.refraction?.unaided?.le_pinhole}
-                            </p>
-
-                            {/* <p><b>PGP:</b> 
-                              {d.diagnosis.refraction?.pgp?.le_sph} /
-                              {d.diagnosis.refraction?.pgp?.le_cyl} × 
-                              {d.diagnosis.refraction?.pgp?.le_axis} | 
-                              ADD {d.diagnosis.refraction?.pgp?.le_add}
-                            </p> */}
-                            <p><b>PGP:</b> 
-                              {d.diagnosis.refraction?.pgp?.le_sph} /
-                              {d.diagnosis.refraction?.pgp?.le_cyl} × 
-                              {d.diagnosis.refraction?.pgp?.le_axis}
-                              | V {d.diagnosis.refraction?.pgp?.le_vision_before}
-                              | ADD {d.diagnosis.refraction?.pgp?.le_add}
-                              | V {d.diagnosis.refraction?.pgp?.le_vision_after}
-                            </p>
-                            <p><b>Retinoscopy ({d.diagnosis.refraction?.retinoscopy?.type || "—"}):</b> 
-                              {d.diagnosis.refraction?.retinoscopy?.le_sph} /
-                              {d.diagnosis.refraction?.retinoscopy?.le_cyl} × 
-                              {d.diagnosis.refraction?.retinoscopy?.le_axis}
-                            </p>
-
-                            {/* <p><b>Final:</b> 
-                              {d.diagnosis.refraction?.final_refraction?.le_sph} /
-                              {d.diagnosis.refraction?.final_refraction?.le_cyl} × 
-                              {d.diagnosis.refraction?.final_refraction?.le_axis}
-                            </p>
-
-                            <p>
-                              BCVA: {d.diagnosis.refraction?.final_refraction?.le_bcva}
-                              @ {d.diagnosis.refraction?.final_refraction?.at} cm
-
-                            </p> */}
-                            <p><b>Final:</b> 
-                              {d.diagnosis.refraction?.final_refraction?.le_sph} /
-                              {d.diagnosis.refraction?.final_refraction?.le_cyl} × 
-                              {d.diagnosis.refraction?.final_refraction?.le_axis}
-                            </p>
-
-                            <p>
-                              BCVA: {d.diagnosis.refraction?.final_refraction?.le_bcva}
-                            </p>
-
-                            <p>
-                              ADD: {d.diagnosis.refraction?.final_refraction?.le_add}
-                              | Near BCVA: {d.diagnosis.refraction?.final_refraction?.le_near_bcva}
-                              | @ {d.diagnosis.refraction?.final_refraction?.at} cm
-                            </p>                           
-                          </div>
-
-                        </div>
-
-                        <p className="mt-2 text-sm text-gray-600">
-                          Lens: {d.diagnosis.refraction?.pgp?.lens_type || "—"} | 
-                          Chart: {d.diagnosis.refraction?.final_refraction?.chart_type || "—"} | 
-                          ADD: {d.diagnosis.refraction?.final_refraction?.add || "—"}
-                        </p>
-                      </div>
-                      {/* 🔵 OCULAR EXAM */}
-                      <div className="bg-white p-3 rounded-lg shadow-sm">
-                        <p className="font-semibold text-blue-600 mb-2">Ocular Examination</p>
-
-                        <div className="grid grid-cols-2 gap-4">
-
-                          {/* RIGHT */}
-                          <div>
-                            <p className="font-semibold text-green-600">Right Eye (RE)</p>
-
-                            <p>Motility: {d.diagnosis.ocular_exam?.motility?.re}</p>
-
-                            <p>Conjunctiva: {d.diagnosis.ocular_exam?.slit_lamp?.conj_re}</p>
-                            <p>Sclera: {d.diagnosis.ocular_exam?.slit_lamp?.sclera_re}</p>
-                            <p>Cornea: {d.diagnosis.ocular_exam?.slit_lamp?.cornea_re}</p>
-                            <p>AC: {d.diagnosis.ocular_exam?.slit_lamp?.ac_re}</p>
-                            <p>Iris: {d.diagnosis.ocular_exam?.slit_lamp?.iris_re}</p>
-                            <p>Pupil: {d.diagnosis.ocular_exam?.slit_lamp?.pupil_re}</p>
-
-                            <p>IOP: {d.diagnosis.ocular_exam?.iop?.re} mmHg</p>
-                            <p>Lacrimal: {d.diagnosis.ocular_exam?.lacrimal?.re}</p>
-
-                            <p>Schirmer: {d.diagnosis.ocular_exam?.schirmer?.re} mm</p>
-                          </div>
-
-                          {/* LEFT */}
-                          <div>
-                            <p className="font-semibold text-purple-600">Left Eye (LE)</p>
-
-                            <p>Motility: {d.diagnosis.ocular_exam?.motility?.le}</p>
-
-                            <p>Conjunctiva: {d.diagnosis.ocular_exam?.slit_lamp?.conj_le}</p>
-                            <p>Sclera: {d.diagnosis.ocular_exam?.slit_lamp?.sclera_le}</p>
-                            <p>Cornea: {d.diagnosis.ocular_exam?.slit_lamp?.cornea_le}</p>
-                            <p>AC: {d.diagnosis.ocular_exam?.slit_lamp?.ac_le}</p>
-                            <p>Iris: {d.diagnosis.ocular_exam?.slit_lamp?.iris_le}</p>
-                            <p>Pupil: {d.diagnosis.ocular_exam?.slit_lamp?.pupil_le}</p>
-
-                            <p>IOP: {d.diagnosis.ocular_exam?.iop?.le} mmHg</p>
-                            <p>Lacrimal: {d.diagnosis.ocular_exam?.lacrimal?.le}</p>
-
-                            <p>Schirmer: {d.diagnosis.ocular_exam?.schirmer?.le} mm</p>
-                          </div>
-
-                        </div>
-                        {/* 🔵 COLOUR VISION */}
+                      <div className="grid grid-cols-3 gap-4 ">
                         <div className="bg-white p-3 rounded-lg shadow-sm">
-                          <p className="font-semibold text-blue-600 mb-2">Colour Vision</p>
+                          <p className="font-semibold text-red-600 mb-1">Chief Complaints</p>
+                          {d.diagnosis.chief_complaints?.map((c,i)=>(
+                            <p key={i}>
+                            • {c.complaint} ({c.eye}) - {c.duration} | {c.comment || "—"}
+                            </p>
+                          ))}
+                        </div>
+                        <div className="bg-white p-3 rounded-lg shadow-sm">
+                          <p className="font-semibold text-gray-700 mb-1">Systemic History</p>
 
-                          <div className="grid grid-cols-2 gap-4">
+                          {d.diagnosis.systemic_history?.map((s,i)=>(
+                            <p key={i}>
+                              • {s.disease} ({s.duration}) - {s.comment || "—"}
+                            </p>
+                          ))}
+                        </div>
+                      
 
-                            {/* RIGHT */}
-                            <div>
-                              <p className="font-semibold text-green-600">Right Eye (RE)</p>
-                              <p>
-                                {d.diagnosis.ocular_exam?.color_vision?.re || "—"}
-                              </p>
+                        {/* 🔴 HISTORY BLOCK */}
+                        <div className="bg-white p-3 rounded-lg shadow-sm">
+                          <p className="font-semibold text-gray-700 mb-1">History</p>
+                          <p><b>HPI:</b> {d.diagnosis.history_present_illness || "—"}</p>
+                          <p><b>Surgery:</b> {d.diagnosis.surgery_history || "—"}</p>
+                          <p><b>Allergy:</b> {d.diagnosis.allergy_history || "—"}</p>
+                        </div>
+                      </div>
+                                          
+                      {/* ================= REFRACTION ================= */}
+
+                      <div className="bg-white p-3 rounded-lg shadow-sm">
+
+                        <p className="font-semibold text-blue-600 mb-3">
+                          Refraction
+                        </p>
+
+                        {/* ================= UNAIDED ================= */}
+                        <div className="grid grid-cols-2 gap-4 ">
+                          <div className="mb-4 border rounded-lg p-3">
+
+                            <p className="font-semibold mb-2">
+                              UNAIDED
+                            </p>
+
+                            <div className="grid grid-cols-2 gap-6">
+
+                              <div>
+
+                                <p className="font-semibold text-green-600">
+                                  Right Eye (RE)
+                                </p>
+
+                                <p>Distance : {d.diagnosis.refraction?.unaided?.re_distance || "—"}</p>
+                                <p>Pinhole : {d.diagnosis.refraction?.unaided?.re_pinhole || "—"}</p>
+                                <p>Near : {d.diagnosis.refraction?.unaided?.re_near || "—"}</p>
+
+                              </div>
+
+                              <div>
+
+                                <p className="font-semibold text-purple-600">
+                                  Left Eye (LE)
+                                </p>
+
+                                <p>Distance : {d.diagnosis.refraction?.unaided?.le_distance || "—"}</p>
+                                <p>Pinhole : {d.diagnosis.refraction?.unaided?.le_pinhole || "—"}</p>
+                                <p>Near : {d.diagnosis.refraction?.unaided?.le_near || "—"}</p>
+
+                              </div>
+
                             </div>
 
-                            {/* LEFT */}
+                            <p className="mt-2">
+                              Distance Chart :
+                              {d.diagnosis.refraction?.unaided?.distance_chart || "—"}
+                            </p>
+
+                            <p>
+                              Near Chart :
+                              {d.diagnosis.refraction?.unaided?.near_chart || "—"}
+                            </p>
+
+                            <p>
+                              Comment :
+                              {d.diagnosis.refraction?.unaided?.comment || "—"}
+                            </p>
+
+                          </div>
+
+
+                          {/* ================= PGP ================= */}
+
+                          <div className="mb-4 border rounded-lg p-3">
+
+                            <p className="font-semibold mb-2">
+                              PGP
+                            </p>
+
+                            <div className="grid grid-cols-2 gap-6">
+
+                              <div>
+
+                                <p className="font-semibold text-green-600">
+                                  Right Eye
+                                </p>
+
+                                <p>
+                                  {d.diagnosis.refraction?.pgp?.re_sph || "—"} /
+                                  {d.diagnosis.refraction?.pgp?.re_cyl || "—"} ×
+                                  {d.diagnosis.refraction?.pgp?.re_axis || "—"}
+                                </p>
+
+                                <p>
+                                  Distance Vision :
+                                  {d.diagnosis.refraction?.pgp?.re_vision_before || "—"}
+                                </p>
+
+                                <p>
+                                  ADD :
+                                  {d.diagnosis.refraction?.pgp?.re_add || "—"}
+                                </p>
+
+                                <p>
+                                  Near Vision :
+                                  {d.diagnosis.refraction?.pgp?.re_vision_after || "—"}
+                                </p>
+
+                              </div>
+
+                              <div>
+
+                                <p className="font-semibold text-purple-600">
+                                  Left Eye
+                                </p>
+
+                                <p>
+                                  {d.diagnosis.refraction?.pgp?.le_sph || "—"} /
+                                  {d.diagnosis.refraction?.pgp?.le_cyl || "—"} ×
+                                  {d.diagnosis.refraction?.pgp?.le_axis || "—"}
+                                </p>
+
+                                <p>
+                                  Distance Vision :
+                                  {d.diagnosis.refraction?.pgp?.le_vision_before || "—"}
+                                </p>
+
+                                <p>
+                                  ADD :
+                                  {d.diagnosis.refraction?.pgp?.le_add || "—"}
+                                </p>
+
+                                <p>
+                                  Near Vision :
+                                  {d.diagnosis.refraction?.pgp?.le_vision_after || "—"}
+                                </p>
+
+                              </div>
+
+                            </div>
+
+                            <p className="mt-2">
+                              Lens :
+                              {d.diagnosis.refraction?.pgp?.lens_type || "—"}
+                            </p>
+
+                            <p>
+                              Comment :
+                              {d.diagnosis.refraction?.pgp?.comment || "—"}
+                            </p>
+
+                          </div>
+
+                        </div>
+                        {/* ================= RETINOSCOPY ================= */}
+                        <div className="grid grid-cols-2 gap-4 ">
+                          {d.diagnosis.refraction?.retinoscopy?.map((r, index) => (
+
+                            <div
+                              key={index}
+                              className="border rounded-lg p-3 mb-4"
+                            >
+                              <div className="grid grid-cols-3 gap-4 ">
+                                <p className="font-semibold">
+                                  Retinoscopy #{index + 1}
+                                </p>
+
+                                <p>Type : {r.type || "—"}</p>
+                              </div>  
+                              <div className="grid grid-cols-2 gap-6 mt-2">
+
+                                <div>
+
+                                  <p className="font-semibold text-green-600">RE</p>
+
+                                  <p>
+                                    {r.re_sph || "—"} /
+                                    {r.re_cyl || "—"} ×
+                                    {r.re_axis || "—"}
+                                  </p>
+
+                                  <p>Glow : {r.re_glow || "—"}</p>
+
+                                </div>
+
+                                <div>
+
+                                  <p className="font-semibold text-purple-600">LE</p>
+
+                                  <p>
+                                    {r.le_sph || "—"} /
+                                    {r.le_cyl || "—"} ×
+                                    {r.le_axis || "—"}
+                                  </p>
+
+                                  <p>Glow : {r.le_glow || "—"}</p>
+
+                                </div>
+
+                              </div>
+
+                            </div>
+
+                          ))}
+
+                        </div>
+                        {/* ================= FINAL REFRACTION ================= */}
+
+                        <div className="border rounded-lg p-3">
+
+                          <p className="font-semibold mb-2">
+                            FINAL REFRACTION
+                          </p>
+
+                          <div className="grid grid-cols-2 gap-6">
+
                             <div>
-                              <p className="font-semibold text-purple-600">Left Eye (LE)</p>
-                              <p>
-                                {d.diagnosis.ocular_exam?.color_vision?.le || "—"}
+
+                              <p className="font-semibold text-green-600">
+                                Right Eye
                               </p>
+
+                              <p>
+                                {d.diagnosis.refraction?.final_refraction?.re_sph || "—"} /
+                                {d.diagnosis.refraction?.final_refraction?.re_cyl || "—"} ×
+                                {d.diagnosis.refraction?.final_refraction?.re_axis || "—"}
+                              </p>
+
+                              <p>
+                                BCVA :
+                                {d.diagnosis.refraction?.final_refraction?.re_bcva || "—"}
+                              </p>
+
+                              <p>
+                                ADD :
+                                {d.diagnosis.refraction?.final_refraction?.re_add || "—"}
+                              </p>
+
+                              <p>
+                                Near BCVA :
+                                {d.diagnosis.refraction?.final_refraction?.re_near_bcva || "—"}
+                              </p>
+
+                            </div>
+
+                            <div>
+
+                              <p className="font-semibold text-purple-600">
+                                Left Eye
+                              </p>
+
+                              <p>
+                                {d.diagnosis.refraction?.final_refraction?.le_sph || "—"} /
+                                {d.diagnosis.refraction?.final_refraction?.le_cyl || "—"} ×
+                                {d.diagnosis.refraction?.final_refraction?.le_axis || "—"}
+                              </p>
+
+                              <p>
+                                BCVA :
+                                {d.diagnosis.refraction?.final_refraction?.le_bcva || "—"}
+                              </p>
+
+                              <p>
+                                ADD :
+                                {d.diagnosis.refraction?.final_refraction?.le_add || "—"}
+                              </p>
+
+                              <p>
+                                Near BCVA :
+                                {d.diagnosis.refraction?.final_refraction?.le_near_bcva || "—"}
+                              </p>
+
                             </div>
 
                           </div>
+
+                          <p className="mt-2">
+                            Distance Chart :
+                            {d.diagnosis.refraction?.final_refraction?.chart || "—"}
+                          </p>
+
+                          <p>
+                            Near Chart :
+                            {d.diagnosis.refraction?.final_refraction?.chart_type || "—"}
+                          </p>
+
+                          <p>
+                            At :
+                            {d.diagnosis.refraction?.final_refraction?.at || "—"} cm
+                          </p>
+
+                          <p>
+                            Comment :
+                            {d.diagnosis.refraction?.final_refraction?.comment || "—"}
+                          </p>
+
                         </div>
-                        <p className="mt-2 text-sm text-gray-600">
-                          IOP Method: {d.diagnosis.ocular_exam?.iop?.method || "—"} | 
-                          IOP Time: {d.diagnosis.ocular_exam?.iop?.time || "—"}
+
+                      </div>
+                      {/* ================= OCULAR EXAMINATION ================= */}
+
+                      <div className="bg-white p-3 rounded-lg shadow-sm">
+
+                        <p className="font-semibold text-blue-600 mb-2">
+                          Ocular Examination
                         </p>
+
+                        <table className="w-full text-xs border border-gray-300">
+
+                          <thead className="bg-gray-100">
+
+                            <tr>
+                              <th className="border p-1 text-left">Exam</th>
+                              <th className="border p-1">RE</th>
+                              <th className="border p-1">LE</th>
+                            </tr>
+
+                          </thead>
+
+                          <tbody>
+
+                            <tr>
+                              <td className="border p-1">Motility</td>
+                              <td className="border p-1">{d.diagnosis.ocular_exam?.motility?.re || "—"}</td>
+                              <td className="border p-1">{d.diagnosis.ocular_exam?.motility?.le || "—"}</td>
+                            </tr>
+
+                            <tr>
+                              <td className="border p-1">Lid</td>
+                              <td className="border p-1">{d.diagnosis.ocular_exam?.slit_lamp?.eyeball_re || "—"}</td>
+                              <td className="border p-1">{d.diagnosis.ocular_exam?.slit_lamp?.eyeball_le || "—"}</td>
+                            </tr>
+
+                            <tr>
+                              <td className="border p-1">Conj</td>
+                              <td className="border p-1">{d.diagnosis.ocular_exam?.slit_lamp?.conj_re || "—"}</td>
+                              <td className="border p-1">{d.diagnosis.ocular_exam?.slit_lamp?.conj_le || "—"}</td>
+                            </tr>
+
+                            <tr>
+                              <td className="border p-1">Sclera</td>
+                              <td className="border p-1">{d.diagnosis.ocular_exam?.slit_lamp?.sclera_re || "—"}</td>
+                              <td className="border p-1">{d.diagnosis.ocular_exam?.slit_lamp?.sclera_le || "—"}</td>
+                            </tr>
+
+                            <tr>
+                              <td className="border p-1">Cornea</td>
+                              <td className="border p-1">{d.diagnosis.ocular_exam?.slit_lamp?.cornea_re || "—"}</td>
+                              <td className="border p-1">{d.diagnosis.ocular_exam?.slit_lamp?.cornea_le || "—"}</td>
+                            </tr>
+
+                            <tr>
+                              <td className="border p-1">AC</td>
+                              <td className="border p-1">{d.diagnosis.ocular_exam?.slit_lamp?.ac_re || "—"}</td>
+                              <td className="border p-1">{d.diagnosis.ocular_exam?.slit_lamp?.ac_le || "—"}</td>
+                            </tr>
+
+                            <tr>
+                              <td className="border p-1">Iris</td>
+                              <td className="border p-1">{d.diagnosis.ocular_exam?.slit_lamp?.iris_re || "—"}</td>
+                              <td className="border p-1">{d.diagnosis.ocular_exam?.slit_lamp?.iris_le || "—"}</td>
+                            </tr>
+
+                            <tr>
+                              <td className="border p-1">Pupil</td>
+                              <td className="border p-1">{d.diagnosis.ocular_exam?.slit_lamp?.pupil_re || "—"}</td>
+                              <td className="border p-1">{d.diagnosis.ocular_exam?.slit_lamp?.pupil_le || "—"}</td>
+                            </tr>
+
+                            <tr>
+                              <td className="border p-1">IOP</td>
+                              <td className="border p-1">{d.diagnosis.ocular_exam?.iop?.re || "—"}</td>
+                              <td className="border p-1">{d.diagnosis.ocular_exam?.iop?.le || "—"}</td>
+                            </tr>
+
+                            <tr>
+                              <td className="border p-1">Lacrimal</td>
+                              <td className="border p-1">{d.diagnosis.ocular_exam?.lacrimal?.re || "—"}</td>
+                              <td className="border p-1">{d.diagnosis.ocular_exam?.lacrimal?.le || "—"}</td>
+                            </tr>
+
+                            <tr>
+                              <td className="border p-1">Schirmer</td>
+                              <td className="border p-1">{d.diagnosis.ocular_exam?.schirmer?.re || "—"} mm</td>
+                              <td className="border p-1">{d.diagnosis.ocular_exam?.schirmer?.le || "—"} mm</td>
+                            </tr>
+
+                            <tr>
+                              <td className="border p-1">Colour</td>
+                              <td className="border p-1">{d.diagnosis.ocular_exam?.color_vision?.re || "—"}</td>
+                              <td className="border p-1">{d.diagnosis.ocular_exam?.color_vision?.le || "—"}</td>
+                            </tr>
+
+                          </tbody>
+
+                        </table>
+
+                        <div className="grid grid-cols-2 gap-4 mt-2 text-xs">
+
+                          <div>
+                            <p><b>RE Slit Comment:</b> {d.diagnosis.ocular_exam?.slit_lamp?.slit_re_comment || "—"}</p>
+                            <p><b>RE Colour:</b> {d.diagnosis.ocular_exam?.color_vision?.re_comment || "—"}</p>
+                          </div>
+
+                          <div>
+                            <p><b>OS Slit Comment:</b> {d.diagnosis.ocular_exam?.slit_lamp?.slit_le_comment || "—"}</p>
+                            <p><b>OS Colour:</b> {d.diagnosis.ocular_exam?.color_vision?.le_comment || "—"}</p>
+                          </div>
+
+                        </div>
+
+                        <div className="flex flex-wrap gap-6 mt-2 text-xs">
+
+                          <span>
+                            <b>IOP Method:</b>{" "}
+                            {d.diagnosis.ocular_exam?.iop?.method || "—"}
+                          </span>
+
+                          <span>
+                            <b>Time:</b>{" "}
+                            {d.diagnosis.ocular_exam?.iop?.time || "—"}
+                          </span>
+
+                          <span>
+                            <b>Schirmer Type:</b>{" "}
+                            {d.diagnosis.ocular_exam?.schirmer?.type || "—"}
+                          </span>
+
+                          <span>
+                            <b>Schirmer Time:</b>{" "}
+                            {d.diagnosis.ocular_exam?.schirmer?.time || "—"}
+                          </span>
+
+                          <span>
+                            <b>Lacrimal Comment:</b>{" "}
+                            {d.diagnosis.ocular_exam?.lacrimal?.comment || "—"}
+                          </span>
+
+                        </div>
+
+                      </div>
+                      {/* ================= POST DILATED EXAMINATION ================= */}
+
+                      <div className="bg-white p-3 rounded-lg shadow-sm">
+
+                          <p className="font-semibold text-blue-600 mb-2">
+                              Post Dilated Examination
+                          </p>
+
+                          <table className="w-full text-xs border">
+
+                              <thead className="bg-gray-100">
+                                  <tr>
+                                      <th className="border p-1">Examination</th>
+                                      <th className="border p-1">RE</th>
+                                      <th className="border p-1">LE</th>
+                                  </tr>
+                              </thead>
+
+                              <tbody>
+
+                                  <tr>
+                                      <td className="border p-1">Dilating Drop</td>
+                                      <td className="border p-1" colSpan={2}>
+                                          {d.diagnosis.post_dilated_exam?.dilated_drop || "—"}
+                                      </td>
+                                  </tr>
+
+                                  <tr>
+                                      <td className="border p-1">Pupil Size</td>
+                                      <td className="border p-1">
+                                          {d.diagnosis.post_dilated_exam?.pupil?.re_size || "—"}
+                                      </td>
+
+                                      <td className="border p-1">
+                                          {d.diagnosis.post_dilated_exam?.pupil?.le_size || "—"}
+                                      </td>
+                                  </tr>
+
+                                  <tr>
+                                      <td className="border p-1">Pupil Reaction</td>
+
+                                      <td className="border p-1">
+                                          {d.diagnosis.post_dilated_exam?.pupil?.re_reaction || "—"}
+                                      </td>
+
+                                      <td className="border p-1">
+                                          {d.diagnosis.post_dilated_exam?.pupil?.le_reaction || "—"}
+                                      </td>
+                                  </tr>
+
+                                  <tr>
+                                      <td className="border p-1">Lens</td>
+
+                                      <td className="border p-1">
+                                          {d.diagnosis.post_dilated_exam?.lens?.re || "—"}
+                                      </td>
+
+                                      <td className="border p-1">
+                                          {d.diagnosis.post_dilated_exam?.lens?.le || "—"}
+                                      </td>
+                                  </tr>
+
+                              </tbody>
+
+                          </table>
+
+                          <div className="mt-2 text-xs">
+                              <b>Comment :</b>{" "}
+                              {d.diagnosis.post_dilated_exam?.comment || "—"}
+                          </div>
+
                       </div>
 
-                      {/* 🔵 FUNDUS */}
-                      
+
+
+                      {/* ================= FUNDUS ================= */}
+
                       <div className="bg-white p-3 rounded-lg shadow-sm">
-                        <p className="font-semibold text-blue-600 mb-2">Fundus</p>
 
-                        <div className="grid grid-cols-2 gap-4">
+                          <p className="font-semibold text-blue-600 mb-2">
+                              Fundus Examination
+                          </p>
 
-                          {/* RIGHT EYE */}
-                          <div>
-                            <p className="font-semibold text-green-600">Right Eye (RE)</p>
+                          <table className="w-full text-xs border">
 
-                            {Object.entries(d.diagnosis.fundus || {})
-                              .filter(([key]) => key.endsWith("_re"))
-                              .map(([key, value]) => (
-                                <p key={key}>
-                                  <b>{key.replace("_re", "").toUpperCase()}:</b> {value || "—"}
-                                </p>
-                              ))}
+                              <thead className="bg-gray-100">
+                                  <tr>
+                                      <th className="border p-1">Examination</th>
+                                      <th className="border p-1">RE</th>
+                                      <th className="border p-1">LE</th>
+                                  </tr>
+                              </thead>
+
+                              <tbody>
+
+                                  <tr>
+                                      <td className="border p-1">Media</td>
+
+                                      <td className="border p-1">
+                                          {d.diagnosis.fundus?.be_media_re || "—"}
+                                          {d.diagnosis.fundus?.media_re &&
+                                              ` (${d.diagnosis.fundus.media_re})`}
+                                      </td>
+
+                                      <td className="border p-1">
+                                          {d.diagnosis.fundus?.be_media_le || "—"}
+                                          {d.diagnosis.fundus?.media_le &&
+                                              ` (${d.diagnosis.fundus.media_le})`}
+                                      </td>
+                                  </tr>
+
+                                  <tr>
+                                      <td className="border p-1">PVD</td>
+
+                                      <td className="border p-1">
+                                          {d.diagnosis.fundus?.pvd_re || "—"}
+                                      </td>
+
+                                      <td className="border p-1">
+                                          {d.diagnosis.fundus?.pvd_le || "—"}
+                                      </td>
+                                  </tr>
+
+                                  <tr>
+                                      <td className="border p-1">Optic Disc</td>
+
+                                      <td className="border p-1">
+                                          {d.diagnosis.fundus?.be_optic_re || "—"}
+                                          {d.diagnosis.fundus?.optic_re &&
+                                              ` (${d.diagnosis.fundus.optic_re})`}
+                                      </td>
+
+                                      <td className="border p-1">
+                                          {d.diagnosis.fundus?.be_optic_le || "—"}
+                                          {d.diagnosis.fundus?.optic_le &&
+                                              ` (${d.diagnosis.fundus.optic_le})`}
+                                      </td>
+                                  </tr>
+
+                                  <tr>
+                                      <td className="border p-1">Disc Size</td>
+
+                                      <td className="border p-1">
+                                          {d.diagnosis.fundus?.opticsize_re || "—"}
+                                      </td>
+
+                                      <td className="border p-1">
+                                          {d.diagnosis.fundus?.opticsize_le || "—"}
+                                      </td>
+                                  </tr>
+
+                                  <tr>
+                                      <td className="border p-1">CDR</td>
+
+                                      <td className="border p-1">
+                                          {d.diagnosis.fundus?.cdr_re || "—"}
+                                      </td>
+
+                                      <td className="border p-1">
+                                          {d.diagnosis.fundus?.cdr_le || "—"}
+                                      </td>
+                                  </tr>
+
+                                  <tr>
+                                      <td className="border p-1">Fundus</td>
+
+                                      <td className="border p-1">
+                                          {d.diagnosis.fundus?.fundus_re || "—"}
+                                      </td>
+
+                                      <td className="border p-1">
+                                          {d.diagnosis.fundus?.fundus_le || "—"}
+                                      </td>
+                                  </tr>
+
+                                  <tr>
+                                      <td className="border p-1 font-semibold">
+                                          Diagnosis
+                                      </td>
+
+                                      <td className="border p-1">
+                                          {d.diagnosis.fundus?.diagnosis_re || "—"}
+                                      </td>
+
+                                      <td className="border p-1">
+                                          {d.diagnosis.fundus?.diagnosis_le || "—"}
+                                      </td>
+                                  </tr>
+
+                              </tbody>
+
+                          </table>
+
+                          <div className="mt-2 text-xs">
+
+                              <b>Diagnosis Comment :</b>{" "}
+                              {d.diagnosis.fundus?.diagnosis_comment || "—"}
+
                           </div>
 
-                          {/* LEFT EYE */}
-                          <div>
-                            <p className="font-semibold text-purple-600">Left Eye (LE)</p>
-
-                            {Object.entries(d.diagnosis.fundus || {})
-                              .filter(([key]) => key.endsWith("_le"))
-                              .map(([key, value]) => (
-                                <p key={key}>
-                                  <b>{key.replace("_le", "").toUpperCase()}:</b> {value || "—"}
-                                </p>
-                              ))}
-                          </div>
-
-                        </div>
-                      </div>                      
-
+                      </div>
                       {/* 🔴 CLINICAL */}
                       <div className="bg-yellow-50 p-3 rounded-lg">
                         <p><b>Clinical:</b> {d.diagnosis.clinical_impression}</p>
@@ -568,7 +962,7 @@ function PatientDetails() {
                         <p className="font-semibold mb-1">Prescription</p>
                         {d.prescriptions.map((p,i)=>(
                           <p key={i}>
-                            • {getMedicineName(p.medicine_id)} | {p.dosage} | {p.duration}
+                            • {getMedicineName(p.medicine_id)} | {p.dosage} | {p.duration} | {p.instructions}
                           </p>
                         ))}
                       </div>
