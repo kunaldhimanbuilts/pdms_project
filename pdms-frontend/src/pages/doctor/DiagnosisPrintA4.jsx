@@ -526,154 +526,245 @@ export default function DiagnosisPrintA4({
 
         {/* ================= SLIT LAMP ================= */}
 
-        <div className="border border-slate-400 rounded-md overflow-hidden">
+            <div className="border border-slate-400 rounded-md overflow-hidden">
 
-            <div className="bg-[#213c8f] text-[13px] text-white px-3 font-bold uppercase">
-            Slit Lamp Examination
-            </div>
+                <div className="bg-[#213c8f] text-[13px] text-white px-3 font-bold uppercase">
+                Slit Lamp Examination
+                </div>
 
-            <div className="">
+                <div className="">
 
-            <div className="flex justify-center ">
+                <div className="flex justify-center ">
 
-                {/* Eye Diagram */}
+                    {/* Eye Diagram */}
 
-                <img
-                src={eye}
-                alt="Eye"
-                className="h-23 object-contain"
-                />
+                    <img
+                    src={eye}
+                    alt="Eye"
+                    className="h-23 object-contain"
+                    />
 
-            </div>
+                </div>
 
-            <table className="w-full text-[10px]">
+                <table className="w-full text-[10px]">
 
-                <tbody>
+                    <tbody>
 
-                <tr>
-                    <td className="font-semibold w-36">Eyeball</td>
-                    <td>{printData?.ocular_exam?.slit_lamp?.eyeball_re}</td>
-                    <td>{printData?.ocular_exam?.slit_lamp?.eyeball_le}</td>
-                </tr>
+                    <tr>
+                        <td className="font-semibold w-36">Eyeball</td>
+                        <td>{printData?.ocular_exam?.slit_lamp?.eyeball_re}</td>
+                        <td>{printData?.ocular_exam?.slit_lamp?.eyeball_le}</td>
+                    </tr>
 
-                <tr>
-                    <td className="font-semibold">Conjunctiva</td>
-                    <td>{printData?.ocular_exam?.slit_lamp?.conj_re}</td>
-                    <td>{printData?.ocular_exam?.slit_lamp?.conj_le}</td>
-                </tr>
+                    <tr>
+                        <td className="font-semibold">Conjunctiva</td>
+                        <td>{printData?.ocular_exam?.slit_lamp?.conj_re}</td>
+                        <td>{printData?.ocular_exam?.slit_lamp?.conj_le}</td>
+                    </tr>
 
-                <tr>
-                    <td className="font-semibold">Sclera</td>
-                    <td>{printData?.ocular_exam?.slit_lamp?.sclera_re}</td>
-                    <td>{printData?.ocular_exam?.slit_lamp?.sclera_le}</td>
-                </tr>
+                    <tr>
+                        <td className="font-semibold">Sclera</td>
+                        <td>{printData?.ocular_exam?.slit_lamp?.sclera_re}</td>
+                        <td>{printData?.ocular_exam?.slit_lamp?.sclera_le}</td>
+                    </tr>
 
-                <tr>
-                    <td className="font-semibold">Cornea</td>
-                    <td>{printData?.ocular_exam?.slit_lamp?.cornea_re}</td>
-                    <td>{printData?.ocular_exam?.slit_lamp?.cornea_le}</td>
-                </tr>
+                    <tr>
+                        <td className="font-semibold">Cornea</td>
+                        <td>{printData?.ocular_exam?.slit_lamp?.cornea_re}</td>
+                        <td>{printData?.ocular_exam?.slit_lamp?.cornea_le}</td>
+                    </tr>
 
-                <tr>
-                    <td className="font-semibold">Anterior Chamber</td>
-                    <td>{printData?.ocular_exam?.slit_lamp?.ac_re}</td>
-                    <td>{printData?.ocular_exam?.slit_lamp?.ac_le}</td>
-                </tr>
+                    <tr>
+                        <td className="font-semibold">Anterior Chamber</td>
+                        <td>{printData?.ocular_exam?.slit_lamp?.ac_re}</td>
+                        <td>{printData?.ocular_exam?.slit_lamp?.ac_le}</td>
+                    </tr>
 
-                <tr>
-                    <td className="font-semibold">Iris</td>
-                    <td>{printData?.ocular_exam?.slit_lamp?.iris_re}</td>
-                    <td>{printData?.ocular_exam?.slit_lamp?.iris_le}</td>
-                </tr>
+                    <tr>
+                        <td className="font-semibold">Iris</td>
+                        <td>{printData?.ocular_exam?.slit_lamp?.iris_re}</td>
+                        <td>{printData?.ocular_exam?.slit_lamp?.iris_le}</td>
+                    </tr>
 
-                <tr>
-                    <td className="font-semibold">Pupil</td>
-                    <td>{printData?.ocular_exam?.slit_lamp?.pupil_re}</td>
-                    <td>{printData?.ocular_exam?.slit_lamp?.pupil_le}</td>
-                </tr>
+                    <tr>
+                        <td className="font-semibold">Pupil</td>
+                        <td>{printData?.ocular_exam?.slit_lamp?.pupil_re}</td>
+                        <td>{printData?.ocular_exam?.slit_lamp?.pupil_le}</td>
+                    </tr>
 
-                </tbody>
+                    </tbody>
 
-            </table>
+                </table>
 
-            </div>
-
-        </div>
-
-        {/* ================= FUNDUS ================= */}
-
-        <div className="border border-slate-400 rounded-md overflow-hidden">
-
-            <div className="bg-[#213c8f] text-white px-3 text-[13px] font-bold uppercase">
-            Fundus Examination
-            </div>
-
-            <div className="">
-
-            <div className="flex justify-center">
-
-                <img
-                src={feye}
-                alt="Fundus"
-                className="h-auto w-40"
-                />
+                </div>
 
             </div>
 
-            <table className="w-full text-[10px]">
+            {/* ================= PRESCRIPTION ================= */}
+            <div className="grid grid-cols-1 gap-2 mt-0.5 row-span-2" >
 
-                <tbody>
+                <div className="mt-1 overflow-hidden ">
+                
+                    <div className="flex items-start mb-0.5">
+                        <span className="font-semibold text-xs w-32">
+                            Chief Complaint :  
+                        </span>
+                        <span className="text-[10px] space-y-1">
+                            {printData?.chief_complaints?.length > 0 ? (
+                                printData.chief_complaints
+                                .filter(c => c.complaint)
+                                .map((c, i) => (
+                                    <p key={i} className="flex items-center py-0.2 text-[10px]">
+                                    {c.complaint || "-"} ({c.eye || "-"}) - {c.duration || "-"}
+                                    </p>
+                                ))
+                            ) : (
+                                <p>-</p>
+                            )}
+                        </span>
+                    </div>
 
-                <tr>
-                    <td className="font-semibold w-36">Media</td>
-                    <td>{printData?.fundus?.media_re}</td>
-                    <td>{printData?.fundus?.media_le}</td>
-                </tr>
+                    <div className="flex items-start mb-0.5">
+                        <span className="font-semibold text-xs w-32">
+                            Systemic History :  
+                        </span>
+                        <span className="text-[10px] space-y-1 ">
+                            {printData?.systemic_history?.length > 0 ? (
+                                printData.systemic_history
+                                    .filter(s => s.disease)
+                                    .map((s, i) => (
+                                        <p
+                                            key={i}
+                                            className="flex items-center py-0.2 text-[10px]"
+                                        >
+                                            {s.disease || "-"} - {s.duration || "-"}
+                                            {s.comment ? ` (${s.comment})` : ""}
+                                        </p>
+                                    ))
+                            ) : (
+                                <p>-</p>
+                            )}
+                        </span>
+                    </div>
 
-                <tr>
-                    <td className="font-semibold">Disc</td>
-                    <td>{printData?.fundus?.optic_re}</td>
-                    <td>{printData?.fundus?.optic_le}</td>
-                </tr>
 
-                <tr>
-                    <td className="font-semibold">CDR</td>
-                    <td>{printData?.fundus?.cdr_re}</td>
-                    <td>{printData?.fundus?.cdr_le}</td>
-                </tr>
+                    {/* Surgical History */}
+                    <div className="flex items-start mb-0.5">
+                        <span className="font-semibold text-xs w-32">
+                            Surgical History :  
+                        </span>
+                        <span className="text-[10px] space-y-1">{printData?.surgery_history || "Nil"}</span>
+                    </div>
+                    <div className="flex items-start mb-0.5">
+                        <span className="font-semibold text-xs w-40">
+                             History of Present Illness :  
+                        </span>
+                        <span className="text-[10px]">{printData?.history_present_illness || "Nil"}</span>
+                    </div>
 
-                <tr>
-                    <td className="font-semibold">Macula</td>
-                    <td>{printData?.fundus?.macula_re}</td>
-                    <td>{printData?.fundus?.macula_le}</td>
-                </tr>
 
-                <tr>
-                    <td className="font-semibold">Vessels</td>
-                    <td>{printData?.fundus?.vessels_re}</td>
-                    <td>{printData?.fundus?.vessels_le}</td>
-                </tr>
+                    {/* Allergy History */}
+                    <div className="flex items-start mb-0.5">
+                    <span className="font-semibold text-xs w-32">
+                        Allergy History :  
+                    </span>
+                    <span className="text-[10px] space-y-1">{printData?.allergy_history || "Nil"}</span>
+                    </div>
+                </div>
+               
 
-                <tr>
-                    <td className="font-semibold">Periphery</td>
-                    <td>{printData?.fundus?.periphery_re}</td>
-                    <td>{printData?.fundus?.periphery_le}</td>
-                </tr>
+               
+                              
 
-                <tr>
-                    <td className="font-semibold">Remarks</td>
-                    <td colSpan="2">
-                    {printData?.fundus?.comment}
-                    </td>
-                </tr>
+                <div className="mt-1 overflow-hidden ">
 
-                </tbody>
+                    <div className="flex-2">
+                        <div><p className="font-semibold text-xs">Prescription-</p></div>
+                        <div className="flex-1 py-2">
+                            {printData?.prescriptions
+                            ?.filter((p) => p.medicine_id)
+                            ?.map((p, index) => (
+                                <div
+                                key={index}
+                                className="flex items-center border-b border-dashed py-0.2 text-[12px]"
+                                >
+                                <div className="w-10 font-semibold">
+                                    {index + 1}.
+                                </div>
 
-            </table>
+                                <div className="flex-1 font-semibold">
+                                    {getMedicineName(p.medicine_id)}
+                                    {p.dosage && ` • ${p.dosage}`}
+                                    {p.frequency && ` • ${p.frequency}`}
+                                    {p.duration && ` • ${p.duration}`}
+                                    {p.instructions && ` • ${p.instructions}`}
+                                </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>  
+
 
             </div>
+            {/* ================= FUNDUS ================= */}
 
-        </div>
+
+
+            <div className="border border-slate-400 rounded-md overflow-hidden">
+
+                <div className="bg-[#213c8f] text-white px-3 text-[13px] font-bold uppercase">
+                Fundus Examination
+                </div>
+
+                <div className="">
+
+                <div className="flex justify-center">
+
+                    <img
+                    src={feye}
+                    alt="Fundus"
+                    className="h-auto w-40"
+                    />
+
+                </div>
+
+                <table className="w-full text-[10px]">
+
+                    <tbody>
+
+                    <tr>
+                        <td className="font-semibold w-36">Media</td>
+                        <td>{printData?.fundus?.media_re}</td>
+                        <td>{printData?.fundus?.media_le}</td>
+                    </tr>
+
+                    <tr>
+                        <td className="font-semibold">Optic Disc</td>
+                        <td>{printData?.fundus?.optic_re}</td>
+                        <td>{printData?.fundus?.optic_le}</td>
+                    </tr>
+
+                    <tr>
+                        <td className="font-semibold">CDR</td>
+                        <td>{printData?.fundus?.cdr_re}</td>
+                        <td>{printData?.fundus?.cdr_le}</td>
+                    </tr>
+
+                    <tr>
+                        <td className="font-semibold">Remarks</td>
+                        <td colSpan="2">
+                        {printData?.fundus?.comment}
+                        </td>
+                    </tr>
+
+                    </tbody>
+
+                </table>
+
+                </div>
+
+            </div>
 
         </div>      
             
@@ -681,42 +772,7 @@ export default function DiagnosisPrintA4({
          <p className="font-semibold mt-1 text-xs">Clinical Impression - {printData?.clinical_impression || ""}</p>
 
         </div>
-        {/* ================= PRESCRIPTION ================= */}
-
-        <div className="mt-1 overflow-hidden">
-
-           
-            
-          
-
-            <div className="flex-2">
-                <div><p className="font-semibold text-xs">Prescription-</p></div>
-                <div className="flex-1 py-2">
-                    {printData?.prescriptions
-                    ?.filter((p) => p.medicine_id)
-                    ?.map((p, index) => (
-                        <div
-                        key={index}
-                        className="flex items-center border-b border-dashed py-0.2 text-[12px]"
-                        >
-                        <div className="w-10 font-semibold">
-                            {index + 1}.
-                        </div>
-
-                        <div className="flex-1 font-semibold">
-                            {getMedicineName(p.medicine_id)}
-                            {p.dosage && ` • ${p.dosage}`}
-                            {p.frequency && ` • ${p.frequency}`}
-                            {p.duration && ` • ${p.duration}`}
-                            {p.instructions && ` • ${p.instructions}`}
-                        </div>
-                        </div>
-                    ))}
-                </div>
-            </div>
-        </div>
-
-
+        
         {/* ================= ADVICE ================= */}
 
         <div className="mt-1 overflow-hidden">
@@ -743,6 +799,10 @@ export default function DiagnosisPrintA4({
                         ? new Date(printData.next_visit_date).toLocaleDateString("en-GB")
                         : ""}
 
+                    {printData?.next_visit_reason
+                        ? ` (${printData.next_visit_reason})`
+                        : ""}    
+
                 </div>
 
             </div>
@@ -754,14 +814,14 @@ export default function DiagnosisPrintA4({
                 <div className="border-t border-black inline-block px-6 pt-1">
 
                     <p className="font-semibold text-[12px]">
-                        Dr. Deepak Kumar
-                    </p>
-
-                    {/* <p className="text-[10px]">
-                        B. Optom
+                        Authorized Doctor Signature
                     </p>
 
                     <p className="text-[10px]">
+                        S&D Eye Care Centre
+                    </p>
+
+                    {/* <p className="text-[10px]">
                         Eye Care Specialist
                     </p> */}
 
