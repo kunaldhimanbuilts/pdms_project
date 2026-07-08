@@ -462,7 +462,9 @@ export default function DiagnosisPrintA4({
                             {printData?.refraction?.unaided?.re_pinhole || ""}
                         </td>
 
-                        <td className="border border-slate-300"></td>
+                        <td className="border border-slate-300 text-center">
+                            {printData?.refraction?.unaided?.comment || ""}
+                        </td>
 
                     </tr>
 
@@ -492,7 +494,9 @@ export default function DiagnosisPrintA4({
                             {printData?.refraction?.unaided?.le_pinhole || ""}
                         </td>
 
-                        <td className="border border-slate-300"></td>
+                        <td className="border border-slate-300 text-center">
+                            {printData?.refraction?.unaided?.distance_chart || ""}|{printData?.refraction?.unaided?.near_chart || ""}
+                        </td>
 
                     </tr>
 
@@ -796,7 +800,7 @@ export default function DiagnosisPrintA4({
                         </td>
 
                         <td className="border border-slate-300 text-center">
-                            {printData?.refraction?.final_refraction?.comment || ""}
+                            (at: {printData?.refraction?.final_refraction?.at || ""})
                         </td>
 
                     </tr>
@@ -1238,7 +1242,7 @@ export default function DiagnosisPrintA4({
 
                 </div>
 
-                <table className="w-full text-[9px]">
+                <table className="w-full text-[10px]">
 
                     <tbody>
                     {showMedia && (
