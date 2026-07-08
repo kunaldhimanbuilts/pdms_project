@@ -77,7 +77,19 @@ def create_appointment(data: AppointmentCreate, db: Session = Depends(get_db),us
 def today_appointments(db: Session = Depends(get_db),user=Depends(require_role("doctor"))):
 
     today = date.today()
-    now_time = datetime.now().time()
+
+    # Cancel all pending appointments before today
+    db.query(Appointment).filter(
+        Appointment.status == "pending",
+        Appointment.date < today
+    ).update(
+        {"status": "cancelled"},
+        synchronize_session=False
+    )
+
+    db.commit()
+
+    # now_time = datetime.now().time()
 
     # appointments = db.query(Appointment).filter(
     #     Appointment.date == today
@@ -86,15 +98,15 @@ def today_appointments(db: Session = Depends(get_db),user=Depends(require_role("
         Appointment.date == today,
         Appointment.doctor_id == user["user_id"]   # 🔥 IMPORTANT
     ).order_by(Appointment.time).all()
-    updated = False
+    # updated = False
 
-    for appt in appointments:
-        if appt.status == "pending" and appt.time < now_time:
-            appt.status = "cancelled"
-            updated = True
+    # for appt in appointments:
+    #     if appt.status == "pending" and appt.time < now_time:
+    #         appt.status = "cancelled"
+    #         updated = True
 
-    if updated:
-        db.commit()
+    # if updated:
+    #     db.commit()
 
     # ✅ ADD THIS PART
     result = []

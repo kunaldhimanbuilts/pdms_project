@@ -743,11 +743,11 @@ function PatientDetails() {
                             {d.diagnosis.ocular_exam?.lacrimal?.comment || "—"}
                           </span>
 
-                        </div>
+                        </div> 
 
                       </div>
                       {/* ================= POST DILATED EXAMINATION ================= */}
-
+<div className= "grid grid-cols-3 gap-2 ">
                       <div className="bg-white p-3 rounded-lg shadow-sm">
 
                           <p className="font-semibold text-blue-600 mb-2">
@@ -769,18 +769,19 @@ function PatientDetails() {
                                   <tr>
                                       <td className="border p-1">Dilating Drop</td>
                                       <td className="border p-1" colSpan={2}>
-                                          {d.diagnosis.post_dilated_exam?.dilated_drop || "—"}
+                                          
+                                          {d.diagnosis.ocular_exam?.post_dilated_exam?.dilated_drop || "—"}
                                       </td>
                                   </tr>
 
                                   <tr>
                                       <td className="border p-1">Pupil Size</td>
                                       <td className="border p-1">
-                                          {d.diagnosis.post_dilated_exam?.pupil?.re_size || "—"}
+                                          {d.diagnosis.ocular_exam?.post_dilated_exam?.pupil_re_size || "—"}
                                       </td>
 
                                       <td className="border p-1">
-                                          {d.diagnosis.post_dilated_exam?.pupil?.le_size || "—"}
+                                          {d.diagnosis.ocular_exam?.post_dilated_exam?.pupil_le_size || "—"}
                                       </td>
                                   </tr>
 
@@ -788,11 +789,11 @@ function PatientDetails() {
                                       <td className="border p-1">Pupil Reaction</td>
 
                                       <td className="border p-1">
-                                          {d.diagnosis.post_dilated_exam?.pupil?.re_reaction || "—"}
+                                          {d.diagnosis.ocular_exam?.post_dilated_exam?.pupil_re_reaction || "—"}
                                       </td>
 
                                       <td className="border p-1">
-                                          {d.diagnosis.post_dilated_exam?.pupil?.le_reaction || "—"}
+                                          {d.diagnosis.ocular_exam?.post_dilated_exam?.pupil_le_reaction || "—"}
                                       </td>
                                   </tr>
 
@@ -800,11 +801,11 @@ function PatientDetails() {
                                       <td className="border p-1">Lens</td>
 
                                       <td className="border p-1">
-                                          {d.diagnosis.post_dilated_exam?.lens?.re || "—"}
+                                          {d.diagnosis.ocular_exam?.post_dilated_exam?.lens_re || "—"}
                                       </td>
 
                                       <td className="border p-1">
-                                          {d.diagnosis.post_dilated_exam?.lens?.le || "—"}
+                                          {d.diagnosis.ocular_exam?.post_dilated_exam?.lens_le || "—"}
                                       </td>
                                   </tr>
 
@@ -814,7 +815,7 @@ function PatientDetails() {
 
                           <div className="mt-2 text-xs">
                               <b>Comment :</b>{" "}
-                              {d.diagnosis.post_dilated_exam?.comment || "—"}
+                              {d.diagnosis.ocular_exam?.post_dilated_exam?.comment || "—"}
                           </div>
 
                       </div>
@@ -823,7 +824,7 @@ function PatientDetails() {
 
                       {/* ================= FUNDUS ================= */}
 
-                      <div className="bg-white p-3 rounded-lg shadow-sm">
+                      <div className="bg-white p-3 rounded-lg shadow-sm col-span-2">
 
                           <p className="font-semibold text-blue-600 mb-2">
                               Fundus Examination
@@ -946,6 +947,7 @@ function PatientDetails() {
 
                           </div>
 
+                      </div>
                       </div>
                       {/* 🔴 CLINICAL */}
                       <div className="bg-yellow-50 p-3 rounded-lg">

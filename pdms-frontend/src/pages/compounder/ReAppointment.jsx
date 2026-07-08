@@ -70,7 +70,7 @@ function ReAppointment() {
   const generateSlots = () => {
     const slots = [];
     let start = 9 * 60;   // 9:00 in minutes
-    let end = 19 * 60;    // 7:00 PM
+    let end = 21 * 60;    // 7:00 PM
 
     for (let t = start; t < end; t += 20) {
       const hours = Math.floor(t / 60);
@@ -352,6 +352,7 @@ function ReAppointment() {
                   type="date"
                   className="input bg-white"
                   value={appointment.date}
+                  onKeyDown={handleEnterNext}
                   onChange={(e) =>
                     setAppointment({ ...appointment, date: e.target.value })
                   }
@@ -360,6 +361,7 @@ function ReAppointment() {
                 <button
                   type="button"
                   onClick={selectToday}
+                  onKeyDown={handleEnterNext}
                   className={`px-6 py-2 rounded border-2 font-bold
                     ${
                       appointment.date === today
@@ -372,6 +374,7 @@ function ReAppointment() {
                 <button
                   type="button"
                   onClick={selectTomorrow}
+                  onKeyDown={handleEnterNext}
                   className={`px-6 py-2 rounded border-2 font-bold
                     ${
                       appointment.date === tomorrowDate
@@ -383,7 +386,7 @@ function ReAppointment() {
                 </button>               
                 
               </div>
-              <div className="grid grid-cols-4 gap-3 mt-4">
+              <div className="grid grid-cols-6 gap-3 mt-4">
                 {slots.map((slot) => {
                   const isBooked = bookedSlots.includes(slot);
                   const isSelected = appointment.time === slot;

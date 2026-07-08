@@ -46,7 +46,7 @@ function RegisterPatient() {
   const generateSlots = () => {
     const slots = [];
     let start = 9 * 60;   // 9:00 in minutes
-    let end = 19 * 60;    // 7:00 PM
+    let end = 21 * 60;    // 7:00 PM
 
     for (let t = start; t < end; t += 20) {
       const hours = Math.floor(t / 60);
@@ -369,11 +369,13 @@ function RegisterPatient() {
                   className="input flex-1"
                   value={form.date}
                   onChange={handleChange}
+                  onKeyDown={handleEnterNext}
                 />
 
                 <button
                   type="button"
                   onClick={selectToday}
+                  onKeyDown={handleEnterNext}
                   className={`px-6 py-2 rounded border-2 font-bold
                   ${
                       form.date === today
@@ -387,6 +389,7 @@ function RegisterPatient() {
                 <button
                   type="button"
                   onClick={selectTomorrow}
+                  onKeyDown={handleEnterNext}
                   className={`px-6 py-2 rounded border-2 font-bold
                   ${
                       form.date === tomorrowDate
@@ -400,7 +403,7 @@ function RegisterPatient() {
 
               
             </div>
-            <div className="grid grid-cols-4 gap-3 mt-4">
+            <div className="grid grid-cols-6 gap-3 mt-4">
               {slots.map((slot) => {
                 const isBooked = bookedSlots.includes(slot);
                 const isSelected = form.time === slot;

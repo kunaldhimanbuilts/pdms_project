@@ -654,7 +654,7 @@ export default function HistoryPanel({
 
                                     <p>
                                         <b>Dilated Drop :</b>{" "}
-                                        {h.diagnosis.post_dilated_exam?.dilated_drop || "—"}
+                                        {h.diagnosis.ocular_exam?.post_dilated_exam?.dilated_drop || "—"}
                                     </p>
 
                                     <table className="w-full text-xs mt-2 border">
@@ -671,20 +671,20 @@ export default function HistoryPanel({
 
                                             <tr>
                                                 <td>Pupil Size</td>
-                                                <td>{h.diagnosis.post_dilated_exam?.pupil?.re_size || "—"}</td>
-                                                <td>{h.diagnosis.post_dilated_exam?.pupil?.le_size || "—"}</td>
+                                                <td>{h.diagnosis.ocular_exam?.post_dilated_exam?.pupil_re_size || "—"}</td>
+                                                <td>{h.diagnosis.ocular_exam?.post_dilated_exam?.pupil_le_size || "—"}</td>
                                             </tr>
 
                                             <tr>
                                                 <td>Reaction</td>
-                                                <td>{h.diagnosis.post_dilated_exam?.pupil?.re_reaction || "—"}</td>
-                                                <td>{h.diagnosis.post_dilated_exam?.pupil?.le_reaction || "—"}</td>
+                                                <td>{h.diagnosis.ocular_exam?.post_dilated_exam?.pupil_re_reaction || "—"}</td>
+                                                <td>{h.diagnosis.ocular_exam?.post_dilated_exam?.pupil_le_reaction || "—"}</td>
                                             </tr>
 
                                             <tr>
                                                 <td>Lens</td>
-                                                <td>{h.diagnosis.post_dilated_exam?.lens?.re || "—"}</td>
-                                                <td>{h.diagnosis.post_dilated_exam?.lens?.le || "—"}</td>
+                                                <td>{h.diagnosis.ocular_exam?.post_dilated_exam?.lens_re || "—"}</td>
+                                                <td>{h.diagnosis.ocular_exam?.post_dilated_exam?.lens_le || "—"}</td>
                                             </tr>
 
                                         </tbody>
@@ -693,7 +693,7 @@ export default function HistoryPanel({
 
                                     <p className="mt-2">
                                         <b>Comment :</b>{" "}
-                                        {h.diagnosis.post_dilated_exam?.comment || "—"}
+                                        {h.diagnosis.ocular_exam?.post_dilated_exam?.comment || "—"}
                                     </p>
 
                                 </div>

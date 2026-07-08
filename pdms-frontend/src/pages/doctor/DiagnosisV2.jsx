@@ -145,23 +145,23 @@ const [form, setForm] = useState({
     lacrimal: {}
   },
 
-  post_dilated_exam: {
-    dilated_drop: "",
+  // post_dilated_exam: {
+  //   dilated_drop: "",
 
-    pupil: {
-      re_size: "",
-      re_reaction: "",
-      le_size: "",
-      le_reaction: "",
-    },
+  //   pupil: {
+  //     re_size: "",
+  //     re_reaction: "",
+  //     le_size: "",
+  //     le_reaction: "",
+  //   },
 
-    lens: {
-      re: "",
-      le: "",
-    },
+  //   lens: {
+  //     re: "",
+  //     le: "",
+  //   },
 
-    comment: "",
-  },
+  //   comment: "",
+  // },
   fundus: {},
   prescriptions: [{}]
 });
@@ -316,7 +316,7 @@ const handleSave = async () => {
 
       refraction: form.refraction,
       ocular_exam: form.ocular_exam,
-      post_dilated_exam: form.post_dilated_exam,
+      // post_dilated_exam: form.post_dilated_exam,
       fundus: form.fundus,
 
       clinical_impression: form.clinical_impression,
@@ -372,23 +372,23 @@ const handleSave = async () => {
         lacrimal: {}
       },
 
-      post_dilated_exam: {
-        dilated_drop: "",
+      // post_dilated_exam: {
+      //   dilated_drop: "",
 
-        pupil: {
-          re_size: "",
-          re_reaction: "",
-          le_size: "",
-          le_reaction: "",
-        },
+      //   pupil: {
+      //     re_size: "",
+      //     re_reaction: "",
+      //     le_size: "",
+      //     le_reaction: "",
+      //   },
 
-        lens: {
-          re: "",
-          le: "",
-        },
+      //   lens: {
+      //     re: "",
+      //     le: "",
+      //   },
 
-        comment: "",
-      },      
+      //   comment: "",
+      // },      
       fundus: {},
 
       prescriptions: [{}]
@@ -475,23 +475,23 @@ const handleRefresh = () => {
       iop: {},
       lacrimal: {}
     },
-    post_dilated_exam: {
-      dilated_drop: "",
+    // post_dilated_exam: {
+    //   dilated_drop: "",
 
-      pupil: {
-        re_size: "",
-        re_reaction: "",
-        le_size: "",
-        le_reaction: "",
-      },
+    //   pupil: {
+    //     re_size: "",
+    //     re_reaction: "",
+    //     le_size: "",
+    //     le_reaction: "",
+    //   },
 
-      lens: {
-        re: "",
-        le: "",
-      },
+    //   lens: {
+    //     re: "",
+    //     le: "",
+    //   },
 
-      comment: "",
-    },
+    //   comment: "",
+    // },
     fundus: {},
     prescriptions: [{}]
     
@@ -2220,6 +2220,18 @@ const removeRetinoscopy = (index) => {
 
                 </div>
 
+
+
+
+
+
+                
+
+
+
+
+
+
               </div>
             )}
           </div>
@@ -2231,6 +2243,7 @@ const removeRetinoscopy = (index) => {
             >
              
               POST DILATED EXAMINATION AND PRESCRIPTION
+              
               <span>{openSection === "fundus" ? "▲" : "▼"}</span>
             </div>
 
@@ -2242,16 +2255,11 @@ const removeRetinoscopy = (index) => {
                     <p className="font-semibold">Post Dilated Examination</p>
                     
                     <select
-                      value={form.post_dilated_exam.dilated_drop || ""}
+                      
+                      value={form.ocular_exam.post_dilated_exam?.dilated_drop || ""}
                       className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
-                      onChange={(e)=>
-                        setForm({
-                          ...form,
-                          post_dilated_exam:{
-                            ...form.post_dilated_exam,
-                            dilated_drop:e.target.value
-                          }
-                        })
+                      onChange={(e) =>
+                        updateNested("ocular_exam", "post_dilated_exam", "dilated_drop", e.target.value)
                       }
                       onKeyDown={handleEnterNext}
                     >
@@ -2274,15 +2282,12 @@ const removeRetinoscopy = (index) => {
                     <select
                         onKeyDown={handleEnterNext}
                         className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
-                        value={form.post_dilated_exam.pupil.re_size}
-                        onChange={(e)=>
-                            updateNested(
-                                "post_dilated_exam",
-                                "pupil",
-                                "re_size",
-                                e.target.value
-                            )
+                        
+                        value={form.ocular_exam.post_dilated_exam?.pupil_re_size || ""}
+                        onChange={(e) =>
+                          updateNested("ocular_exam", "post_dilated_exam", "pupil_re_size", e.target.value)
                         }
+                       
                     >
                         <option value="">Select(mm)</option>
                         <option value="1">1</option>
@@ -2300,15 +2305,12 @@ const removeRetinoscopy = (index) => {
                     <select
                         onKeyDown={handleEnterNext}
                         className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
-                        value={form.post_dilated_exam.pupil.re_reaction}
-                        onChange={(e)=>
-                            updateNested(
-                                "post_dilated_exam",
-                                "pupil",
-                                "re_reaction",
-                                e.target.value
-                            )
+                        
+                        value={form.ocular_exam.post_dilated_exam?.pupil_re_reaction || ""}
+                        onChange={(e) =>
+                          updateNested("ocular_exam", "post_dilated_exam", "pupil_re_reaction", e.target.value)
                         }
+                       
                     >
                         <option value="">Select</option>
                         <option value="Post_dilated">Post Dilated</option>
@@ -2318,15 +2320,12 @@ const removeRetinoscopy = (index) => {
                     <select
                         onKeyDown={handleEnterNext}
                         className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
-                        value={form.post_dilated_exam.pupil.le_size}
-                        onChange={(e)=>
-                            updateNested(
-                                "post_dilated_exam",
-                                "pupil",
-                                "le_size",
-                                e.target.value
-                            )
+                        
+                        value={form.ocular_exam.post_dilated_exam?.pupil_le_size || ""}
+                        onChange={(e) =>
+                          updateNested("ocular_exam", "post_dilated_exam", "pupil_le_size", e.target.value)
                         }
+                        
                     >
                         <option value="">Select(mm)</option>
                         <option value="1">1</option>
@@ -2344,15 +2343,12 @@ const removeRetinoscopy = (index) => {
                     <select
                         onKeyDown={handleEnterNext}
                         className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
-                        value={form.post_dilated_exam.pupil.le_reaction}
-                        onChange={(e)=>
-                            updateNested(
-                                "post_dilated_exam",
-                                "pupil",
-                                "le_reaction",
-                                e.target.value
-                            )
+                        
+                        value={form.ocular_exam.post_dilated_exam?.pupil_le_reaction || ""}
+                        onChange={(e) =>
+                          updateNested("ocular_exam", "post_dilated_exam", "pupil_le_reaction", e.target.value)
                         }
+                        
                     >
                         <option value="">Select</option>
                         <option value="Post_dilated">Post Dilated</option>
@@ -2363,15 +2359,12 @@ const removeRetinoscopy = (index) => {
                     <select
                         onKeyDown={handleEnterNext}
                         className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400 col-span-2"
-                        value={form.post_dilated_exam.lens.re}
-                        onChange={(e)=>
-                            updateNested(
-                                "post_dilated_exam",
-                                "lens",
-                                "re",
-                                e.target.value
-                            )
+                        
+                        value={form.ocular_exam.post_dilated_exam?.lens_re || ""}
+                        onChange={(e) =>
+                          updateNested("ocular_exam", "post_dilated_exam", "lens_re", e.target.value)
                         }
+                       
                     >
                         <option value="">Select</option>
                         <option value="Clear">Clear</option>
@@ -2382,15 +2375,12 @@ const removeRetinoscopy = (index) => {
                     <select
                         onKeyDown={handleEnterNext}
                         className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400 col-span-2"
-                        value={form.post_dilated_exam.lens.le}
-                        onChange={(e)=>
-                            updateNested(
-                                "post_dilated_exam",
-                                "lens",
-                                "le",
-                                e.target.value
-                            )
+                        
+                        value={form.ocular_exam.post_dilated_exam?.lens_le || ""}
+                        onChange={(e) =>
+                          updateNested("ocular_exam", "post_dilated_exam", "lens_le", e.target.value)
                         }
+                        
                     >
                         <option value="">Select</option>
                         <option value="Clear">Clear</option>
@@ -2406,16 +2396,12 @@ const removeRetinoscopy = (index) => {
                       type="text"
                       placeholder="Comment"
                       className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
-                      value={form.post_dilated_exam.comment || ""}
-                      onChange={(e)=>
-                        setForm({
-                          ...form,
-                          post_dilated_exam:{
-                            ...form.post_dilated_exam,
-                            comment:e.target.value
-                          }
-                        })
+                      
+                      value={form.ocular_exam.post_dilated_exam?.comment || ""}
+                      onChange={(e) =>
+                        updateNested("ocular_exam", "post_dilated_exam", "comment", e.target.value)
                       }
+                      
                       onKeyDown={handleEnterNext}
                     />
 
@@ -2480,8 +2466,8 @@ const removeRetinoscopy = (index) => {
                       <option value="Asteroid_Hyalosis">Asteroid Hyalosis</option>
                       <option value="Hyphaema">Hyphaema</option>
                       <option value="Corneal_infiltrate">Corneal infiltrate</option>
-                      <option value="Gas_in_vitreous_cavity">Gas in vitreous cavity</option>
-                      <option value="Air_in_vitreous_cavity">Air in vitreous cavity</option>
+                      <option value="Gas in vitreous cavity">Gas in vitreous cavity</option>
+                      <option value="Air in vitreous cavity">Air in vitreous cavity</option>
 
 
                     </select>
@@ -2530,8 +2516,8 @@ const removeRetinoscopy = (index) => {
                       <option value="Asteroid_Hyalosis">Asteroid Hyalosis</option>
                       <option value="Hyphaema">Hyphaema</option>
                       <option value="Corneal_infiltrate">Corneal infiltrate</option>
-                      <option value="Gas_in_vitreous_cavity">Gas in vitreous cavity</option>
-                      <option value="Air_in_vitreous_cavity">Air in vitreous cavity</option>
+                      <option value="Gas in vitreous cavity">Gas in vitreous cavity</option>
+                      <option value="Air in vitreous cavity">Air in vitreous cavity</option>
 
 
                     </select>
@@ -2648,7 +2634,7 @@ const removeRetinoscopy = (index) => {
                       <option value="0.85">0.85</option>
                       <option value="0.9">0.9</option>
                       <option value="0.95">0.95</option>
-                      <option value="Near_Total_Cupping">Near Total Cupping</option>
+                      <option value="Near Total Cupping">Near Total Cupping</option>
                       <option value="Total_Cupping">Total Cupping</option>
                     </select>
 
@@ -2681,7 +2667,7 @@ const removeRetinoscopy = (index) => {
                       <option value="0.85">0.85</option>
                       <option value="0.9">0.9</option>
                       <option value="0.95">0.95</option>
-                      <option value="Near_Total_Cupping">Near Total Cupping</option>
+                      <option value="Near Total Cupping">Near Total Cupping</option>
                       <option value="Total_Cupping">Total Cupping</option>
                     </select>
                     <p>Optic Disc</p>
@@ -2777,7 +2763,7 @@ const removeRetinoscopy = (index) => {
                       onKeyDown={handleEnterNext}
                     >
                       <option value="">Select</option>
-                      <option value="Retina_ON_Fundus_is_within_Normal_Limits">Retina ON. Fundus is within Normal Limits</option>
+                      <option value="Retina ON Fundus is within Normal Limits">Retina ON. Fundus is within Normal Limits</option>
                       <option value="supero_temporal">Supero Temporal</option>
                       <option value="supero_nasal">Supero Nasal</option>
                       <option value="infero_temporal">Infero Temporal</option>
@@ -2801,7 +2787,7 @@ const removeRetinoscopy = (index) => {
                       onKeyDown={handleEnterNext}
                     >
                       <option value="">Select</option>
-                       <option value="Retina_ON_Fundus_is_within_Normal_Limits">Retina ON. Fundus is within Normal Limits</option>
+                       <option value="Retina ON Fundus is within Normal Limits">Retina ON. Fundus is within Normal Limits</option>
                       <option value="supero_temporal">Supero Temporal</option>
                       <option value="supero_nasal">Supero Nasal</option>
                       <option value="infero_temporal">Infero Temporal</option>
