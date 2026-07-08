@@ -940,7 +940,7 @@ const removeRetinoscopy = (index) => {
             
               {/* 🔹 UNAIDED */}
               <div>
-                <p className="font-semibold">UNAIDED</p>
+                <p className="font-semibold">UNAIDED VISION</p>
 
                 <div className="grid grid-cols-5 gap-2">
 
