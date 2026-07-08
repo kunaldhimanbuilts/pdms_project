@@ -160,7 +160,7 @@ export default function DiagnosisPrintA4({
 
   return (
     <div className="print-area">
-      <div className="a4-page bg-white">
+      <div className="a4-page bg-white relative min-h-[1122px]">
 
         {/* ================= HEADER ================= */}
 
@@ -1157,7 +1157,7 @@ export default function DiagnosisPrintA4({
 
                 {/* ================= FOOTER ================= */}
 
-                <div className="grid grid-cols-2 gap-6 mt-1">
+                {/* <div className="grid grid-cols-2 gap-6 mt-1">
                     {(hasValue(printData?.next_visit_date) ||
                     hasValue(printData?.next_visit_reason)) && (
                         <div>
@@ -1166,7 +1166,6 @@ export default function DiagnosisPrintA4({
                                 Next Visit
                             </p>
 
-                            {/* <div className="mt-1 border-b border-black w-56 pb-1 text-[12px]"> */}
                             <div className="mt-1 w-56 pb-1 text-[12px]">
 
                                 {printData?.next_visit_date
@@ -1183,7 +1182,6 @@ export default function DiagnosisPrintA4({
                     )}
                     <div className="text-right">
 
-                        {/* <div className="h-12"></div> */}
 
                         <div className="border-t border-black inline-block px-6 pt-1">
 
@@ -1195,16 +1193,40 @@ export default function DiagnosisPrintA4({
                                 S&D Eye Care Centre
                             </p>
 
-                            {/* <p className="text-[10px]">
-                                Eye Care Specialist
-                            </p> */}
-
                         </div>
 
                     </div>
 
-                </div>
+                </div> */}
+{/* Next Visit */}
+{(hasValue(printData?.next_visit_date) ||
+  hasValue(printData?.next_visit_reason)) && (
+  <div className="mt-3">
+    <p className="font-semibold text-[12px]">Next Visit</p>
 
+    <div className="mt-1 text-[12px]">
+      {printData?.next_visit_date
+        ? new Date(printData.next_visit_date).toLocaleDateString("en-GB")
+        : ""}
+
+      {printData?.next_visit_reason
+        ? ` (${printData.next_visit_reason})`
+        : ""}
+    </div>
+  </div>
+)}
+
+{/* Fixed Signature */}
+<div className="absolute bottom-8 right-8 text-right">
+    <div className="border-t border-black inline-block px-6 pt-1">
+        <p className="font-semibold text-[10px]">
+            Authorized Doctor Signature
+        </p>
+        <p className="text-[10px]">
+            S&D Eye Care Centre
+        </p>
+    </div>
+</div>
             </div>
             {/* ================= FUNDUS ================= */}
 
