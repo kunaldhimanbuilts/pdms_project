@@ -225,7 +225,7 @@ export default function DiagnosisPrintA4({
 
         {/* ================= PATIENT ROW ================= */}
 
-        <div className="grid grid-cols-2 gap-5 mt-0.5">
+        <div className="grid grid-cols-2 gap-4 mt-0.5">
 
           {/* Patient */}
 
@@ -235,17 +235,17 @@ export default function DiagnosisPrintA4({
               Patient Details
             </div>
 
-            <div className="px-2 py-1">
+            <div className="px-2 ">
 
-              <div className="grid grid-cols-2 gap-y-0">
+              <div className="grid grid-cols-2 ">
 
                 <div>
 
-                  <span className="font-semibold text-[13px]">
+                  <span className="font-semibold text-[12px]">
                     Patient ID:
                   </span>
 
-                  <span className="ml-2 text-[13px]">
+                  <span className="ml-2 text-[12px]">
                     {patient?.patient_code}
                   </span>
 
@@ -253,11 +253,11 @@ export default function DiagnosisPrintA4({
 
                 <div>
 
-                  <span className="font-semibold text-[13px]">
+                  <span className="font-semibold text-[12px]">
                     Date:
                   </span>
 
-                  <span className="ml-2 text-[13px]">
+                  <span className="ml-2 text-[12px]">
                     {today}
                   </span>
 
@@ -265,11 +265,11 @@ export default function DiagnosisPrintA4({
 
                 <div>
 
-                  <span className="font-semibold text-[13px]">
+                  <span className="font-semibold text-[12px]">
                     Name:
                   </span>
 
-                  <span className="ml-2 text-[13px]">
+                  <span className="ml-2 text-[12px]">
                     {patient?.name}
                   </span>
 
@@ -277,11 +277,11 @@ export default function DiagnosisPrintA4({
 
                 <div>
 
-                  <span className="font-semibold text-[13px]">
+                  <span className="font-semibold text-[12px]">
                     Age / Sex:
                   </span>
 
-                  <span className="ml-2 text-[13px]">
+                  <span className="ml-2 text-[12px]">
                     {calculateAge(patient?.dob)} / {patient?.gender}
                   </span>
 
@@ -289,13 +289,13 @@ export default function DiagnosisPrintA4({
 
               </div>
 
-              <div className="mt-1 text-[13px]">
+              <div className="mt-1 text-[12px]">
 
-                <span className="font-semibold text-[13px]">
+                <span className="font-semibold text-[12px]">
                   Address:
                 </span>
 
-                <span className="ml-2 text-[13px]">
+                <span className="ml-2 text-[12px]">
                   {patient?.address}
                 </span>
 
@@ -313,19 +313,19 @@ export default function DiagnosisPrintA4({
               Clinical Provider
             </div>
 
-            <div className="px-2 py-1 space-y-0.5">
+            <div className="px-2 ">
 
               <div>
 
-                <span className="font-semibold text-[13px]">
+                <span className="font-semibold text-[12px]">
                   Doctor:
                 </span>
 
-                <span className="ml-2 font-bold text-[13px]">
+                <span className="ml-2 font-bold text-[12px]">
                    {doctor?.name || "Doctor"}
                 </span>
 
-                <span className="ml-2 text-gray-600 text-[13px]">
+                <span className="ml-2 text-gray-600 text-[12px]">
                   (B. Optom)
                 </span>
 
@@ -333,11 +333,11 @@ export default function DiagnosisPrintA4({
 
               <div>
 
-                <span className="font-semibold text-[13px]">
+                <span className="font-semibold text-[12px]">
                   Specialty:
                 </span>
 
-                <span className="ml-2 text-[13px]">
+                <span className="ml-2 text-[12px]">
                   Eye Care Specialist
                 </span>
 
@@ -345,15 +345,15 @@ export default function DiagnosisPrintA4({
 
               <div>
 
-                <span className="font-semibold text-[13px]">
+                <span className="font-semibold text-[12px]">
                   Timings:
                 </span>
 
-                <span className="ml-2 text-[13px]">
+                <span className="ml-2 text-[12px]">
                   9:00 AM to 7:00 PM
                 </span>
 
-                <span className="text-red-600 font-semibold ml-2 text-[13px]">
+                <span className="text-red-600 font-semibold ml-2 text-[12px]">
                   Sunday Closed
                 </span>
 
