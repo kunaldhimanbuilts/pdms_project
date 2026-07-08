@@ -231,7 +231,7 @@ export default function DiagnosisPrintA4({
 
           <div className="border rounded-md overflow-hidden ">
 
-            <div className="bg-slate-100 border-b px-3 py-0 font-bold text-[#213c8f] text-[14px] uppercase">
+            <div className="bg-slate-100 border-b px-3 py-0 font-bold text-[#213c8f] text-[12px] uppercase">
               Patient Details
             </div>
 
@@ -309,7 +309,7 @@ export default function DiagnosisPrintA4({
 
           <div className="border rounded-md overflow-hidden">
 
-            <div className="bg-slate-100 border-b px-3 py-0 font-bold text-[#213c8f] text-[14px] uppercase">
+            <div className="bg-slate-100 border-b px-3 py-0 font-bold text-[#213c8f] text-[12px] uppercase">
               Clinical Provider
             </div>
 
@@ -367,10 +367,12 @@ export default function DiagnosisPrintA4({
         {/* ================= VISION & REFRACTION ================= */}
         {/* ======================= VISION & REFRACTION MATRIX ======================= */}
 
-        <div className="mt-0.5 border border-slate-400 rounded-md overflow-hidden">
+        <div className="mt-0.5 border border-slate-400 rounded-md overflow-hidden"
+        
+        >
 
             {/* Header */}
-            <div className="bg-[#213c8f] text-white font-bold text-[13px] px-3  uppercase tracking-wide">
+            <div className="bg-[#213c8f] text-white font-bold text-[12px] px-3  uppercase tracking-wide">
                 Vision & Refraction Matrix
             </div>
 
@@ -380,7 +382,7 @@ export default function DiagnosisPrintA4({
 
                     <tr className="bg-slate-100">
 
-                        <th className="border border-slate-300 px-2 py-1 w-[180px]">
+                        <th className="border border-slate-300 px-2 py-1 w-[140px]">
                             Assessment
                         </th>
 
@@ -416,7 +418,7 @@ export default function DiagnosisPrintA4({
                             PH
                         </th>
 
-                        <th className="border border-slate-300 w-28">
+                        <th className="border border-slate-300 w-[190px]">
                             Remarks
                         </th>
 
@@ -463,7 +465,8 @@ export default function DiagnosisPrintA4({
                         </td>
 
                         <td className="border border-slate-300 text-center">
-                            {printData?.refraction?.unaided?.comment || ""}
+                            {/* {printData?.refraction?.unaided?.comment || ""} */}
+                            D:{printData?.refraction?.unaided?.distance_chart || ""}
                         </td>
 
                     </tr>
@@ -495,7 +498,7 @@ export default function DiagnosisPrintA4({
                         </td>
 
                         <td className="border border-slate-300 text-center">
-                            {printData?.refraction?.unaided?.distance_chart || ""}|{printData?.refraction?.unaided?.near_chart || ""}
+                            N:{printData?.refraction?.unaided?.near_chart || ""}
                         </td>
 
                     </tr>
@@ -587,7 +590,7 @@ export default function DiagnosisPrintA4({
                         </td>
 
                         <td className="border border-slate-300 text-center">
-                            {printData?.refraction?.pgp?.comment || ""}
+                            Lens: {printData?.refraction?.pgp?.lens_type || "--"}
                         </td>
 
                     </tr>
@@ -808,7 +811,7 @@ export default function DiagnosisPrintA4({
                     )}
                     {/* ======================= FOOTER ======================= */}
 
-                    <tr className="bg-slate-50">
+                    {/* <tr className="bg-slate-50">
 
                         <td
                             colSpan={10}
@@ -818,23 +821,6 @@ export default function DiagnosisPrintA4({
                             <div className="flex justify-between items-center">
 
                                 <div className="flex gap-8">
-
-                                    {/* <div>
-                                        <span className="font-semibold">
-                                            PD :
-                                        </span>
-
-                                        {" "}
-
-                                        {printData?.refraction?.final_refraction?.pd_distance || "--"}
-
-                                        {" / "}
-
-                                        {printData?.refraction?.final_refraction?.pd_near || "--"}
-
-                                        {" mm"}
-
-                                    </div> */}
 
                                     <div>
 
@@ -878,7 +864,7 @@ export default function DiagnosisPrintA4({
 
                         </td>
 
-                    </tr>
+                    </tr> */}
 
                 </tbody>
 
@@ -888,7 +874,7 @@ export default function DiagnosisPrintA4({
             
         {/* ================= SLIT LAMP + FUNDUS ================= */}
 
-        <div className="grid grid-cols-2 gap-1 mt-1">
+        <div className="grid grid-cols-2 gap-1 mt-0.5">
 
         {/* ================= SLIT LAMP ================= */}
             {showSlitLamp && (
@@ -917,7 +903,7 @@ export default function DiagnosisPrintA4({
                     <tbody>
                     {showEyeball && (
                     <tr>
-                        <td className="font-semibold w-36">Eyeball</td>
+                        <td className="font-semibold w-28">Eyeball</td>
                         <td>{printData?.ocular_exam?.slit_lamp?.eyeball_re}</td>
                         <td>{printData?.ocular_exam?.slit_lamp?.eyeball_le}</td>
                     </tr>
@@ -1224,7 +1210,7 @@ export default function DiagnosisPrintA4({
 
             {showFundus && (
 
-            <div className="border border-slate-400 rounded-md overflow-hidden">
+            <div className="border border-slate-400 rounded-md mt-0.5 overflow-hidden">
 
                 <div className="bg-[#213c8f] text-white px-3 text-[12px] font-bold uppercase">
                 Fundus Examination
@@ -1247,7 +1233,7 @@ export default function DiagnosisPrintA4({
                     <tbody>
                     {showMedia && (
                     <tr>
-                        <td className="font-semibold w-36">Media</td>
+                        <td className="font-semibold w-20">Media</td>
                         <td>{printData?.fundus?.be_media_re || "-"} | {printData?.fundus?.media_re || "-"}</td>
                         <td>{printData?.fundus?.be_media_le || "-"} | {printData?.fundus?.media_le || "-"}</td>
                     </tr>
