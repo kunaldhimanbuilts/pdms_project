@@ -512,6 +512,10 @@ export default function DiagnosisPrintA4({
                             &nbsp;&nbsp;&nbsp;&nbsp;
 
                             OS {printData?.ocular_exam?.iop?.le || ""}
+
+                            &nbsp;&nbsp;&nbsp;&nbsp;
+
+                            Time: {printData?.ocular_exam?.iop?.time || ""}
                         </td>
 
                     </tr>
@@ -737,14 +741,14 @@ export default function DiagnosisPrintA4({
 
                     <tr>
                         <td className="font-semibold w-36">Media</td>
-                        <td>{printData?.fundus?.media_re}</td>
-                        <td>{printData?.fundus?.media_le}</td>
+                        <td>{printData?.fundus?.be_media_re} | {printData?.fundus?.media_re || "-"}</td>
+                        <td>{printData?.fundus?.be_media_le} | {printData?.fundus?.media_le || "-"}</td>
                     </tr>
 
                     <tr>
                         <td className="font-semibold">Optic Disc</td>
-                        <td>{printData?.fundus?.optic_re}</td>
-                        <td>{printData?.fundus?.optic_le}</td>
+                        <td>{printData?.fundus?.be_optic_re} | {printData?.fundus?.optic_re || "-"}</td>
+                        <td>{printData?.fundus?.be_optic_le} | {printData?.fundus?.optic_le || "-"}</td>
                     </tr>
 
                     <tr>

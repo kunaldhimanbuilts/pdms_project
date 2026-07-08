@@ -205,7 +205,35 @@ const handleEnterNext = (e) => {
     }
   }
 };
+useEffect(() => {
+  const updateTime = () => {
+    const now = new Date();
 
+    const time = now.toLocaleTimeString("en-IN", {
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: true, // false for 24-hour format
+    });
+
+    setForm((prev) => ({
+      ...prev,
+      ocular_exam: {
+        ...prev.ocular_exam,
+        iop: {
+          ...prev.ocular_exam.iop,
+          time,
+        },
+      },
+    }));
+  };
+
+  updateTime(); // set immediately
+
+  const interval = setInterval(updateTime, 1000);
+
+  return () => clearInterval(interval);
+}, []);
 useEffect(() => {
   if (!message) return;
 
@@ -931,8 +959,23 @@ const removeRetinoscopy = (index) => {
                       </option>
                     ))}
                   </select>
+                  <select
+                    className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    value={form.refraction.unaided.re_pinhole || ""}
+                    onChange={(e) =>
+                      updateNested("refraction", "unaided", "re_pinhole", e.target.value)
+                    }
+                    onKeyDown={handleEnterNext}
+                  >
+                    <option value="">Pinhole OD</option>                   
+                    {visionOptions.map((vision) => (
+                      <option key={vision} value={vision}>
+                        {vision}
+                      </option>
+                    ))}
+                  </select>
                   
-                  <input
+                  {/* <input
                     placeholder="Pinhole OD"
                     className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                     value={form.refraction.unaided.re_pinhole || ""}
@@ -940,7 +983,7 @@ const removeRetinoscopy = (index) => {
                       updateNested("refraction", "unaided", "re_pinhole", e.target.value)
                     }
                     onKeyDown={handleEnterNext}
-                  />
+                  /> */}
                   <select
                     className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400 row-span-2"
                     value={form.refraction.unaided.distance_chart || ""}
@@ -1012,9 +1055,24 @@ const removeRetinoscopy = (index) => {
                       </option>
                     ))}
                   </select>
+                  <select
+                    className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    value={form.refraction.unaided.le_pinhole || ""}
+                    onChange={(e) =>
+                      updateNested("refraction", "unaided", "le_pinhole", e.target.value)
+                    }
+                    onKeyDown={handleEnterNext}
+                  >
+                    <option value="">Pinhole OS</option>                   
+                    {visionOptions.map((vision) => (
+                      <option key={vision} value={vision}>
+                        {vision}
+                      </option>
+                    ))}
+                  </select>
 
 
-                  <input
+                  {/* <input
                     placeholder="Pinhole OS"
                     className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                     value={form.refraction.unaided.le_pinhole || ""}
@@ -1022,7 +1080,7 @@ const removeRetinoscopy = (index) => {
                       updateNested("refraction", "unaided", "le_pinhole", e.target.value)
                     }
                     onKeyDown={handleEnterNext}
-                  />
+                  /> */}
 
                   <select
                     className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -2082,7 +2140,7 @@ const removeRetinoscopy = (index) => {
                       onKeyDown={handleEnterNext}
                     />
                    
-                    <div className="text-l text-gray-700 text-center">
+                    {/* <div className="text-l text-gray-700 text-center">
                       mmHg at
                     </div>
                     <input
@@ -2093,9 +2151,16 @@ const removeRetinoscopy = (index) => {
                         updateNested("ocular_exam", "iop", "time", e.target.value)
                       }
                       onKeyDown={handleEnterNext}
+                    /> */}
+                    <div className="text-l text-gray-700 text-center">
+                      mmHg at
+                    </div>
+
+                    <input
+                      className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+                      value={form.ocular_exam.iop?.time || ""}
+                      readOnly
                     />
-
-
                   </div>
                 </div>
 
@@ -2219,18 +2284,6 @@ const removeRetinoscopy = (index) => {
 
 
                 </div>
-
-
-
-
-
-
-                
-
-
-
-
-
 
               </div>
             )}
