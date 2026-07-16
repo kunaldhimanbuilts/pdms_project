@@ -2559,15 +2559,15 @@ const removeRetinoscopy = (index) => {
                       <option value="">Select</option>
                       <option value="Cataract">Cataract</option>
                       <option value="Vitritis">Vitritis</option>
-                      <option value="Vitreous_Hemorrhage">Vitreous Hemorrhage</option>
+                      <option value="Vitreous Hemorrhage">Vitreous Hemorrhage</option>
                       <option value="IOFB">IOFB</option>
                       <option value="Corneal_Scar">Corneal Scar</option>
-                      <option value="Corneal_Edema">Corneal Edema</option>
+                      <option value="Corneal Edema">Corneal Edema</option>
                       <option value="PCO">PCO</option>
                       <option value="AC_Reaction">AC Reaction</option>
-                      <option value="Asteroid_Hyalosis">Asteroid Hyalosis</option>
+                      <option value="Asteroid Hyalosis">Asteroid Hyalosis</option>
                       <option value="Hyphaema">Hyphaema</option>
-                      <option value="Corneal_infiltrate">Corneal infiltrate</option>
+                      <option value="Corneal infiltrate">Corneal infiltrate</option>
                       <option value="Gas in vitreous cavity">Gas in vitreous cavity</option>
                       <option value="Air in vitreous cavity">Air in vitreous cavity</option>
 
@@ -2609,15 +2609,15 @@ const removeRetinoscopy = (index) => {
                       <option value="">Select</option>
                       <option value="Cataract">Cataract</option>
                       <option value="Vitritis">Vitritis</option>
-                      <option value="Vitreous_Hemorrhage">Vitreous Hemorrhage</option>
+                      <option value="Vitreous Hemorrhage">Vitreous Hemorrhage</option>
                       <option value="IOFB">IOFB</option>
                       <option value="Corneal_Scar">Corneal Scar</option>
                       <option value="Corneal_Edema">Corneal Edema</option>
                       <option value="PCO">PCO</option>
                       <option value="AC_Reaction">AC Reaction</option>
-                      <option value="Asteroid_Hyalosis">Asteroid Hyalosis</option>
+                      <option value="Asteroid Hyalosis">Asteroid Hyalosis</option>
                       <option value="Hyphaema">Hyphaema</option>
-                      <option value="Corneal_infiltrate">Corneal infiltrate</option>
+                      <option value="Corneal infiltrate">Corneal infiltrate</option>
                       <option value="Gas in vitreous cavity">Gas in vitreous cavity</option>
                       <option value="Air in vitreous cavity">Air in vitreous cavity</option>
 
@@ -2866,10 +2866,10 @@ const removeRetinoscopy = (index) => {
                     >
                       <option value="">Select</option>
                       <option value="Retina ON Fundus is within Normal Limits">Retina ON. Fundus is within Normal Limits</option>
-                      <option value="supero_temporal">Supero Temporal</option>
-                      <option value="supero_nasal">Supero Nasal</option>
-                      <option value="infero_temporal">Infero Temporal</option>
-                      <option value="infero_nasal">Infero Nasal</option>
+                      <option value="supero temporal">Supero Temporal</option>
+                      <option value="supero nasal">Supero Nasal</option>
+                      <option value="infero temporal">Infero Temporal</option>
+                      <option value="infero nasal">Infero Nasal</option>
                       <option value="multiple">Multiple</option>
                     
                     </select>
@@ -2890,10 +2890,10 @@ const removeRetinoscopy = (index) => {
                     >
                       <option value="">Select</option>
                        <option value="Retina ON Fundus is within Normal Limits">Retina ON. Fundus is within Normal Limits</option>
-                      <option value="supero_temporal">Supero Temporal</option>
-                      <option value="supero_nasal">Supero Nasal</option>
-                      <option value="infero_temporal">Infero Temporal</option>
-                      <option value="infero_nasal">Infero Nasal</option>
+                      <option value="supero temporal">Supero Temporal</option>
+                      <option value="supero nasal">Supero Nasal</option>
+                      <option value="infero temporal">Infero Temporal</option>
+                      <option value="infero nasal">Infero Nasal</option>
                       <option value="multiple">Multiple</option>
                     
                     </select>
@@ -3055,7 +3055,7 @@ const removeRetinoscopy = (index) => {
                       </select>
 
                       {/* ✅ MEDICINE (filtered like V1) */}
-                      <select
+                      {/* <select
                         // className={`border p-2 ${errors.prescription ? "border-red-500" : ""}`}
                         className={`border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400 ${errors.prescription ? "border-red-500" : ""}`}
                         value={p.medicine_id || ""}
@@ -3075,8 +3075,43 @@ const removeRetinoscopy = (index) => {
                               {m.name}
                             </option>
                           ))}
-                      </select>
+                      </select> */}
+<input
+  list="medicine"
+  placeholder="Medicine"
+  className={`border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400 ${
+    errors.prescription ? "border-red-500" : ""
+  }`}
+  value={p.medicine_name || ""}
+  onChange={(e) => {
+    
+    const medicine = medicines.find(
+        m =>
+            m.name.toLowerCase() === e.target.value.toLowerCase() &&
+            m.type === p.type
+    );
+    const updated = [...form.prescriptions];
 
+    updated[i].medicine_id = medicine ? medicine.id : "";
+    updated[i].medicine_name = e.target.value;
+
+    setForm({
+      ...form,
+      prescriptions: updated,
+    });
+  }}
+  onKeyDown={handleEnterNext}
+/>
+<datalist id="medicine">
+  {medicines
+    .filter((m) => m.type === p.type)
+    .map((m) => (
+      <option
+        key={m.id}
+        value={m.name}
+      />
+    ))}
+</datalist>
                       <input
                         list="dosage-options"
                         placeholder="Dosage"

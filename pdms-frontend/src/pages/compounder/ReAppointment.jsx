@@ -15,6 +15,7 @@ function ReAppointment() {
   const [lastData, setLastData] = useState(null);
   const [doctors, setDoctors] = useState([]);
   const [history, setHistory] = useState([]);
+  const [searchResults, setSearchResults] = useState([]);
   const [appointment, setAppointment] = useState({
     doctor_id: "",
     date: "",
@@ -35,21 +36,46 @@ function ReAppointment() {
     fetchDoctors();
   }, []);
   // 🔍 Search Patient
+  // const handleSearch = async () => {
+  //   try {
+  //     const res = await api.get(`/patients/search/${code}`);
+  //     setPatient(res.data);
+
+  //     const last = await api.get(`/appointments/last/${res.data.id}`);
+  //     setLastData(last.data);
+
+
+  //     // fetch history
+  //     const hist = await api.get(`/diagnosis/patient/${res.data.id}`);
+  //     setHistory(hist.data);
+
+  //   } catch {
+  //     alert("Patient not found ❌");
+  //   }
+  // };
   const handleSearch = async () => {
     try {
-      const res = await api.get(`/patients/search/${code}`);
-      setPatient(res.data);
+      const res = await api.get(`/patients/search-list/${code}`);
+      setSearchResults(res.data);
+    } catch (err) {
+      setSearchResults([]);
+      alert("No patient found");
+    }
+  };
+  const selectPatient = async (selectedPatient) => {
+    try {
+      setPatient(selectedPatient);
 
-      const last = await api.get(`/appointments/last/${res.data.id}`);
+      const last = await api.get(`/appointments/last/${selectedPatient.id}`);
       setLastData(last.data);
 
-
-      // fetch history
-      const hist = await api.get(`/diagnosis/patient/${res.data.id}`);
+      const hist = await api.get(`/diagnosis/patient/${selectedPatient.id}`);
       setHistory(hist.data);
 
+      setSearchResults([]);
+      setCode(selectedPatient.name);
     } catch {
-      alert("Patient not found ❌");
+      alert("Unable to load patient");
     }
   };
   const [slots, setSlots] = useState([]);
@@ -194,7 +220,7 @@ function ReAppointment() {
           
           <input
             ref={codeRef}
-            placeholder="Search Patient ID..."
+            placeholder="Search ID / Name / Phone / Address..."
             className="input w-full max-w-xs bg-white"
             value={code}
             onChange={(e) => setCode(e.target.value)}
@@ -224,7 +250,41 @@ function ReAppointment() {
 
       </div>
 
+{searchResults.length > 0 && (
+  <div className="bg-white rounded-lg shadow mt-4 overflow-hidden">
+    <table className="w-full">
+      <thead className="bg-gray-100">
+        <tr>
+          <th className="p-3">Patient ID</th>
+          <th className="p-3">Name</th>
+          <th className="p-3">Phone</th>
+          <th className="p-3">Address</th>
+          <th className="p-3">Action</th>
+        </tr>
+      </thead>
 
+      <tbody>
+        {searchResults.map((p) => (
+          <tr key={p.id} className="border-b">
+            <td className="p-3">{p.patient_code}</td>
+            <td className="p-3">{p.name}</td>
+            <td className="p-3">{p.phone}</td>
+            <td className="p-3">{p.address}</td>
+
+            <td className="p-3">
+              <button
+                onClick={() => selectPatient(p)}
+                className="bg-blue-600 text-white px-4 py-1 rounded"
+              >
+                Select
+              </button>
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+)}
       <h1 className="text-2xl font-semibold text-blue-900 mb-4">
         Re-Appointment Form
       </h1>
