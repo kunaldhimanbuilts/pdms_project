@@ -1,13 +1,14 @@
 from pydantic import BaseModel
 from typing import List, Dict, Any
-
+from typing import Optional
 
 # 🔥 PRESCRIPTION ITEM
 class PrescriptionItemV2(BaseModel):
     medicine_id: int
     dosage: str
     duration: str
-    instructions: str
+    # instructions: str
+    instructions: Optional[str] = None
     type: str
 
 

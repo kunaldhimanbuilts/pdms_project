@@ -100,6 +100,8 @@ function AdminPanel() {
         <option value="capsules">Capsules</option>
         <option value="ointment">Ointment</option>
         <option value="eye_wipes">Eye Wipes</option>
+        <option value="shampoo">Shampoo</option>
+        <option value="injection">Injection</option>
 
       </select>
 

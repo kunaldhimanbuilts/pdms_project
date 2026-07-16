@@ -1752,17 +1752,65 @@ const removeRetinoscopy = (index) => {
                     ))}
                  
                 </select>
-               
-                <input
-                  placeholder="Comment"
-                  className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400 col-span-5"
-                  value={form.refraction.final_refraction.comment || ""}
-                  onChange={(e) =>
-                    updateNested("refraction", "final_refraction", "comment", e.target.value)
-                  }
-                  onKeyDown={handleEnterNext}
-                />
+                
                 </div>
+
+<div className="grid grid-cols-3 gap-2 mt-2">
+                  <input
+                    placeholder="Comment"
+                    className="border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    value={form.refraction.final_refraction.comment || ""}
+                    onChange={(e) =>
+                      updateNested("refraction", "final_refraction", "comment", e.target.value)
+                    }
+                    onKeyDown={handleEnterNext}
+                  />
+                 
+                  <select
+                    className="border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    value={form.refraction.final_refraction.lens_pres_type || ""}
+                    onChange={(e) =>
+                      updateNested(
+                        "refraction",
+                        "final_refraction",
+                        "lens_pres_type",
+                        e.target.value
+                      )
+                    }
+                    onKeyDown={handleEnterNext}
+                  >
+                    <option value="">Lens type</option>
+                    <option value="Single vision">Single vision</option>
+                    <option value="Bifocal">Bifocal</option>
+                    <option value="Progressive">Progressive</option>                  
+                      
+                  
+                  </select>
+                  <select
+                    className="border rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
+                    value={form.refraction.final_refraction.lens_pres_coat || ""}
+                    onChange={(e) =>
+                      updateNested(
+                        "refraction",
+                        "final_refraction",
+                        "lens_pres_coat",
+                        e.target.value
+                      )
+                    }
+                    onKeyDown={handleEnterNext}
+                  >
+                    <option value="">Lens coating</option>
+                    <option value="HC">HC</option>
+                    <option value="HC + Photocromatic">HC + Photocromatic</option>
+                    <option value="Bluecut">Bluecut</option>
+                    <option value="Bluecut + Photocromatic">Bluecut + Photocromatic</option> 
+                    <option value="tinted">tinted</option>
+                    <option value="Polarized">Polarized</option>
+                    
+                  
+                  </select>
+                  </div>
+
               </div>
             </div>            
             )}
@@ -2160,6 +2208,7 @@ const removeRetinoscopy = (index) => {
                       className="border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
                       value={form.ocular_exam.iop?.time || ""}
                       readOnly
+                      onKeyDown={handleEnterNext}
                     />
                   </div>
                 </div>
@@ -2366,8 +2415,8 @@ const removeRetinoscopy = (index) => {
                        
                     >
                         <option value="">Select</option>
-                        <option value="Post_dilated">Post Dilated</option>
-                        <option value="Un_dilated">Un Dilated</option>
+                        <option value="Post dilated">Post Dilated</option>
+                        <option value="Un dilated">Un Dilated</option>
                    
                     </select>
                     <select
@@ -2404,8 +2453,8 @@ const removeRetinoscopy = (index) => {
                         
                     >
                         <option value="">Select</option>
-                        <option value="Post_dilated">Post Dilated</option>
-                        <option value="Un_dilated">Un Dilated</option>
+                        <option value="Post dilated">Post Dilated</option>
+                        <option value="Un dilated">Un Dilated</option>
                     </select>
 
                     <p>Lens</p>
@@ -2999,6 +3048,8 @@ const removeRetinoscopy = (index) => {
                         <option value="capsules">Capsules</option>
                         <option value="eye_wipes">Eye wipe</option>
                         <option value="ointment">Ointment</option>
+                        <option value="shampoo">Shampoo</option>
+                        <option value="injection">Injection</option>
       
 
                       </select>

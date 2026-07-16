@@ -220,7 +220,7 @@ def reschedule(appointment_id: int, data: AppointmentCreate, db: Session = Depen
     return appointment
 
 @router.get("/last/{patient_id}")
-def get_last_appointment(patient_id: int, db: Session = Depends(get_db)):
+def get_last_appointment(patient_id: int, db: Session = Depends(get_db), user=Depends(require_role("compounder"))):
 
     # get last appointment (latest date)
     last = db.query(Appointment).filter(
@@ -245,7 +245,7 @@ def get_last_appointment(patient_id: int, db: Session = Depends(get_db)):
 
 
 @router.get("/by-date")
-def get_slots(doctor_id: int, date: date, db: Session = Depends(get_db)):
+def get_slots(doctor_id: int, date: date, db: Session = Depends(get_db),user=Depends(require_role("compounder"))):
     appointments = db.query(Appointment).filter(
         Appointment.doctor_id == doctor_id,
         Appointment.date == date

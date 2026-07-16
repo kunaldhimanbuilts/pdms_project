@@ -600,6 +600,14 @@ function PatientDetails() {
                             Comment :
                             {d.diagnosis.refraction?.final_refraction?.comment || "—"}
                           </p>
+                          <p>
+                            Lens type :
+                            {d.diagnosis.refraction?.final_refraction?.lens_pres_type || "—"}
+                          </p>
+                          <p>
+                            Lens Coating :
+                            {d.diagnosis.refraction?.final_refraction?.lens_pres_coat || "—"}
+                          </p>
 
                         </div>
 

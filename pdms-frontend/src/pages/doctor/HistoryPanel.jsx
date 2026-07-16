@@ -415,6 +415,15 @@ export default function HistoryPanel({
                                         Comment :
                                         {h.diagnosis.refraction?.final_refraction?.comment || "—"}
                                     </div>
+                                    <div>
+                                        Lens type :
+                                        {h.diagnosis.refraction?.final_refraction?.lens_pres_type || "—"}
+                                    </div>
+                                    <div>
+                                        Lens Coating :
+                                        {h.diagnosis.refraction?.final_refraction?.lens_pres_coat || "—"}
+                                    </div>
+
 
                                 </div>
 

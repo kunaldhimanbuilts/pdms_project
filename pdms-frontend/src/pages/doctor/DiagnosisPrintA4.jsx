@@ -112,6 +112,9 @@ export default function DiagnosisPrintA4({
         hasValue(slitLamp.pupil_re) ||
         hasValue(slitLamp.pupil_le);
 
+    const showCmt =
+        hasValue(slitLamp.slit_re_comment) ||
+        hasValue(slitLamp.slit_le_comment);
     const showSlitLamp =
         showEyeball ||
         showConjunctiva ||
@@ -119,6 +122,7 @@ export default function DiagnosisPrintA4({
         showCornea ||
         showAnteriorChamber ||
         showIris ||
+        showCmt ||
         showPupil;
     const fundus = printData?.fundus || {};
 
@@ -157,6 +161,70 @@ export default function DiagnosisPrintA4({
         showPVD ||
         showOpticSize ||
         showFundusRow;
+    const postDilated = printData?.ocular_exam?.post_dilated_exam || {};
+
+    const showPostDilated =
+        hasValue(postDilated.dilated_drop) ||
+        hasValue(postDilated.pupil_re_size) ||
+        hasValue(postDilated.pupil_le_size) ||
+        hasValue(postDilated.pupil_re_reaction) ||
+        hasValue(postDilated.pupil_le_reaction) ||
+        hasValue(postDilated.lens_re) ||
+        hasValue(postDilated.lens_le) ||
+        hasValue(postDilated.comment);
+
+
+    const lacrimal = printData?.ocular_exam?.lacrimal || {};
+    const iop = printData?.ocular_exam?.iop || {};
+    const schirmer = printData?.ocular_exam?.schirmer || {};
+    const colorVision = printData?.ocular_exam?.color_vision || {};
+
+    const showColorVision =
+        hasValue(colorVision.re) ||
+        hasValue(colorVision.le) ||
+        hasValue(colorVision.re_comment) ||
+        hasValue(colorVision.le_comment);
+    const showSpecialOcular =
+        hasValue(lacrimal.re) ||
+        hasValue(lacrimal.le) ||
+        hasValue(lacrimal.comment) ||
+
+        hasValue(iop.method) ||
+        
+        hasValue(iop.re) ||
+        hasValue(iop.le) ||
+
+        hasValue(schirmer.type) ||
+        hasValue(schirmer.time) ||
+        hasValue(schirmer.re) ||
+        hasValue(schirmer.le) ||
+        showColorVision;
+    const showLacrimal =
+        hasValue(lacrimal.re) ||
+        hasValue(lacrimal.le) ||
+        hasValue(lacrimal.comment);
+
+    const showIOP =
+        hasValue(iop.method) ||
+        
+        hasValue(iop.re) ||
+        hasValue(iop.le);
+
+    const showSchirmer =
+        hasValue(schirmer.type) ||
+        hasValue(schirmer.time) ||
+        hasValue(schirmer.re) ||
+        hasValue(schirmer.le);
+
+    const showVisionRefraction =
+        showPGP ||
+        showFinalRx;
+    const diagnosis = printData?.fundus || {};
+
+    const showDiagnosis =
+        hasValue(diagnosis.diagnosis_re) ||
+        hasValue(diagnosis.diagnosis_le) ||
+        hasValue(diagnosis.diagnosis_comment);
 
   return (
     <div className="print-area">
@@ -225,7 +293,7 @@ export default function DiagnosisPrintA4({
 
         {/* ================= PATIENT ROW ================= */}
 
-        <div className="grid grid-cols-2 gap-4 mt-0.5">
+        <div className="grid grid-cols-2 gap-4 mt-1">
 
           {/* Patient */}
 
@@ -322,11 +390,11 @@ export default function DiagnosisPrintA4({
                 </span>
 
                 <span className="ml-2 font-bold text-[12px]">
-                   {doctor?.name || "Doctor"}
+                   (Optom) {doctor?.name || "Doctor"}
                 </span>
 
                 <span className="ml-2 text-gray-600 text-[12px]">
-                  (B. Optom)
+                  (B. Optom,M. Optom)
                 </span>
 
               </div>
@@ -367,9 +435,380 @@ export default function DiagnosisPrintA4({
         {/* ================= VISION & REFRACTION ================= */}
         {/* ======================= VISION & REFRACTION MATRIX ======================= */}
 
-        <div className="mt-0.5 border border-slate-400 rounded-md overflow-hidden"
         
-        >
+        <div className="m-2 overflow-hidden ">
+
+            <div className="grid grid-cols-2 gap-2">
+                
+                    {hasArray(printData?.chief_complaints) && (
+                        <div className="flex items-start mb-0.5">
+                            <span className="font-semibold text-xs w-36">
+                                Chief Complaint :
+                            </span>
+
+                            <span className="text-[10px] space-y-1">
+                                {printData.chief_complaints
+                                    .filter(c => c.complaint)
+                                    .map((c, i) => (
+                                        <p key={i} className="flex items-center py-0.2 text-[10px]">
+                                            • {c.complaint}
+                                            {c.eye && ` (${c.eye})`}
+                                            {c.duration && ` - ${c.duration}`}
+                                            {c.comment && ` (${c.comment})`}
+                                        </p>
+                                    ))}
+                            </span>
+                        </div>
+                    )}
+                    {/* <div className="flex items-start mb-0.5">
+                        <span className="font-semibold text-xs w-32">
+                            Systemic History :  
+                        </span>
+                        <span className="text-[10px] space-y-1 ">
+                            {printData?.systemic_history?.length > 0 ? (
+                                printData.systemic_history
+                                    .filter(s => s.disease)
+                                    .map((s, i) => (
+                                        <p
+                                            key={i}
+                                            className="flex items-center py-0.2 text-[10px]"
+                                        >
+                                            {s.disease || "-"} - {s.duration || "-"}
+                                            {s.comment ? ` (${s.comment})` : ""}
+                                        </p>
+                                    ))
+                            ) : (
+                                <p>-</p>
+                            )}
+                        </span>
+                    </div> */}
+                    {hasArray(printData?.systemic_history) && (
+                        <div className="flex items-start mb-0.5">
+                            <span className="font-semibold text-xs w-36">
+                                Systemic History :
+                            </span>
+
+                            <span className="text-[10px] space-y-1">
+                                {printData.systemic_history
+                                    .filter(s => s.disease)
+                                    .map((s, i) => (
+                                        <p
+                                            key={i}
+                                            className="flex items-center py-0.2 text-[10px]"
+                                        >
+                                            • {s.disease}
+                                            {s.duration && ` - ${s.duration}`}
+                                            {s.comment && ` (${s.comment})`}
+                                        </p>
+                                    ))}
+                            </span>
+                        </div>
+                    )}
+                
+            </div>
+            <div className="grid grid-cols-3 gap-2 m-2">
+
+                    {hasValue(printData?.surgery_history) && (
+                        <div className="flex items-start mb-0.5">
+                            <span className="font-semibold text-xs w-32">
+                                Surgical History :
+                            </span>
+                            <span className="text-[10px]">
+                                {printData.surgery_history}
+                            </span>
+                        </div>
+                    )}
+                    {hasValue(printData?.history_present_illness) && (
+                        <div className="flex items-start mb-0.5">
+                            <span className="font-semibold text-xs w-40">
+                                History of Present Illness :
+                            </span>
+                            <span className="text-[10px]">
+                                {printData.history_present_illness}
+                            </span>
+                        </div>
+                    )}
+
+                    
+                    {hasValue(printData?.allergy_history) && (
+                        <div className="flex items-start mb-0.5">
+                            <span className="font-semibold text-xs w-32">
+                                Allergy History :
+                            </span>
+                            <span className="text-[10px]">
+                                {printData.allergy_history}
+                            </span>
+                        </div>
+                    )}
+                </div>
+                    
+
+        </div>
+
+<div className="grid grid-cols-2 gap-2">
+        {showUCVA && (
+        <div className="mt-1 border border-slate-400 rounded-md overflow-hidden">
+
+            {/* Header */}
+            <div className="bg-[#213c8f] text-white font-bold text-[12px] px-3  uppercase tracking-wide">
+                Visual Acuity
+            </div>
+
+            <table className="w-full border-collapse text-[11px]">
+
+                <thead>
+
+                    <tr className="bg-slate-100">
+
+                        
+
+                        <th className="border border-slate-300 w-12">
+                            Eye
+                        </th>
+
+                        <th className="border border-slate-300">
+                            Distance VA
+                        </th>
+
+                        <th className="border border-slate-300">
+                            Near VA
+                        </th>
+
+                        <th className="border border-slate-300">
+                            PH
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {/* ======================= UNAIDED VISUAL ACUITY ======================= */}
+                    
+                    <>
+                    <tr>
+
+                        
+
+                        <td className="border border-slate-300 text-center font-bold text-blue-700">
+                            OD
+                        </td>
+
+                        <td className="border border-slate-300 text-center">
+                            {printData?.refraction?.unaided?.re_distance || ""}
+                        </td>
+
+                        <td className="border border-slate-300 text-center">
+                            {printData?.refraction?.unaided?.re_near || ""}
+                        </td>
+
+                        <td className="border border-slate-300 text-center">
+                            {printData?.refraction?.unaided?.re_pinhole || ""}
+                        </td>
+
+                        {/* <td className="border border-slate-300 text-center">
+                            {printData?.refraction?.unaided?.comment || ""}
+                            D:{printData?.refraction?.unaided?.distance_chart || ""}
+                        </td> */}
+
+                    </tr>
+
+                    <tr>
+
+                        <td className="border border-slate-300 text-center font-bold text-red-700">
+                            OS
+                        </td>
+
+                        <td className="border border-slate-300 text-center">
+                            {printData?.refraction?.unaided?.le_distance || ""}
+                        </td>
+
+                        <td className="border border-slate-300 text-center">
+                            {printData?.refraction?.unaided?.le_near || ""}
+                        </td>
+
+                        <td className="border border-slate-300 text-center">
+                            {printData?.refraction?.unaided?.le_pinhole || ""}
+                        </td>
+
+                        {/* <td className="border border-slate-300 text-center">
+                            N:{printData?.refraction?.unaided?.near_chart || ""}
+                        </td> */}
+
+                    </tr>
+                    <tr>
+                        <td className="border border-slate-300 text-center">
+                            Charts
+                        </td>
+                        <td className="border border-slate-300 text-center">
+                            {printData?.refraction?.unaided?.distance_chart || ""}
+                        </td>
+                        <td className="border border-slate-300 text-center">
+                            {printData?.refraction?.unaided?.near_chart || ""}
+                        </td>
+                        <td className="border border-slate-300 text-center">
+                            
+                        </td>
+                        
+                    </tr>
+                    <tr >
+                        <td className="border border-slate-300 text-center">
+                            Remarks
+                        </td>
+                        
+                        <td colSpan={3} className="border border-slate-300 ">
+                            {printData?.refraction?.unaided?.comment || ""}
+                        </td>
+                    </tr>
+
+
+                    </>
+                    
+
+                </tbody>    
+
+            </table>        
+
+        </div>
+        )}
+        {showRetinoscopy && (
+         <div className="mt-1 border border-slate-400 rounded-md overflow-hidden">
+
+            {/* Header */}
+            <div className="bg-[#213c8f] text-white font-bold text-[12px] px-3  uppercase tracking-wide">
+                RETINOSCOPY
+            </div>
+
+            <table className="w-full border-collapse text-[11px]">
+
+                <thead>
+
+                    <tr className="bg-slate-100">
+
+                        
+
+                        <th className="border border-slate-300 w-12">
+                            Eye
+                        </th>
+
+                        <th className="border border-slate-300">
+                            SPH
+                        </th>
+
+                        <th className="border border-slate-300">
+                            CYL
+                        </th>
+
+                        <th className="border border-slate-300">
+                            AXIS
+                        </th>
+                        <th className="border border-slate-300">
+                            GLOW
+                        </th>
+                        <th className="border border-slate-300">
+                            Remarks
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    
+                        <>
+                    {printData?.refraction?.retinoscopy?.map((r, index) => (
+
+                        <React.Fragment key={index}>
+
+                            {/* ---------- OD ---------- */}
+
+                            <tr>
+
+                                
+                                <td className="border border-slate-300 text-center font-bold text-blue-700">
+                                    OD
+                                </td>
+
+                                <td className="border border-slate-300 text-center">
+                                    {r.re_sph || ""}
+                                </td>
+
+                                <td className="border border-slate-300 text-center">
+                                    {r.re_cyl || ""}
+                                </td>
+
+                                <td className="border border-slate-300 text-center">
+                                    {r.re_axis || ""}
+                                </td>
+
+                                <td className="border border-slate-300 text-center">
+                                    {r.re_glow || ""}
+                                </td>
+
+                               
+                                <td className="border border-slate-300 text-center">
+
+                                    {r.type
+                                        ? `${r.type} Ret`
+                                        : (r.re_glow || "")
+                                    }
+
+                                </td>
+
+                            </tr>
+
+                            {/* ---------- OS ---------- */}
+
+                            <tr>
+
+                                <td className="border border-slate-300 text-center font-bold text-red-700">
+                                    OS
+                                </td>
+
+                                <td className="border border-slate-300 text-center">
+                                    {r.le_sph || ""}
+                                </td>
+
+                                <td className="border border-slate-300 text-center">
+                                    {r.le_cyl || ""}
+                                </td>
+
+                                <td className="border border-slate-300 text-center">
+                                    {r.le_axis || ""}
+                                </td>
+                                <td className="border border-slate-300 text-center">
+                                    {r.le_glow || ""}
+                                </td>
+
+                                
+                                <td className="border border-slate-300 text-center">
+
+                                    {r.type
+                                        ? `${r.type} Ret`
+                                        : (r.le_glow || "")
+                                    }
+
+                                </td>
+
+                            </tr>
+
+                        </React.Fragment>
+
+                    ))}
+                    </>
+                    
+
+                </tbody>    
+
+            </table>        
+
+        </div>
+        )}
+    </div>
+               {showVisionRefraction && ( 
+        <div className="mt-1 border border-slate-400 rounded-md overflow-hidden">
 
             {/* Header */}
             <div className="bg-[#213c8f] text-white font-bold text-[12px] px-3  uppercase tracking-wide">
@@ -414,10 +853,6 @@ export default function DiagnosisPrintA4({
                             Near VA
                         </th>
 
-                        <th className="border border-slate-300">
-                            PH
-                        </th>
-
                         <th className="border border-slate-300 w-[190px]">
                             Remarks
                         </th>
@@ -428,83 +863,7 @@ export default function DiagnosisPrintA4({
 
                 <tbody>
 
-                    {/* ======================= UNAIDED VISUAL ACUITY ======================= */}
-                    {showUCVA && (
-                    <>
-                    <tr>
-
-                        <td
-                            rowSpan={2}
-                            className="border border-slate-300 px-2 py-2 font-semibold align-top"
-                        >
-                            Unaided Visual Acuity (UCVA)
-                        </td>
-
-                        <td className="border border-slate-300 text-center font-bold text-blue-700">
-                            OD
-                        </td>
-
-                        <td className="border border-slate-300 text-center">—</td>
-
-                        <td className="border border-slate-300 text-center">—</td>
-
-                        <td className="border border-slate-300 text-center">—</td>
-
-                        <td className="border border-slate-300 text-center">—</td>
-
-                        <td className="border border-slate-300 text-center">
-                            {printData?.refraction?.unaided?.re_distance || ""}
-                        </td>
-
-                        <td className="border border-slate-300 text-center">
-                            {printData?.refraction?.unaided?.re_near || ""}
-                        </td>
-
-                        <td className="border border-slate-300 text-center">
-                            {printData?.refraction?.unaided?.re_pinhole || ""}
-                        </td>
-
-                        <td className="border border-slate-300 text-center">
-                            {/* {printData?.refraction?.unaided?.comment || ""} */}
-                            D:{printData?.refraction?.unaided?.distance_chart || ""}
-                        </td>
-
-                    </tr>
-
-                    <tr>
-
-                        <td className="border border-slate-300 text-center font-bold text-red-700">
-                            OS
-                        </td>
-
-                        <td className="border border-slate-300 text-center">—</td>
-
-                        <td className="border border-slate-300 text-center">—</td>
-
-                        <td className="border border-slate-300 text-center">—</td>
-
-                        <td className="border border-slate-300 text-center">—</td>
-
-                        <td className="border border-slate-300 text-center">
-                            {printData?.refraction?.unaided?.le_distance || ""}
-                        </td>
-
-                        <td className="border border-slate-300 text-center">
-                            {printData?.refraction?.unaided?.le_near || ""}
-                        </td>
-
-                        <td className="border border-slate-300 text-center">
-                            {printData?.refraction?.unaided?.le_pinhole || ""}
-                        </td>
-
-                        <td className="border border-slate-300 text-center">
-                            N:{printData?.refraction?.unaided?.near_chart || ""}
-                        </td>
-
-                    </tr>
-
-                    </>
-                    )}
+                   
                     {/* ======================= PRESENT GLASSES ======================= */}
                     {showPGP && (
                     <>
@@ -545,12 +904,11 @@ export default function DiagnosisPrintA4({
                             {printData?.refraction?.pgp?.re_vision_after || ""}
                         </td>
 
-                        <td className="border border-slate-300 text-center">
-                            —
-                        </td>
+                        
 
-                        <td className="border border-slate-300 text-center">
-                            {printData?.refraction?.pgp?.comment || ""}
+                        <td rowSpan={2} className="border border-slate-300 text-center">
+                            <p>Comment: {printData?.refraction?.pgp?.comment || ""}</p>
+                            <p>Lens: {printData?.refraction?.pgp?.lens_type || "--"}</p>
                         </td>
 
                     </tr>
@@ -585,146 +943,24 @@ export default function DiagnosisPrintA4({
                             {printData?.refraction?.pgp?.le_vision_after || ""}
                         </td>
 
-                        <td className="border border-slate-300 text-center">
-                            —
-                        </td>
-
-                        <td className="border border-slate-300 text-center">
-                            Lens: {printData?.refraction?.pgp?.lens_type || "--"}
-                        </td>
+                       
+                        {/* <td className="border border-slate-300 text-center">
+                            
+                        </td> */}
 
                     </tr>
 
                     </>
                     )}
                     {/* ======================= OBJECTIVE REFRACTION ======================= */}
-                    {showRetinoscopy && (
-                        <>
-                    {printData?.refraction?.retinoscopy?.map((r, index) => (
-
-                        <React.Fragment key={index}>
-
-                            {/* ---------- OD ---------- */}
-
-                            <tr>
-
-                                {index === 0 && (
-
-                                    <td
-                                        rowSpan={printData.refraction.retinoscopy.length * 2}
-                                        className="border border-slate-300 px-2 py-2 font-semibold align-top"
-                                    >
-                                        Objective Refraction
-                                        <br />
-                                        <span className="text-[10px] font-normal">
-                                            (AR / Retinoscopy)
-                                        </span>
-                                    </td>
-
-                                )}
-
-                                <td className="border border-slate-300 text-center font-bold text-blue-700">
-                                    OD
-                                </td>
-
-                                <td className="border border-slate-300 text-center">
-                                    {r.re_sph || ""}
-                                </td>
-
-                                <td className="border border-slate-300 text-center">
-                                    {r.re_cyl || ""}
-                                </td>
-
-                                <td className="border border-slate-300 text-center">
-                                    {r.re_axis || ""}
-                                </td>
-
-                                <td className="border border-slate-300 text-center">
-                                    —
-                                </td>
-
-                                <td className="border border-slate-300 text-center">
-                                    —
-                                </td>
-
-                                <td className="border border-slate-300 text-center">
-                                    —
-                                </td>
-
-                                <td className="border border-slate-300 text-center">
-                                    —
-                                </td>
-
-                                <td className="border border-slate-300 text-center">
-
-                                    {r.type
-                                        ? `${r.type} Ret`
-                                        : (r.re_glow || "")
-                                    }
-
-                                </td>
-
-                            </tr>
-
-                            {/* ---------- OS ---------- */}
-
-                            <tr>
-
-                                <td className="border border-slate-300 text-center font-bold text-red-700">
-                                    OS
-                                </td>
-
-                                <td className="border border-slate-300 text-center">
-                                    {r.le_sph || ""}
-                                </td>
-
-                                <td className="border border-slate-300 text-center">
-                                    {r.le_cyl || ""}
-                                </td>
-
-                                <td className="border border-slate-300 text-center">
-                                    {r.le_axis || ""}
-                                </td>
-
-                                <td className="border border-slate-300 text-center">
-                                    —
-                                </td>
-
-                                <td className="border border-slate-300 text-center">
-                                    —
-                                </td>
-
-                                <td className="border border-slate-300 text-center">
-                                    —
-                                </td>
-
-                                <td className="border border-slate-300 text-center">
-                                    —
-                                </td>
-
-                                <td className="border border-slate-300 text-center">
-
-                                    {r.type
-                                        ? `${r.type} Ret`
-                                        : (r.le_glow || "")
-                                    }
-
-                                </td>
-
-                            </tr>
-
-                        </React.Fragment>
-
-                    ))}
-                    </>
-                    )}
+                    
                     {/* ======================= FINAL SUBJECTIVE REFRACTION ======================= */}
                     {showFinalRx && (
                     <>
                     <tr>
 
                         <td
-                            rowSpan={2}
+                            rowSpan={3}
                             className="border border-slate-300 px-2 py-2 font-semibold align-top"
                         >
                             Final Subjective Rx
@@ -758,13 +994,13 @@ export default function DiagnosisPrintA4({
                             {printData?.refraction?.final_refraction?.re_near_bcva || ""}
                         </td>
 
-                        <td className="border border-slate-300 text-center">
-                            —
+                        <td rowSpan={2} className="border border-slate-300 text-center">
+                            <p>(at: {printData?.refraction?.final_refraction?.at || ""})</p>
+                            <p>Distance Chart- {printData?.refraction?.final_refraction?.chart || ""}</p>
+                            <p>Near Chart- {printData?.refraction?.final_refraction?.chart_type || ""}</p>
                         </td>
 
-                        <td className="border border-slate-300 text-center">
-                            {printData?.refraction?.final_refraction?.comment || ""}
-                        </td>
+                        
 
                     </tr>
 
@@ -798,15 +1034,22 @@ export default function DiagnosisPrintA4({
                             {printData?.refraction?.final_refraction?.le_near_bcva || ""}
                         </td>
 
-                        <td className="border border-slate-300 text-center">
-                            —
-                        </td>
+                        
 
-                        <td className="border border-slate-300 text-center">
-                            (at: {printData?.refraction?.final_refraction?.at || ""})
-                        </td>
+                        
 
                     </tr>
+                    <tr>
+                        
+                        <td colSpan={8} className="border border-slate-300 ">
+                            Comment: {printData?.refraction?.final_refraction?.comment || ""}  ||
+                            
+                            Lens Type- {printData?.refraction?.final_refraction?.lens_pres_type || ""}/
+                            Lens Coating- {printData?.refraction?.final_refraction?.lens_pres_coat || ""}
+                        </td>
+                        
+                    </tr>
+
                     </>
                     )}
                     {/* ======================= FOOTER ======================= */}
@@ -871,10 +1114,11 @@ export default function DiagnosisPrintA4({
             </table>
 
         </div>
+        )}
             
         {/* ================= SLIT LAMP + FUNDUS ================= */}
 
-        <div className="grid grid-cols-2 gap-1 mt-0.5">
+        <div className="grid grid-cols-2 gap-1 mt-1">
 
         {/* ================= SLIT LAMP ================= */}
             {showSlitLamp && (
@@ -950,6 +1194,13 @@ export default function DiagnosisPrintA4({
                         <td>{printData?.ocular_exam?.slit_lamp?.pupil_le}</td>
                     </tr>
                     )}
+                    {showCmt && (
+                    <tr>
+                        <td className="font-semibold">Comment</td>
+                        <td>{printData?.ocular_exam?.slit_lamp?.slit_re_comment}</td>
+                        <td>{printData?.ocular_exam?.slit_lamp?.slit_le_comment}</td>
+                    </tr>
+                    )}
                     </tbody>
 
                 </table>
@@ -959,280 +1210,12 @@ export default function DiagnosisPrintA4({
             </div>
             )}
             {/* ================= PRESCRIPTION ================= */}
-            <div className="grid grid-cols-1 gap-2 mt-0.5 row-span-2" >
-
-                <div className="mt-1 overflow-hidden ">
-                
-                    {/* <div className="flex items-start mb-0.5">
-                        <span className="font-semibold text-xs w-32">
-                            Chief Complaint :  
-                        </span>
-                        <span className="text-[10px] space-y-1">
-                            {printData?.chief_complaints?.length > 0 ? (
-                                printData.chief_complaints
-                                .filter(c => c.complaint)
-                                .map((c, i) => (
-                                    <p key={i} className="flex items-center py-0.2 text-[10px]">
-                                    {c.complaint || "-"} ({c.eye || "-"}) - {c.duration || "-"}
-                                    </p>
-                                ))
-                            ) : (
-                                <p>-</p>
-                            )}
-                        </span>
-                    </div> */}
-                    {hasArray(printData?.chief_complaints) && (
-                        <div className="flex items-start mb-0.5">
-                            <span className="font-semibold text-xs w-32">
-                                Chief Complaint :
-                            </span>
-
-                            <span className="text-[10px] space-y-1">
-                                {printData.chief_complaints
-                                    .filter(c => c.complaint)
-                                    .map((c, i) => (
-                                        <p key={i} className="flex items-center py-0.2 text-[10px]">
-                                            {c.complaint}
-                                            {c.eye && ` (${c.eye})`}
-                                            {c.duration && ` - ${c.duration}`}
-                                            {/* {c.comment && ` (${c.comment})`} */}
-                                        </p>
-                                    ))}
-                            </span>
-                        </div>
-                    )}
-                    {/* <div className="flex items-start mb-0.5">
-                        <span className="font-semibold text-xs w-32">
-                            Systemic History :  
-                        </span>
-                        <span className="text-[10px] space-y-1 ">
-                            {printData?.systemic_history?.length > 0 ? (
-                                printData.systemic_history
-                                    .filter(s => s.disease)
-                                    .map((s, i) => (
-                                        <p
-                                            key={i}
-                                            className="flex items-center py-0.2 text-[10px]"
-                                        >
-                                            {s.disease || "-"} - {s.duration || "-"}
-                                            {s.comment ? ` (${s.comment})` : ""}
-                                        </p>
-                                    ))
-                            ) : (
-                                <p>-</p>
-                            )}
-                        </span>
-                    </div> */}
-                    {hasArray(printData?.systemic_history) && (
-                        <div className="flex items-start mb-0.5">
-                            <span className="font-semibold text-xs w-32">
-                                Systemic History :
-                            </span>
-
-                            <span className="text-[10px] space-y-1">
-                                {printData.systemic_history
-                                    .filter(s => s.disease)
-                                    .map((s, i) => (
-                                        <p
-                                            key={i}
-                                            className="flex items-center py-0.2 text-[10px]"
-                                        >
-                                            {s.disease}
-                                            {s.duration && ` - ${s.duration}`}
-                                            {s.comment && ` (${s.comment})`}
-                                        </p>
-                                    ))}
-                            </span>
-                        </div>
-                    )}
-
-                    {/* Surgical History */}
-                    {/* <div className="flex items-start mb-0.5">
-                        <span className="font-semibold text-xs w-32">
-                            Surgical History :  
-                        </span>
-                        <span className="text-[10px] space-y-1">{printData?.surgery_history || "Nil"}</span>
-                    </div>
-                    <div className="flex items-start mb-0.5">
-                        <span className="font-semibold text-xs w-40">
-                             History of Present Illness :  
-                        </span>
-                        <span className="text-[10px]">{printData?.history_present_illness || "Nil"}</span>
-                    </div> */}
-                    {hasValue(printData?.surgery_history) && (
-                        <div className="flex items-start mb-0.5">
-                            <span className="font-semibold text-xs w-32">
-                                Surgical History :
-                            </span>
-                            <span className="text-[10px]">
-                                {printData.surgery_history}
-                            </span>
-                        </div>
-                    )}
-                    {hasValue(printData?.history_present_illness) && (
-                        <div className="flex items-start mb-0.5">
-                            <span className="font-semibold text-xs w-40">
-                                History of Present Illness :
-                            </span>
-                            <span className="text-[10px]">
-                                {printData.history_present_illness}
-                            </span>
-                        </div>
-                    )}
-
-                    {/* Allergy History */}
-                    {/* <div className="flex items-start mb-0.5">
-                        <span className="font-semibold text-xs w-32">
-                            Allergy History :  
-                        </span>
-                        <span className="text-[10px] space-y-1">{printData?.allergy_history || "Nil"}</span>
-                    </div> */}
-                    {hasValue(printData?.allergy_history) && (
-                        <div className="flex items-start mb-0.5">
-                            <span className="font-semibold text-xs w-32">
-                                Allergy History :
-                            </span>
-                            <span className="text-[10px]">
-                                {printData.allergy_history}
-                            </span>
-                        </div>
-                    )}
-
-                </div>
-               
-
-               
-                              
-                {hasArray(printData?.prescriptions) && (
-                    <div className="mt-1 overflow-hidden ">
-
-                        <div className="flex-2">
-                            <div><p className="font-semibold text-xs">Prescription-</p></div>
-                            <div className="flex-1 py-2">
-                                {printData?.prescriptions
-                                ?.filter((p) => p.medicine_id)
-                                ?.map((p, index) => (
-                                    <div
-                                    key={index}
-                                    className="flex items-center border-b border-dashed py-0.2 text-[12px]"
-                                    >
-                                    <div className="w-10 font-semibold">
-                                        {index + 1}.
-                                    </div>
-
-                                    <div className="flex-1 font-semibold">
-                                        {getMedicineName(p.medicine_id)}
-                                        {p.dosage && ` • ${p.dosage}`}
-                                        {p.frequency && ` • ${p.frequency}`}
-                                        {p.duration && ` • ${p.duration}`}
-                                        {p.instructions && ` • ${p.instructions}`}
-                                    </div>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    </div> 
-
-                )} 
-                {/* <div>
-                <p className="font-semibold mt-1 text-xs">Clinical Impression - {printData?.clinical_impression || ""}</p>
-
-                </div> */}
-                {hasValue(printData?.clinical_impression) && (
-                    <div>
-                        <p className="font-semibold mt-1 text-xs">
-                            Clinical Impression - {printData.clinical_impression}
-                        </p>
-                    </div>
-                )}
-                {/* ================= ADVICE ================= */}
-                {hasValue(printData?.advice) && (
-                    <div className="mt-1 overflow-hidden">
-
-                        <p className="font-semibold text-xs">Advice- {printData?.advice || ""}</p>
-                        
-                    
-                    </div>
-                )}
-
-                {/* ================= FOOTER ================= */}
-
-                {/* <div className="grid grid-cols-2 gap-6 mt-1">
-                    {(hasValue(printData?.next_visit_date) ||
-                    hasValue(printData?.next_visit_reason)) && (
-                        <div>
-
-                            <p className="font-semibold text-[12px]">
-                                Next Visit
-                            </p>
-
-                            <div className="mt-1 w-56 pb-1 text-[12px]">
-
-                                {printData?.next_visit_date
-                                    ? new Date(printData.next_visit_date).toLocaleDateString("en-GB")
-                                    : ""}
-
-                                {printData?.next_visit_reason
-                                    ? ` (${printData.next_visit_reason})`
-                                    : ""}    
-
-                            </div>
-
-                        </div>
-                    )}
-                    <div className="text-right">
-
-
-                        <div className="border-t border-black inline-block px-6 pt-1">
-
-                            <p className="font-semibold text-[10px]">
-                                Authorized Doctor Signature
-                            </p>
-
-                            <p className="text-[10px]">
-                                S&D Eye Care Centre
-                            </p>
-
-                        </div>
-
-                    </div>
-
-                </div> */}
-{/* Next Visit */}
-{(hasValue(printData?.next_visit_date) ||
-  hasValue(printData?.next_visit_reason)) && (
-  <div className="mt-3">
-    <p className="font-semibold text-[12px]">Next Visit</p>
-
-    <div className="mt-1 text-[12px]">
-      {printData?.next_visit_date
-        ? new Date(printData.next_visit_date).toLocaleDateString("en-GB")
-        : ""}
-
-      {printData?.next_visit_reason
-        ? ` (${printData.next_visit_reason})`
-        : ""}
-    </div>
-  </div>
-)}
-
-{/* Fixed Signature */}
-<div className="absolute bottom-8 right-8 text-right">
-    <div className="border-t border-black inline-block px-6 pt-1">
-        <p className="font-semibold text-[10px]">
-            Authorized Doctor Signature
-        </p>
-        <p className="text-[10px]">
-            S&D Eye Care Centre
-        </p>
-    </div>
-</div>
-            </div>
+            
             {/* ================= FUNDUS ================= */}
 
             {showFundus && (
 
-            <div className="border border-slate-400 rounded-md mt-0.5 overflow-hidden">
+            <div className="border border-slate-400 rounded-md mt-1 overflow-hidden">
 
                 <div className="bg-[#213c8f] text-white px-3 text-[12px] font-bold uppercase">
                 Fundus Examination
@@ -1314,7 +1297,484 @@ export default function DiagnosisPrintA4({
             )}
         </div>      
             
-             
+          <div className="grid grid-cols-1 gap-2 mt-1 row-span-2" >   
+{showPostDilated && (
+<div className="border border-slate-400 rounded-md overflow-hidden mt-2 special-ocular">
+
+    <div className="bg-[#213c8f] text-white px-3 py-1 font-bold text-[12px] uppercase">
+        Post Dilated Examination
+    </div>
+
+    <div className="p-2 text-[11px]">
+
+        <p>
+            <b>Dilated Drop :</b>{" "}
+            {printData?.ocular_exam?.post_dilated_exam?.dilated_drop || "-"}
+        </p>
+
+        <table className="w-full mt-2">
+
+            <thead>
+
+                <tr className="border-b">
+
+                    <th></th>
+
+                    <th>RE</th>
+
+                    <th>LE</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                <tr>
+
+                    <td className="font-semibold">
+                        Pupil Size
+                    </td>
+
+                    <td>
+                        {printData?.ocular_exam?.post_dilated_exam?.pupil_re_size || "-"} mm
+                    </td>
+
+                    <td>
+                        {printData?.ocular_exam?.post_dilated_exam?.pupil_le_size || "-"} mm
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td className="font-semibold">
+                        Reaction
+                    </td>
+
+                    <td>
+                        {printData?.ocular_exam?.post_dilated_exam?.pupil_re_reaction || "-"}
+                    </td>
+
+                    <td>
+                        {printData?.ocular_exam?.post_dilated_exam?.pupil_le_reaction || "-"}
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td className="font-semibold">
+                        Lens
+                    </td>
+
+                    <td>
+                        {printData?.ocular_exam?.post_dilated_exam?.lens_re || "-"}
+                    </td>
+
+                    <td>
+                        {printData?.ocular_exam?.post_dilated_exam?.lens_le || "-"}
+                    </td>
+
+                </tr>
+            </tbody>
+
+        </table>
+
+        {hasValue(printData?.ocular_exam?.post_dilated_exam?.comment) && (
+            <p className="mt-2">
+                <b>Comment :</b>{" "}
+                {printData.ocular_exam.post_dilated_exam.comment}
+            </p>
+        )}
+
+    </div>
+
+</div>
+)}
+{showSpecialOcular && (
+<div className="border border-slate-400 rounded-md overflow-hidden mt-2 special-ocular">
+
+    <div className="bg-[#213c8f] text-white text-[12px] font-bold uppercase px-3 py-1">
+        Special Ocular Examination
+    </div>
+
+    <div className="p-2 text-[11px] space-y-3">
+
+        {/* ================= Lacrimal ================= */}
+        {showLacrimal && (
+        <div>
+            <p className="font-semibold border-b pb-0.5">
+                Lacrimal Examination
+            </p>
+
+            <table className="w-full mt-1">
+                <thead>
+                    <tr className="text-center font-semibold">
+                        <td></td>
+                        <td>RE</td>
+                        <td>LE</td>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td className="font-medium w-28">Status</td>
+                        <td>{printData?.ocular_exam?.lacrimal?.re || "-"}</td>
+                        <td>{printData?.ocular_exam?.lacrimal?.le || "-"}</td>
+                    </tr>
+
+                    {hasValue(printData?.ocular_exam?.lacrimal?.comment) && (
+                        <tr>
+                            <td className="font-medium">Comment</td>
+                            <td colSpan={2}>
+                                {printData.ocular_exam.lacrimal.comment}
+                            </td>
+                        </tr>
+                    )}
+                </tbody>
+            </table>
+        </div>
+        )}
+        {showColorVision && (
+        <div>
+
+            <p className="font-semibold border-b pb-0.5">
+                Colour Vision
+            </p>
+
+            <table className="w-full mt-1">
+
+                <thead>
+
+                    <tr className="text-center font-semibold">
+
+                        <td></td>
+                        <td>RE</td>
+                        <td>LE</td>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr>
+
+                        <td className="font-medium w-28">
+                            Status
+                        </td>
+
+                        <td>
+                            {colorVision.re || "-"}
+                        </td>
+
+                        <td>
+                            {colorVision.le || "-"}
+                        </td>
+
+                    </tr>
+
+                    {(hasValue(colorVision.re_comment) ||
+                    hasValue(colorVision.le_comment)) && (
+
+                    <tr>
+
+                        <td className="font-medium">
+                            Comment
+                        </td>
+
+                        <td>
+                            {colorVision.re_comment || "-"}
+                        </td>
+
+                        <td>
+                            {colorVision.le_comment || "-"}
+                        </td>
+
+                    </tr>
+
+                    )}
+
+                </tbody>
+
+            </table>
+
+        </div>
+        )}
+        
+        {/* ================= IOP ================= */}
+        {showIOP && (
+        <div>
+            <p className="font-semibold border-b pb-0.5">
+                Intraocular Pressure (IOP)
+            </p>
+
+            <div className="flex justify-between mt-1">
+
+                <span>
+                    <b>Method :</b>{" "}
+                    {printData?.ocular_exam?.iop?.method || "-"}
+                </span>
+
+                <span>
+                    <b>Time :</b>{" "}
+                    {printData?.ocular_exam?.iop?.time || "-"}
+                </span>
+
+            </div>
+
+            <table className="w-full mt-1">
+
+                <thead>
+
+                    <tr className="text-center font-semibold">
+
+                        <td></td>
+
+                        <td>RE</td>
+
+                        <td>LE</td>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr>
+
+                        <td className="font-medium">
+                            Pressure
+                        </td>
+
+                        <td>
+                            {printData?.ocular_exam?.iop?.re || "-"} mmHg
+                        </td>
+
+                        <td>
+                            {printData?.ocular_exam?.iop?.le || "-"} mmHg
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+        )}
+
+        {/* ================= Schirmer ================= */}
+        {showSchirmer && (
+        <div>
+
+            <p className="font-semibold border-b pb-0.5">
+                Schirmer Test
+            </p>
+
+            <div className="flex justify-between mt-1">
+
+                <span>
+                    <b>Type :</b>{" "}
+                    {printData?.ocular_exam?.schirmer?.type || "-"}
+                </span>
+
+                <span>
+                    <b>Time :</b>{" "}
+                    {printData?.ocular_exam?.schirmer?.time || "-"}
+                </span>
+
+            </div>
+
+            <table className="w-full mt-1">
+
+                <thead>
+
+                    <tr className="text-center font-semibold">
+
+                        <td></td>
+
+                        <td>RE</td>
+
+                        <td>LE</td>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr>
+
+                        <td className="font-medium">
+                            Result
+                        </td>
+
+                        <td>
+                            {printData?.ocular_exam?.schirmer?.re || "-"} mm
+                        </td>
+
+                        <td>
+                            {printData?.ocular_exam?.schirmer?.le || "-"} mm
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+        )}
+    </div>
+
+</div>
+)}
+{showDiagnosis && (
+<div className="border border-slate-400 rounded-md overflow-hidden mt-2">
+
+    <div className="bg-[#213c8f] text-white text-[12px] font-bold uppercase px-3 py-1">
+        Diagnosis
+    </div>
+
+    <div className="p-2">
+
+        <table className="w-full text-[11px]">
+
+            <thead>
+
+                <tr className="text-center font-semibold border-b">
+
+                    <th></th>
+                    <th>RE</th>
+                    <th>LE</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                <tr>
+
+                    <td className="font-semibold w-28">
+                        Diagnosis
+                    </td>
+
+                    <td>
+                        {diagnosis.diagnosis_re || "-"}
+                    </td>
+
+                    <td>
+                        {diagnosis.diagnosis_le || "-"}
+                    </td>
+
+                </tr>
+
+                {hasValue(diagnosis.diagnosis_comment) && (
+
+                <tr>
+
+                    <td className="font-semibold">
+                        Comment
+                    </td>
+
+                    <td colSpan={2}>
+                        {diagnosis.diagnosis_comment}
+                    </td>
+
+                </tr>
+
+                )}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+)}
+                {hasArray(printData?.prescriptions) && (
+                    <div className="mt-1 overflow-hidden ">
+
+                        <div className="flex-2">
+                            <div><p className="font-semibold text-xs">Prescription-</p></div>
+                            <div className="flex-1 py-2">
+                                {printData?.prescriptions
+                                ?.filter((p) => p.medicine_id)
+                                ?.map((p, index) => (
+                                    <div
+                                    key={index}
+                                    className="flex items-center border-b border-dashed py-0.2 text-[12px]"
+                                    >
+                                    <div className="w-10 font-semibold">
+                                        {index + 1}.
+                                    </div>
+
+                                    <div className="flex-1 font-semibold">
+                                        {getMedicineName(p.medicine_id)}
+                                        {p.dosage && ` • ${p.dosage}`}
+                                        {p.frequency && ` • ${p.frequency}`}
+                                        {p.duration && ` • ${p.duration}`}
+                                        {p.instructions && ` • ${p.instructions}`}
+                                    </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div> 
+
+                )} 
+                
+                {/* {hasValue(printData?.clinical_impression) && (
+                    <div>
+                        <p className="font-semibold mt-1 text-xs">
+                            Clinical Impression - {printData.clinical_impression}
+                        </p>
+                    </div>
+                )} */}
+                {/* ================= ADVICE ================= */}
+                {hasValue(printData?.advice) && (
+                    <div className="mt-1 overflow-hidden">
+
+                        <p className="font-semibold text-xs">Advice- {printData?.advice || ""}</p>
+                        
+                    
+                    </div>
+                )}
+
+               
+                {(hasValue(printData?.next_visit_date) ||
+                hasValue(printData?.next_visit_reason)) && (
+                <div className="mt-3">
+                    <p className="font-semibold text-[12px]">Next Visit</p>
+
+                    <div className="mt-1 text-[12px]">
+                    {printData?.next_visit_date
+                        ? new Date(printData.next_visit_date).toLocaleDateString("en-GB")
+                        : ""}
+
+                    {printData?.next_visit_reason
+                        ? ` (${printData.next_visit_reason})`
+                        : ""}
+                    </div>
+                </div>
+                )}
+
+                
+                <div className="absolute bottom-8 right-8 text-right">
+                    <div className="border-t border-black inline-block px-6 pt-1">
+                        <p className="font-semibold text-[10px]">
+                            Authorized Doctor Signature
+                        </p>
+                        <p className="text-[10px]">
+                            S&D Eye Care Centre
+                        </p>
+                    </div>
+                </div>
+            </div>   
       
       </div>
 
