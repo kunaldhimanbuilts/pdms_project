@@ -3077,23 +3077,23 @@ const removeRetinoscopy = (index) => {
                           ))}
                       </select> */}
 <input
-  list="medicine"
+  list={`medicine-${i}`}
   placeholder="Medicine"
   className={`border rounded-lg p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400 ${
     errors.prescription ? "border-red-500" : ""
   }`}
   value={p.medicine_name || ""}
   onChange={(e) => {
-    
     const medicine = medicines.find(
-        m =>
-            m.name.toLowerCase() === e.target.value.toLowerCase() &&
-            m.type === p.type
+      (m) =>
+        m.name.toLowerCase() === e.target.value.toLowerCase() &&
+        m.type === p.type
     );
+
     const updated = [...form.prescriptions];
 
-    updated[i].medicine_id = medicine ? medicine.id : "";
     updated[i].medicine_name = e.target.value;
+    updated[i].medicine_id = medicine ? medicine.id : "";
 
     setForm({
       ...form,
@@ -3102,7 +3102,7 @@ const removeRetinoscopy = (index) => {
   }}
   onKeyDown={handleEnterNext}
 />
-<datalist id="medicine">
+<datalist id={`medicine-${i}`}>
   {medicines
     .filter((m) => m.type === p.type)
     .map((m) => (

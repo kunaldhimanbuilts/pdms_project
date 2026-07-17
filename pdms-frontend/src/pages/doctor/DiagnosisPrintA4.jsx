@@ -509,35 +509,35 @@ export default function DiagnosisPrintA4({
             <div className="grid grid-cols-3 gap-2 m-2">
 
                     {hasValue(printData?.surgery_history) && (
-                        <div className="flex items-start mb-0.5">
-                            <span className="font-semibold text-xs w-32">
+                        <div className="mb-0.5">
+                            <p className="font-semibold text-xs ">
                                 Surgical History :
-                            </span>
-                            <span className="text-[10px]">
+                            </p>
+                            <div className="text-[10px]">
                                 {printData.surgery_history}
-                            </span>
+                            </div>
                         </div>
                     )}
                     {hasValue(printData?.history_present_illness) && (
-                        <div className="flex items-start mb-0.5">
-                            <span className="font-semibold text-xs w-40">
+                        <div className="mb-0.5">
+                            <p className="font-semibold text-xs">
                                 History of Present Illness :
-                            </span>
-                            <span className="text-[10px]">
+                            </p>
+                            <div className="text-[10px]">
                                 {printData.history_present_illness}
-                            </span>
+                            </div>
                         </div>
                     )}
 
                     
                     {hasValue(printData?.allergy_history) && (
-                        <div className="flex items-start mb-0.5">
-                            <span className="font-semibold text-xs w-32">
+                        <div className="mb-0.5">
+                            <p className="font-semibold text-xs">
                                 Allergy History :
-                            </span>
-                            <span className="text-[10px]">
+                            </p>
+                            <div className="text-[10px]">
                                 {printData.allergy_history}
-                            </span>
+                            </div>
                         </div>
                     )}
                 </div>
@@ -1299,13 +1299,13 @@ export default function DiagnosisPrintA4({
             
           <div className="grid grid-cols-1 gap-2 mt-1 row-span-2" >   
 {showPostDilated && (
-<div className="border border-slate-400 rounded-md overflow-hidden mt-2 special-ocular">
+<div className="border border-slate-400 rounded-md overflow-hidden  special-ocular">
 
-    <div className="bg-[#213c8f] text-white px-3 py-1 font-bold text-[12px] uppercase">
+    <div className="bg-[#213c8f] text-white px-3 font-bold text-[12px] uppercase">
         Post Dilated Examination
     </div>
 
-    <div className="p-2 text-[11px]">
+    <div className="p-1 text-[11px]">
 
         <p>
             <b>Dilated Drop :</b>{" "}
@@ -1393,9 +1393,9 @@ export default function DiagnosisPrintA4({
 </div>
 )}
 {showSpecialOcular && (
-<div className="border border-slate-400 rounded-md overflow-hidden mt-2 special-ocular">
+<div className="border border-slate-400 rounded-md overflow-hidden special-ocular">
 
-    <div className="bg-[#213c8f] text-white text-[12px] font-bold uppercase px-3 py-1">
+    <div className="bg-[#213c8f] text-white text-[12px] font-bold uppercase px-3">
         Special Ocular Examination
     </div>
 
@@ -1632,9 +1632,9 @@ export default function DiagnosisPrintA4({
 </div>
 )}
 {showDiagnosis && (
-<div className="border border-slate-400 rounded-md overflow-hidden mt-2">
+<div className="border border-slate-400 rounded-md overflow-hidden special-ocular">
 
-    <div className="bg-[#213c8f] text-white text-[12px] font-bold uppercase px-3 py-1">
+    <div className="bg-[#213c8f] text-white text-[12px] font-bold uppercase px-3">
         Diagnosis
     </div>
 
@@ -1696,14 +1696,14 @@ export default function DiagnosisPrintA4({
 
 </div>
 )}
-                {hasArray(printData?.prescriptions) && (
-                    <div className="mt-1 overflow-hidden ">
+                {/* {hasArray(printData?.prescriptions) && (
+                    <div className="mt-1 overflow-hidden special-ocular">
 
                         <div className="flex-2">
                             <div><p className="font-semibold text-xs">Prescription-</p></div>
                             <div className="flex-1 py-2">
                                 {printData?.prescriptions
-                                ?.filter((p) => p.medicine_id)
+                                ?.filter((p) => p.medicine_name)
                                 ?.map((p, index) => (
                                     <div
                                     key={index}
@@ -1715,6 +1715,7 @@ export default function DiagnosisPrintA4({
 
                                     <div className="flex-1 font-semibold">
                                         {getMedicineName(p.medicine_id)}
+                                        {p.medicine_name}
                                         {p.dosage && ` • ${p.dosage}`}
                                         {p.frequency && ` • ${p.frequency}`}
                                         {p.duration && ` • ${p.duration}`}
@@ -1726,8 +1727,42 @@ export default function DiagnosisPrintA4({
                         </div>
                     </div> 
 
-                )} 
-                
+                )}  */}
+{hasArray(printData?.prescriptions) && (
+  <div className="mt-1 overflow-hidden special-ocular">
+    <div className="flex-2">
+      <div>
+        <p className="font-semibold text-xs">Prescription-</p>
+      </div>
+
+      <div className="flex-1 py-2">
+        {printData?.prescriptions
+          ?.filter((p) => p.medicine_id || p.medicine_name)
+          ?.map((p, index) => (
+            <div
+              key={index}
+              className="flex items-center border-b border-dashed py-0.2 text-[12px]"
+            >
+              <div className="w-10 font-semibold">
+                {index + 1}.
+              </div>
+
+              <div className="flex-1 font-semibold">
+                {p.medicine_id
+                  ? getMedicineName(p.medicine_id)
+                  : p.medicine_name}
+
+                {p.dosage && ` • ${p.dosage}`}
+                {p.frequency && ` • ${p.frequency}`}
+                {p.duration && ` • ${p.duration}`}
+                {p.instructions && ` • ${p.instructions}`}
+              </div>
+            </div>
+          ))}
+      </div>
+    </div>
+  </div>
+)}
                 {/* {hasValue(printData?.clinical_impression) && (
                     <div>
                         <p className="font-semibold mt-1 text-xs">
@@ -1737,9 +1772,9 @@ export default function DiagnosisPrintA4({
                 )} */}
                 {/* ================= ADVICE ================= */}
                 {hasValue(printData?.advice) && (
-                    <div className="mt-1 overflow-hidden">
+                    <div className="mt-1 overflow-hidden special-ocular">
 
-                        <p className="font-semibold text-xs">Advice- {printData?.advice || ""}</p>
+                        <p className="font-semibold text-xs w-96">Advice- {printData?.advice || ""}</p>
                         
                     
                     </div>
@@ -1748,7 +1783,7 @@ export default function DiagnosisPrintA4({
                
                 {(hasValue(printData?.next_visit_date) ||
                 hasValue(printData?.next_visit_reason)) && (
-                <div className="mt-3">
+                <div className="mt-3 special-ocular">
                     <p className="font-semibold text-[12px]">Next Visit</p>
 
                     <div className="mt-1 text-[12px]">
@@ -1764,7 +1799,7 @@ export default function DiagnosisPrintA4({
                 )}
 
                 
-                <div className="absolute bottom-8 right-8 text-right">
+                <div className="absolute bottom-8 right-8 text-right special-ocular">
                     <div className="border-t border-black inline-block px-6 pt-1">
                         <p className="font-semibold text-[10px]">
                             Authorized Doctor Signature
