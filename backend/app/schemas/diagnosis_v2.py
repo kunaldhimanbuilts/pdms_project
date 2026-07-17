@@ -4,9 +4,11 @@ from typing import Optional
 
 # 🔥 PRESCRIPTION ITEM
 class PrescriptionItemV2(BaseModel):
-    medicine_id: int
-    dosage: str
-    duration: str
+    # medicine_id: int
+    medicine_id: Optional[int] = None
+    medicine_name: Optional[str] = None
+    dosage: Optional[str] = None
+    duration: Optional[str] = None
     # instructions: str
     instructions: Optional[str] = None
     type: str

@@ -73,6 +73,7 @@ def create_diagnosis_v2(
         pres = PrescriptionV2(
             diagnosis_v2_id=diagnosis.id,
             medicine_id=item.medicine_id,
+            medicine_name=item.medicine_name,
             dosage=item.dosage,
             duration=item.duration,
             instructions=item.instructions,

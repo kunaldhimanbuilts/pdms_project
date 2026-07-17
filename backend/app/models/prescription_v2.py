@@ -8,8 +8,12 @@ class PrescriptionV2(Base):
 
     diagnosis_v2_id = Column(Integer, ForeignKey("diagnosis_v2.id"))
 
-    medicine_id = Column(Integer, ForeignKey("medicines.id"))  # 🔥 shared table
+    # medicine_id = Column(Integer, ForeignKey("medicines.id"))  # 🔥 shared table
+    # Existing medicine from master table
+    medicine_id = Column(Integer, ForeignKey("medicines.id"), nullable=True)
 
+    # Medicine name written by doctor
+    medicine_name = Column(String)
     dosage = Column(String)
     duration = Column(String)
     instructions = Column(String)

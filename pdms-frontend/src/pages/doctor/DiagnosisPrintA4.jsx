@@ -1696,7 +1696,7 @@ export default function DiagnosisPrintA4({
 
 </div>
 )}
-                {/* {hasArray(printData?.prescriptions) && (
+                {hasArray(printData?.prescriptions) && (
                     <div className="mt-1 overflow-hidden special-ocular">
 
                         <div className="flex-2">
@@ -1714,8 +1714,8 @@ export default function DiagnosisPrintA4({
                                     </div>
 
                                     <div className="flex-1 font-semibold">
-                                        {getMedicineName(p.medicine_id)}
-                                        {p.medicine_name}
+                                        {p.medicine_name || getMedicineName(p.medicine_id)}
+                                        
                                         {p.dosage && ` • ${p.dosage}`}
                                         {p.frequency && ` • ${p.frequency}`}
                                         {p.duration && ` • ${p.duration}`}
@@ -1727,42 +1727,8 @@ export default function DiagnosisPrintA4({
                         </div>
                     </div> 
 
-                )}  */}
-{hasArray(printData?.prescriptions) && (
-  <div className="mt-1 overflow-hidden special-ocular">
-    <div className="flex-2">
-      <div>
-        <p className="font-semibold text-xs">Prescription-</p>
-      </div>
-
-      <div className="flex-1 py-2">
-        {printData?.prescriptions
-          ?.filter((p) => p.medicine_id || p.medicine_name)
-          ?.map((p, index) => (
-            <div
-              key={index}
-              className="flex items-center border-b border-dashed py-0.2 text-[12px]"
-            >
-              <div className="w-10 font-semibold">
-                {index + 1}.
-              </div>
-
-              <div className="flex-1 font-semibold">
-                {p.medicine_id
-                  ? getMedicineName(p.medicine_id)
-                  : p.medicine_name}
-
-                {p.dosage && ` • ${p.dosage}`}
-                {p.frequency && ` • ${p.frequency}`}
-                {p.duration && ` • ${p.duration}`}
-                {p.instructions && ` • ${p.instructions}`}
-              </div>
-            </div>
-          ))}
-      </div>
-    </div>
-  </div>
-)}
+                )} 
+                
                 {/* {hasValue(printData?.clinical_impression) && (
                     <div>
                         <p className="font-semibold mt-1 text-xs">

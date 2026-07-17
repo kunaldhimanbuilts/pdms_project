@@ -714,12 +714,12 @@ function PatientDetails() {
 
                           <div>
                             <p><b>RE Slit Comment:</b> {d.diagnosis.ocular_exam?.slit_lamp?.slit_re_comment || "—"}</p>
-                            <p><b>RE Colour:</b> {d.diagnosis.ocular_exam?.color_vision?.re_comment || "—"}</p>
+                            <p><b>RE Colour Comment:</b> {d.diagnosis.ocular_exam?.color_vision?.re_comment || "—"}</p>
                           </div>
 
                           <div>
                             <p><b>OS Slit Comment:</b> {d.diagnosis.ocular_exam?.slit_lamp?.slit_le_comment || "—"}</p>
-                            <p><b>OS Colour:</b> {d.diagnosis.ocular_exam?.color_vision?.le_comment || "—"}</p>
+                            <p><b>OS Colour Comment:</b> {d.diagnosis.ocular_exam?.color_vision?.le_comment || "—"}</p>
                           </div>
 
                         </div>
@@ -972,7 +972,7 @@ function PatientDetails() {
                         <p className="font-semibold mb-1">Prescription</p>
                         {d.prescriptions.map((p,i)=>(
                           <p key={i}>
-                            • {getMedicineName(p.medicine_id)} | {p.dosage} | {p.duration} | {p.instructions}
+                            • {p.medicine_name || getMedicineName(p.medicine_id)} | {p.dosage} | {p.duration} | {p.instructions}
                           </p>
                         ))}
                       </div>

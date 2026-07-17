@@ -121,7 +121,7 @@ export default function HistoryPanel({
                                 {/* ================= UNAIDED ================= */}
                                 {/* ================= COLOUR VISION ================= */}
 
-                                <div className="border rounded-lg p-2">
+                                {/* <div className="border rounded-lg p-2">
 
                                     <p className="font-semibold mb-1">
                                         COLOUR VISION
@@ -155,7 +155,7 @@ export default function HistoryPanel({
 
                                     </div>
 
-                                </div>
+                                </div> */}
                                 <div className="border rounded-lg p-2">
 
                                     <p className="font-semibold mb-1">UNAIDED</p>
@@ -829,7 +829,7 @@ export default function HistoryPanel({
                             <b>Rx:</b>
                             {h.prescriptions?.map((p,i)=>(
                                 <p key={i}>
-                                • {getMedicineName(p.medicine_id)} | {p.dosage} | {p.duration} | {p.instructions}
+                                • {p.medicine_name || getMedicineName(p.medicine_id)} | {p.dosage} | {p.duration} | {p.instructions}
                                 </p>
                             ))}
                             </div>

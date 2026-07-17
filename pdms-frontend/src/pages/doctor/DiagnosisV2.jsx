@@ -163,7 +163,16 @@ const [form, setForm] = useState({
   //   comment: "",
   // },
   fundus: {},
-  prescriptions: [{}]
+  prescriptions: [
+    {
+      medicine_id: null,
+      medicine_name: "",
+      type: "",
+      dosage: "",
+      duration: "",
+      instructions: "",
+    },
+  ]
 });
 
 
@@ -183,13 +192,38 @@ useEffect(() => {
   if (firstInput) firstInput.focus();
 }, [patient]);
 
+// useEffect(() => {
+//   const last = form.prescriptions[form.prescriptions.length - 1];
+
+//   if (last && last.medicine_id && last.dosage) {
+//     setForm(prev => ({
+//       ...prev,
+//       prescriptions: [...prev.prescriptions, {}]
+//     }));
+//   }
+// }, [form.prescriptions]);
+
 useEffect(() => {
   const last = form.prescriptions[form.prescriptions.length - 1];
 
-  if (last && last.medicine_id && last.dosage) {
-    setForm(prev => ({
+  if (
+    last &&
+    (last.medicine_id || last.medicine_name) &&
+    last.dosage
+  ) {
+    setForm((prev) => ({
       ...prev,
-      prescriptions: [...prev.prescriptions, {}]
+      prescriptions: [
+        ...prev.prescriptions,
+        {
+          medicine_id: null,
+          medicine_name: "",
+          type: "",
+          dosage: "",
+          duration: "",
+          instructions: "",
+        },
+      ],
     }));
   }
 }, [form.prescriptions]);
@@ -298,9 +332,21 @@ const handleSearch = async (code) => {
 const handleSave = async () => {
   const cleanComplaints = form.chief_complaints.filter(c => c.complaint);
   const cleanSystemic = form.systemic_history.filter(s => s.disease);
-  const cleanPrescriptions = form.prescriptions.filter(
-    p => p.medicine_id && p.dosage
-  );
+  // const cleanPrescriptions = form.prescriptions.filter(
+  //   p => p.medicine_id && p.dosage
+  // );
+  const cleanPrescriptions = form.prescriptions
+    .filter((p) => (p.medicine_id || p.medicine_name) && p.dosage)
+    .map((p) => ({
+      medicine_id: p.medicine_id || null,
+      medicine_name: p.medicine_name || "",
+
+      type: p.type,
+      dosage: p.dosage,
+      duration: p.duration,
+      instructions: p.instructions,
+    }));
+
 
   // ❌ VALIDATIONS
   if (!patient || !appointment) {
@@ -321,9 +367,17 @@ const handleSave = async () => {
   }
 
   // Prescription
-  if (!form.prescriptions.some(p => p.medicine_id && p.dosage)) {
+  // if (!form.prescriptions.some(p => p.medicine_id && p.dosage)) {
+  //   newErrors.prescription = true;
+  // }
+  if (
+    !form.prescriptions.some(
+      (p) => (p.medicine_id || p.medicine_name) && p.dosage
+    )
+  ) {
     newErrors.prescription = true;
   }
+
 
   setErrors(newErrors);
 
@@ -419,7 +473,16 @@ const handleSave = async () => {
       // },      
       fundus: {},
 
-      prescriptions: [{}]
+      prescriptions: [
+        {
+          medicine_id: null,
+          medicine_name: "",
+          type: "",
+          dosage: "",
+          duration: "",
+          instructions: "",
+        },
+      ]
     });
   } catch (err) {
     console.error(err);
@@ -521,7 +584,16 @@ const handleRefresh = () => {
     //   comment: "",
     // },
     fundus: {},
-    prescriptions: [{}]
+    prescriptions: [
+      {
+        medicine_id: null,
+        medicine_name: "",
+        type: "",
+        dosage: "",
+        duration: "",
+        instructions: "",
+      },
+    ]
     
 
   });
@@ -3035,9 +3107,19 @@ const removeRetinoscopy = (index) => {
                         value={p.type || ""}
                         onChange={(e) => {
                           const updated = [...form.prescriptions];
+                          // updated[i].type = e.target.value;
+                          // updated[i].medicine_id = ""; // reset medicine when type changes
+                          // setForm({ ...form, prescriptions: updated });
+
                           updated[i].type = e.target.value;
-                          updated[i].medicine_id = ""; // reset medicine when type changes
-                          setForm({ ...form, prescriptions: updated });
+                          updated[i].medicine_id = null;
+                          updated[i].medicine_name = "";
+
+                          setForm({
+                            ...form,
+                            prescriptions: updated,
+                          });
+
                         }}
                         onKeyDown={handleEnterNext}
                       >
@@ -3084,16 +3166,21 @@ const removeRetinoscopy = (index) => {
   }`}
   value={p.medicine_name || ""}
   onChange={(e) => {
+    const value = e.target.value;
+
     const medicine = medicines.find(
       (m) =>
-        m.name.toLowerCase() === e.target.value.toLowerCase() &&
+        m.name.toLowerCase() === value.toLowerCase() &&
         m.type === p.type
     );
 
     const updated = [...form.prescriptions];
 
-    updated[i].medicine_name = e.target.value;
-    updated[i].medicine_id = medicine ? medicine.id : "";
+    updated[i] = {
+      ...updated[i],
+      medicine_name: value,
+      medicine_id: medicine ? medicine.id : null,
+    };
 
     setForm({
       ...form,
@@ -3201,7 +3288,20 @@ const removeRetinoscopy = (index) => {
                   <button
                   
                     onClick={() => {
-                      const updated = [...form.prescriptions, {}];
+                      // const updated = [...form.prescriptions, {}];
+
+                      const updated = [
+                        ...form.prescriptions,
+                        {
+                          medicine_id: null,
+                          medicine_name: "",
+                          type: "",
+                          dosage: "",
+                          duration: "",
+                          instructions: "",
+                        },
+                      ];
+
                       setForm({ ...form, prescriptions: updated });
 
                       setTimeout(() => {
