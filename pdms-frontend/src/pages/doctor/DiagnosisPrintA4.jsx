@@ -994,9 +994,10 @@ export default function DiagnosisPrintA4({
                         </td>
 
                         <td rowSpan={2} className="border border-slate-300 text-center">
-                            <p>(at: {printData?.refraction?.final_refraction?.at  || "-"})</p>
+                            
                             <p>Distance Chart- {printData?.refraction?.final_refraction?.chart  || "-"}</p>
                             <p>Near Chart- {printData?.refraction?.final_refraction?.chart_type  || "-"}</p>
+                            <p>(at: {printData?.refraction?.final_refraction?.at  || "-"})</p>
                         </td>
 
                         
