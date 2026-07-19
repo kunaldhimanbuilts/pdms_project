@@ -10,7 +10,6 @@ export default function DiagnosisPrintA4({
   getMedicineName,
   calculateAge,
 }) {
-
   const today = new Date().toLocaleDateString("en-GB");
   const doctor = JSON.parse(localStorage.getItem("doctor") || "{}");
 
@@ -350,7 +349,7 @@ export default function DiagnosisPrintA4({
                   </span>
 
                   <span className="ml-2 text-[12px]">
-                    {calculateAge(patient?.dob)} / {patient?.gender}
+                    {calculateAge(patient?.dob)  || "-"} / {patient?.gender  || "-"}
                   </span>
 
                 </div>
@@ -364,7 +363,7 @@ export default function DiagnosisPrintA4({
                 </span>
 
                 <span className="ml-2 text-[12px]">
-                  {patient?.address}
+                  {patient?.address  || "-"}
                 </span>
 
               </div>
@@ -571,11 +570,11 @@ export default function DiagnosisPrintA4({
                         </th>
 
                         <th className="border border-slate-300">
-                            Near VA
+                            PH
                         </th>
 
                         <th className="border border-slate-300">
-                            PH
+                            Near VA
                         </th>
 
                     </tr>
@@ -596,20 +595,20 @@ export default function DiagnosisPrintA4({
                         </td>
 
                         <td className="border border-slate-300 text-center">
-                            {printData?.refraction?.unaided?.re_distance || ""}
+                            {printData?.refraction?.unaided?.re_distance  || "-"}
                         </td>
 
                         <td className="border border-slate-300 text-center">
-                            {printData?.refraction?.unaided?.re_near || ""}
+                            {printData?.refraction?.unaided?.re_pinhole  || "-"}
                         </td>
 
                         <td className="border border-slate-300 text-center">
-                            {printData?.refraction?.unaided?.re_pinhole || ""}
+                            {printData?.refraction?.unaided?.re_near  || "-"}
                         </td>
 
                         {/* <td className="border border-slate-300 text-center">
-                            {printData?.refraction?.unaided?.comment || ""}
-                            D:{printData?.refraction?.unaided?.distance_chart || ""}
+                            {printData?.refraction?.unaided?.comment  || "-"}
+                            D:{printData?.refraction?.unaided?.distance_chart  || "-"}
                         </td> */}
 
                     </tr>
@@ -621,19 +620,19 @@ export default function DiagnosisPrintA4({
                         </td>
 
                         <td className="border border-slate-300 text-center">
-                            {printData?.refraction?.unaided?.le_distance || ""}
+                            {printData?.refraction?.unaided?.le_distance  || "-"}
                         </td>
 
                         <td className="border border-slate-300 text-center">
-                            {printData?.refraction?.unaided?.le_near || ""}
+                            {printData?.refraction?.unaided?.le_pinhole  || "-"}
                         </td>
 
                         <td className="border border-slate-300 text-center">
-                            {printData?.refraction?.unaided?.le_pinhole || ""}
+                            {printData?.refraction?.unaided?.le_near  || "-"}
                         </td>
 
                         {/* <td className="border border-slate-300 text-center">
-                            N:{printData?.refraction?.unaided?.near_chart || ""}
+                            N:{printData?.refraction?.unaided?.near_chart  || "-"}
                         </td> */}
 
                     </tr>
@@ -642,13 +641,13 @@ export default function DiagnosisPrintA4({
                             Charts
                         </td>
                         <td className="border border-slate-300 text-center">
-                            {printData?.refraction?.unaided?.distance_chart || ""}
+                            {printData?.refraction?.unaided?.distance_chart  || "-"}
                         </td>
                         <td className="border border-slate-300 text-center">
-                            {printData?.refraction?.unaided?.near_chart || ""}
+                            -
                         </td>
                         <td className="border border-slate-300 text-center">
-                            
+                            {printData?.refraction?.unaided?.near_chart  || "-"}
                         </td>
                         
                     </tr>
@@ -658,7 +657,7 @@ export default function DiagnosisPrintA4({
                         </td>
                         
                         <td colSpan={3} className="border border-slate-300 ">
-                            {printData?.refraction?.unaided?.comment || ""}
+                            {printData?.refraction?.unaided?.comment  || "-"}
                         </td>
                     </tr>
 
@@ -732,19 +731,19 @@ export default function DiagnosisPrintA4({
                                 </td>
 
                                 <td className="border border-slate-300 text-center">
-                                    {r.re_sph || ""}
+                                    {r.re_sph  || "-"}
                                 </td>
 
                                 <td className="border border-slate-300 text-center">
-                                    {r.re_cyl || ""}
+                                    {r.re_cyl  || "-"}
                                 </td>
 
                                 <td className="border border-slate-300 text-center">
-                                    {r.re_axis || ""}
+                                    {r.re_axis  || "-"}
                                 </td>
 
                                 <td className="border border-slate-300 text-center">
-                                    {r.re_glow || ""}
+                                    {r.re_glow  || "-"}
                                 </td>
 
                                
@@ -752,7 +751,7 @@ export default function DiagnosisPrintA4({
 
                                     {r.type
                                         ? `${r.type} Ret`
-                                        : (r.re_glow || "")
+                                        : (r.re_glow  || "-")
                                     }
 
                                 </td>
@@ -768,18 +767,18 @@ export default function DiagnosisPrintA4({
                                 </td>
 
                                 <td className="border border-slate-300 text-center">
-                                    {r.le_sph || ""}
+                                    {r.le_sph  || "-"}
                                 </td>
 
                                 <td className="border border-slate-300 text-center">
-                                    {r.le_cyl || ""}
+                                    {r.le_cyl  || "-"}
                                 </td>
 
                                 <td className="border border-slate-300 text-center">
-                                    {r.le_axis || ""}
+                                    {r.le_axis  || "-"}
                                 </td>
                                 <td className="border border-slate-300 text-center">
-                                    {r.le_glow || ""}
+                                    {r.le_glow  || "-"}
                                 </td>
 
                                 
@@ -787,7 +786,7 @@ export default function DiagnosisPrintA4({
 
                                     {r.type
                                         ? `${r.type} Ret`
-                                        : (r.le_glow || "")
+                                        : (r.le_glow  || "-")
                                     }
 
                                 </td>
@@ -881,34 +880,34 @@ export default function DiagnosisPrintA4({
                         </td>
 
                         <td className="border border-slate-300 text-center">
-                            {printData?.refraction?.pgp?.re_sph || ""}
+                            {printData?.refraction?.pgp?.re_sph  || "-"}
                         </td>
 
                         <td className="border border-slate-300 text-center">
-                            {printData?.refraction?.pgp?.re_cyl || ""}
+                            {printData?.refraction?.pgp?.re_cyl  || "-"}
                         </td>
 
                         <td className="border border-slate-300 text-center">
-                            {printData?.refraction?.pgp?.re_axis || ""}
+                            {printData?.refraction?.pgp?.re_axis  || "-"}
                         </td>
 
                         <td className="border border-slate-300 text-center">
-                            {printData?.refraction?.pgp?.re_add || ""}
+                            {printData?.refraction?.pgp?.re_add  || "-"}
                         </td>
 
                         <td className="border border-slate-300 text-center">
-                            {printData?.refraction?.pgp?.re_vision_before || ""}
+                            {printData?.refraction?.pgp?.re_vision_before  || "-"}
                         </td>
 
                         <td className="border border-slate-300 text-center">
-                            {printData?.refraction?.pgp?.re_vision_after || ""}
+                            {printData?.refraction?.pgp?.re_vision_after  || "-"}
                         </td>
 
                         
 
                         <td rowSpan={2} className="border border-slate-300 text-center">
-                            <p>Comment: {printData?.refraction?.pgp?.comment || ""}</p>
-                            <p>Lens: {printData?.refraction?.pgp?.lens_type || "--"}</p>
+                            <p>Comment: {printData?.refraction?.pgp?.comment  || "-"}</p>
+                            <p>Lens: {printData?.refraction?.pgp?.lens_type || "-"}</p>
                         </td>
 
                     </tr>
@@ -920,27 +919,27 @@ export default function DiagnosisPrintA4({
                         </td>
 
                         <td className="border border-slate-300 text-center">
-                            {printData?.refraction?.pgp?.le_sph || ""}
+                            {printData?.refraction?.pgp?.le_sph  || "-"}
                         </td>
 
                         <td className="border border-slate-300 text-center">
-                            {printData?.refraction?.pgp?.le_cyl || ""}
+                            {printData?.refraction?.pgp?.le_cyl  || "-"}
                         </td>
 
                         <td className="border border-slate-300 text-center">
-                            {printData?.refraction?.pgp?.le_axis || ""}
+                            {printData?.refraction?.pgp?.le_axis  || "-"}
                         </td>
 
                         <td className="border border-slate-300 text-center">
-                            {printData?.refraction?.pgp?.le_add || ""}
+                            {printData?.refraction?.pgp?.le_add  || "-"}
                         </td>
 
                         <td className="border border-slate-300 text-center">
-                            {printData?.refraction?.pgp?.le_vision_before || ""}
+                            {printData?.refraction?.pgp?.le_vision_before  || "-"}
                         </td>
 
                         <td className="border border-slate-300 text-center">
-                            {printData?.refraction?.pgp?.le_vision_after || ""}
+                            {printData?.refraction?.pgp?.le_vision_after  || "-"}
                         </td>
 
                        
@@ -971,33 +970,33 @@ export default function DiagnosisPrintA4({
                         </td>
 
                         <td className="border border-slate-300 text-center">
-                            {printData?.refraction?.final_refraction?.re_sph || ""}
+                            {printData?.refraction?.final_refraction?.re_sph  || "-"}
                         </td>
 
                         <td className="border border-slate-300 text-center">
-                            {printData?.refraction?.final_refraction?.re_cyl || ""}
+                            {printData?.refraction?.final_refraction?.re_cyl  || "-"}
                         </td>
 
                         <td className="border border-slate-300 text-center">
-                            {printData?.refraction?.final_refraction?.re_axis || ""}
+                            {printData?.refraction?.final_refraction?.re_axis  || "-"}
                         </td>
 
                         <td className="border border-slate-300 text-center">
-                            {printData?.refraction?.final_refraction?.re_add || ""}
+                            {printData?.refraction?.final_refraction?.re_add  || "-"}
                         </td>
 
                         <td className="border border-slate-300 text-center">
-                            {printData?.refraction?.final_refraction?.re_bcva || ""}
+                            {printData?.refraction?.final_refraction?.re_bcva  || "-"}
                         </td>
 
                         <td className="border border-slate-300 text-center">
-                            {printData?.refraction?.final_refraction?.re_near_bcva || ""}
+                            {printData?.refraction?.final_refraction?.re_near_bcva  || "-"}
                         </td>
 
                         <td rowSpan={2} className="border border-slate-300 text-center">
-                            <p>(at: {printData?.refraction?.final_refraction?.at || ""})</p>
-                            <p>Distance Chart- {printData?.refraction?.final_refraction?.chart || ""}</p>
-                            <p>Near Chart- {printData?.refraction?.final_refraction?.chart_type || ""}</p>
+                            <p>(at: {printData?.refraction?.final_refraction?.at  || "-"})</p>
+                            <p>Distance Chart- {printData?.refraction?.final_refraction?.chart  || "-"}</p>
+                            <p>Near Chart- {printData?.refraction?.final_refraction?.chart_type  || "-"}</p>
                         </td>
 
                         
@@ -1011,27 +1010,27 @@ export default function DiagnosisPrintA4({
                         </td>
 
                         <td className="border border-slate-300 text-center">
-                            {printData?.refraction?.final_refraction?.le_sph || ""}
+                            {printData?.refraction?.final_refraction?.le_sph  || "-"}
                         </td>
 
                         <td className="border border-slate-300 text-center">
-                            {printData?.refraction?.final_refraction?.le_cyl || ""}
+                            {printData?.refraction?.final_refraction?.le_cyl  || "-"}
                         </td>
 
                         <td className="border border-slate-300 text-center">
-                            {printData?.refraction?.final_refraction?.le_axis || ""}
+                            {printData?.refraction?.final_refraction?.le_axis  || "-"}
                         </td>
 
                         <td className="border border-slate-300 text-center">
-                            {printData?.refraction?.final_refraction?.le_add || ""}
+                            {printData?.refraction?.final_refraction?.le_add  || "-"}
                         </td>
 
                         <td className="border border-slate-300 text-center">
-                            {printData?.refraction?.final_refraction?.le_bcva || ""}
+                            {printData?.refraction?.final_refraction?.le_bcva  || "-"}
                         </td>
 
                         <td className="border border-slate-300 text-center">
-                            {printData?.refraction?.final_refraction?.le_near_bcva || ""}
+                            {printData?.refraction?.final_refraction?.le_near_bcva  || "-"}
                         </td>
 
                         
@@ -1042,10 +1041,10 @@ export default function DiagnosisPrintA4({
                     <tr>
                         
                         <td colSpan={8} className="border border-slate-300 ">
-                            Comment: {printData?.refraction?.final_refraction?.comment || ""}  ||
+                            Comment: {printData?.refraction?.final_refraction?.comment  || "-"}  ||
                             
-                            Lens Type- {printData?.refraction?.final_refraction?.lens_pres_type || ""}/
-                            Lens Coating- {printData?.refraction?.final_refraction?.lens_pres_coat || ""}
+                            Lens Type- {printData?.refraction?.final_refraction?.lens_pres_type  || "-"}/
+                            Lens Coating- {printData?.refraction?.final_refraction?.lens_pres_coat  || "-"}
                         </td>
                         
                     </tr>
@@ -1148,57 +1147,57 @@ export default function DiagnosisPrintA4({
                     {showEyeball && (
                     <tr>
                         <td className="font-semibold w-28">Eyeball</td>
-                        <td>{printData?.ocular_exam?.slit_lamp?.eyeball_re}</td>
-                        <td>{printData?.ocular_exam?.slit_lamp?.eyeball_le}</td>
+                        <td>{printData?.ocular_exam?.slit_lamp?.eyeball_re  || "-"}</td>
+                        <td>{printData?.ocular_exam?.slit_lamp?.eyeball_le  || "-"}</td>
                     </tr>
                     )}
                     {showConjunctiva && (
                     <tr>
                         <td className="font-semibold">Conjunctiva</td>
-                        <td>{printData?.ocular_exam?.slit_lamp?.conj_re}</td>
-                        <td>{printData?.ocular_exam?.slit_lamp?.conj_le}</td>
+                        <td>{printData?.ocular_exam?.slit_lamp?.conj_re  || "-"}</td>
+                        <td>{printData?.ocular_exam?.slit_lamp?.conj_le  || "-"}</td>
                     </tr>
                     )}
                     {showSclera && (
                     <tr>
                         <td className="font-semibold">Sclera</td>
-                        <td>{printData?.ocular_exam?.slit_lamp?.sclera_re}</td>
-                        <td>{printData?.ocular_exam?.slit_lamp?.sclera_le}</td>
+                        <td>{printData?.ocular_exam?.slit_lamp?.sclera_re  || "-"}</td>
+                        <td>{printData?.ocular_exam?.slit_lamp?.sclera_le  || "-"}</td>
                     </tr>
                     )}
                     {showCornea && (
                     <tr>
                         <td className="font-semibold">Cornea</td>
-                        <td>{printData?.ocular_exam?.slit_lamp?.cornea_re}</td>
-                        <td>{printData?.ocular_exam?.slit_lamp?.cornea_le}</td>
+                        <td>{printData?.ocular_exam?.slit_lamp?.cornea_re  || "-"}</td>
+                        <td>{printData?.ocular_exam?.slit_lamp?.cornea_le  || "-"}</td>
                     </tr>
                     )}
                     {showAnteriorChamber && (
                     <tr>
                         <td className="font-semibold">Anterior Chamber</td>
-                        <td>{printData?.ocular_exam?.slit_lamp?.ac_re}</td>
-                        <td>{printData?.ocular_exam?.slit_lamp?.ac_le}</td>
+                        <td>{printData?.ocular_exam?.slit_lamp?.ac_re  || "-"}</td>
+                        <td>{printData?.ocular_exam?.slit_lamp?.ac_le  || "-"}</td>
                     </tr>
                     )}
                     {showIris && (
                     <tr>
                         <td className="font-semibold">Iris</td>
-                        <td>{printData?.ocular_exam?.slit_lamp?.iris_re}</td>
-                        <td>{printData?.ocular_exam?.slit_lamp?.iris_le}</td>
+                        <td>{printData?.ocular_exam?.slit_lamp?.iris_re  || "-"}</td>
+                        <td>{printData?.ocular_exam?.slit_lamp?.iris_le  || "-"}</td>
                     </tr>
                     )}
                     {showPupil && (
                     <tr>
                         <td className="font-semibold">Pupil</td>
-                        <td>{printData?.ocular_exam?.slit_lamp?.pupil_re}</td>
-                        <td>{printData?.ocular_exam?.slit_lamp?.pupil_le}</td>
+                        <td>{printData?.ocular_exam?.slit_lamp?.pupil_re  || "-"}</td>
+                        <td>{printData?.ocular_exam?.slit_lamp?.pupil_le  || "-"}</td>
                     </tr>
                     )}
                     {showCmt && (
                     <tr>
                         <td className="font-semibold">Comment</td>
-                        <td>{printData?.ocular_exam?.slit_lamp?.slit_re_comment}</td>
-                        <td>{printData?.ocular_exam?.slit_lamp?.slit_le_comment}</td>
+                        <td>{printData?.ocular_exam?.slit_lamp?.slit_re_comment  || "-"}</td>
+                        <td>{printData?.ocular_exam?.slit_lamp?.slit_le_comment  || "-"}</td>
                     </tr>
                     )}
                     </tbody>
@@ -1707,7 +1706,7 @@ export default function DiagnosisPrintA4({
                                 ?.map((p, index) => (
                                     <div
                                     key={index}
-                                    className="flex items-center border-b border-dashed py-0.2 text-[12px]"
+                                    className="flex items-center py-0.2 text-[12px]"
                                     >
                                     <div className="w-10 font-semibold">
                                         {index + 1}.
@@ -1740,7 +1739,7 @@ export default function DiagnosisPrintA4({
                 {hasValue(printData?.advice) && (
                     <div className="mt-1 overflow-hidden special-ocular">
 
-                        <p className="font-semibold text-xs w-96">Advice- {printData?.advice || ""}</p>
+                        <p className="font-semibold text-xs w-96">Advice- {printData?.advice  || "-"}</p>
                         
                     
                     </div>

@@ -627,7 +627,19 @@ const handleSave = async () => {
 
     setErrors({});
 
-    setPrintData(form);
+    // setPrintData(form);
+
+    // setTimeout(() => {
+    //     window.print();
+    // }, 200);
+
+    setPrintData(structuredClone(form));
+
+    setTimeout(() => {
+      window.print();
+    }, 200);
+
+
     handleSearch(patient.patient_code);
     window.scrollTo({ top: 0, behavior: "smooth" });
     setForm({
@@ -3652,7 +3664,11 @@ const removeRetinoscopy = (index) => {
                   addMessage("error", "Patient not found.");
                   return;
                 }
-                window.print();
+                setPrintData(structuredClone(form));
+
+                  setTimeout(() => {
+                    window.print();
+                  }, 200);
               }}
               // className="bg-gray-800 text-white px-4 py-2 rounded"
               className="bg-gradient-to-r from-blue-500 to-blue-700 text-white px-8 py-2 rounded-xl shadow"
@@ -3704,7 +3720,7 @@ const removeRetinoscopy = (index) => {
         <DiagnosisPrintA4
             patient={patient}
             appointment={appointment}
-            printData={form}
+            printData={printData}
             medicines={medicines}
             getMedicineName={getMedicineName}
             calculateAge={calculateAge}
