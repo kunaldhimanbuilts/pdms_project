@@ -267,7 +267,7 @@ const handleSubmit = async () => {
     const doctorName = doctors.find(
       (d) => d.id == form.doctor_id
     )?.name;
-
+    const formattedPatientId = `PDMS${String(patientId).padStart(5, "0")}`;
 const message = `
 Dear ${form.name},
 
@@ -279,6 +279,7 @@ Your *appointment has been successfully booked.*
 
 ━━━━━━━━━━━━━━━━━━
 👨‍⚕️ *Consulting Doctor:* ${doctorName}
+🆔 *Patient ID:* ${formattedPatientId}
 📅 *Appointment Date:* ${form.date}
 🕒 *Appointment Time:* ${form.time}
 ━━━━━━━━━━━━━━━━━━

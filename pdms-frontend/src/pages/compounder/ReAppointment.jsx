@@ -243,7 +243,7 @@ function ReAppointment() {
 
       // 🔥 WhatsApp Message
       const doctorName = doctors.find(d => d.id == appointment.doctor_id)?.name;
-
+          
 const message = `
 Dear ${patient.name},
 
@@ -252,6 +252,7 @@ Greetings from *S&D Eye Care Centre*.
 Your *re-appointment has been successfully confirmed.*
 
 ━━━━━━━━━━━━━━━━━━
+🆔 *Patient ID:* ${patient.patient_code}
 👨‍⚕️ *Consulting Doctor:* ${doctorName}
 📅 *Appointment Date:* ${appointment.date}
 🕒 *Appointment Time:* ${appointment.time}

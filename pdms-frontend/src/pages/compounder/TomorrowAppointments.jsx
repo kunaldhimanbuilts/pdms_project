@@ -197,7 +197,7 @@ function TomorrowAppointments() {
   //   const url = `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
   //   window.open(url, "_blank");
   // };
-  const handleReminder = (phone, name, time) => {
+  const handleReminder = (phone, name, patientCode, time) => {
     // const formattedPhone = phone.startsWith("91")
     //   ? phone
     //   : `91${phone}`;
@@ -215,6 +215,7 @@ Greetings from *S&D Eye Care Centre*.
 This is a friendly reminder that your *appointment is scheduled for tomorrow.*
 
 ━━━━━━━━━━━━━━━━━━
+🆔 *Patient ID:* ${patientCode}
 🕒 *Appointment Time:* ${time}
 ━━━━━━━━━━━━━━━━━━
 
@@ -431,6 +432,7 @@ Greetings from *S&D Eye Care Centre*.
 Your *appointment has been successfully rescheduled.*
 
 ━━━━━━━━━━━━━━━━━━
+🆔 *Patient ID:* ${selectedAppointment.patient_code}
 📅 *New Appointment Date:* ${newDate}
 🕒 *New Appointment Time:* ${formattedTime}
 ━━━━━━━━━━━━━━━━━━
@@ -626,7 +628,7 @@ We look forward to seeing you at your appointment.
                     <td className="p-2 flex gap-2">
                       <button
                         onClick={() =>
-                          handleReminder(a.patient_phone, a.patient_name, a.time)
+                          handleReminder(a.patient_phone, a.patient_name,a.patient_code, a.time)
                         }
                         className="bg-green-500 text-white px-3 py-1 rounded"
                       >

@@ -173,7 +173,7 @@ function FollowUp() {
 
 
 
-  const handleReminder = (patient_phone, patient_name, next_visit_date) => {
+  const handleReminder = (patient_phone, patient_name,patient_code, next_visit_date) => {
 
     const formattedPhone = formatPhoneNumber(patient_phone);
 
@@ -189,6 +189,7 @@ Greetings from *S&D Eye Care Centre*.
 This is a gentle reminder that your *Follow-Up Visit* is due.
 
 ━━━━━━━━━━━━━━━━━━
+🆔 *Patient ID:* ${patient_code}
 📅 *Follow-Up Date:* ${next_visit_date}
 ━━━━━━━━━━━━━━━━━━
 
@@ -323,6 +324,7 @@ Greetings from *S&D Eye Care Centre*.
 Your appointment has been successfully Scheduled.
 
 ━━━━━━━━━━━━━━━━━━
+🆔 *Patient ID:* ${selectedAppointment.patient_code}
 📅 *New Appointment Date:* ${newDate}
 🕒 *New Appointment Time:* ${formattedTime}
 ━━━━━━━━━━━━━━━━━━
@@ -458,7 +460,7 @@ We appreciate your cooperation.
                     <td className="p-2 flex gap-2">
                       <button
                         onClick={() =>
-                          handleReminder(item.patient_phone, item.patient_name, item.next_visit_date)
+                          handleReminder(item.patient_phone, item.patient_name,item.patient_code, item.next_visit_date)
                         }
                         className="bg-green-500 text-white px-3 py-1 rounded"
                       >
