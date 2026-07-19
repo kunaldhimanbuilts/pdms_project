@@ -3,10 +3,8 @@ import api from "../../services/api";
 import { useNavigate } from "react-router-dom";
 
 
-function TomorrowAppointments() {
+function FollowUp() {
   const navigate = useNavigate(); 
-  const [data, setData] = useState([]);
-
   const [showModal, setShowModal] = useState(false);
   const [selectedAppointment, setSelectedAppointment] = useState(null);
   const [newDate, setNewDate] = useState("");
@@ -22,6 +20,8 @@ function TomorrowAppointments() {
   const [saving, setSaving] = useState(false);
   const [errors, setErrors] = useState({});
   const [modalError, setModalError] = useState("");
+  const [followups, setFollowups] = useState([]);
+
 
 
   const generateSlots = () => {
@@ -39,18 +39,12 @@ function TomorrowAppointments() {
 
     return slots;
   };
+
+
   useEffect(() => {
     setSlots(generateSlots());
   }, []);
 
-
-
-  // const fetchSlots = async (doctorId, date) => {
-  //   const res = await api.get(`/appointments/by-date?doctor_id=${doctorId}&date=${date}`);
-
-  //   const formatted = res.data.map(t => t.slice(0, 5)); // IMPORTANT
-  //   setBookedSlots(formatted);
-  // };  
 
   const fetchSlots = async (doctorId, date) => {
     try {
@@ -102,41 +96,28 @@ function TomorrowAppointments() {
     }
   };
 
-
-
-
   useEffect(() => {
     if (selectedAppointment && newDate) {
       fetchSlots(selectedAppointment.doctor_id, newDate);
     }
   }, [selectedAppointment, newDate]);    
-
-
   useEffect(() => {
-    fetchData();
+    fetchFollowups();
   }, []);
 
-  // const fetchData = async () => {
-  //   try {
-  //     const res = await api.get("/appointments/tomorrow");
-  //     setData(res.data);
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
-  const openWhatsApp = (phone, message) => {
-      const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+  const openWhatsApp = (patient_phone, message) => {
+      const url = `https://wa.me/${patient_phone}?text=${encodeURIComponent(message)}`;
 
       const popup = window.open(url, "_blank");
 
       return popup && !popup.closed && typeof popup.closed !== "undefined";
   };
 
-  const formatPhoneNumber = (phone) => {
-    if (!phone) return null;
+  const formatPhoneNumber = (patient_phone) => {
+    if (!patient_phone) return null;
 
     // Remove spaces, +, -, ()
-    const cleaned = String(phone).replace(/\D/g, "");
+    const cleaned = String(patient_phone).replace(/\D/g, "");
 
     if (!cleaned) return null;
 
@@ -144,18 +125,18 @@ function TomorrowAppointments() {
       ? cleaned
       : `91${cleaned}`;
   };
-  const fetchData = async () => {
+  const fetchFollowups = async () => {
     try {
       setLoading(true);
       setError("");
 
-      const res = await api.get("/appointments/tomorrow");
+      const res = await api.get("/followups");
 
-      setData(res.data);
+      setFollowups(res.data);
     } catch (err) {
-      console.error("Tomorrow appointments:", err);
+      console.error("Follow-up records:", err);
 
-      setData([]);
+      setFollowups([]);
 
       if (err.response) {
         switch (err.response.status) {
@@ -172,7 +153,7 @@ function TomorrowAppointments() {
             break;
 
           case 404:
-            setError("Tomorrow appointments not found.");
+            setError("Follow-up records not found.");
             break;
 
           case 500:
@@ -180,7 +161,7 @@ function TomorrowAppointments() {
             break;
 
           default:
-            setError("Failed to load tomorrow appointments.");
+            setError("Failed to load Follow-up records.");
         }
       } else {
         setError("Network error. Please check your internet connection.");
@@ -191,76 +172,69 @@ function TomorrowAppointments() {
   };
 
 
-  // 📲 WhatsApp Reminder
-  // const handleReminder = (phone, name, time) => {
-  //   const msg = `Hello ${name}, reminder for your appointment tomorrow at ${time}`;
-  //   const url = `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
-  //   window.open(url, "_blank");
-  // };
-  const handleReminder = (phone, name, time) => {
-    // const formattedPhone = phone.startsWith("91")
-    //   ? phone
-    //   : `91${phone}`;
-    const formattedPhone = formatPhoneNumber(phone);
+
+  const handleReminder = (patient_phone, patient_name, next_visit_date) => {
+
+    const formattedPhone = formatPhoneNumber(patient_phone);
 
     if (!formattedPhone) {
         alert("Patient phone number is unavailable.");
         return;
     }
 const msg = `
-Dear ${name},
+Dear ${patient_name},
 
 Greetings from *S&D Eye Care Centre*.
 
-This is a friendly reminder that your *appointment is scheduled for tomorrow.*
+This is a gentle reminder that your *Follow-Up Visit* is due.
 
 ━━━━━━━━━━━━━━━━━━
-🕒 *Appointment Time:* ${time}
+📅 *Follow-Up Date:* ${next_visit_date}
 ━━━━━━━━━━━━━━━━━━
 
-Please arrive *10 minutes before* your appointment.
+To avoid waiting, please *book your appointment slot* before visiting the clinic.
+
+📞 Call/WhatsApp: +91 8077799516
+
+Please arrive *10 minutes before* your scheduled appointment.
 
 Kindly bring:
 • Previous prescription
 • Medical reports (if any)
 • Current spectacles/contact lenses
 
-If you are unable to attend, please let us know in advance so we can assist you with rescheduling your appointment.
+If you are unable to visit on the scheduled date, please contact us in advance so we can help you reschedule your appointment.
 
 Thank you for choosing *S&D Eye Care Centre*.
 
-📍 S&D Eye Care Centre
-📞 +91 8077799516
-
-We look forward to welcoming you.
-
 ━━━━━━━━━━━━━━━━━━
 
-प्रिय ${name} जी,
+प्रिय ${patient_name},
 
 *एस एंड डी आई केयर सेंटर* की ओर से नमस्कार।
 
-यह आपको याद दिलाने के लिए संदेश है कि *आपका अपॉइंटमेंट कल निर्धारित है।*
+यह आपके *फॉलो-अप विज़िट* की विनम्र याद दिलाने हेतु संदेश है।
 
 ━━━━━━━━━━━━━━━━━━
-🕒 *अपॉइंटमेंट का समय:* ${time}
+📅 *फॉलो-अप तिथि:* ${next_visit_date}
 ━━━━━━━━━━━━━━━━━━
 
-कृपया अपने अपॉइंटमेंट के समय से *10 मिनट पहले* क्लिनिक पहुँचें।
+कृपया क्लिनिक आने से पहले अपना *अपॉइंटमेंट स्लॉट बुक कर लें*, ताकि आपको प्रतीक्षा न करनी पड़े।
 
-कृपया अपने साथ लाएँ:
-• पुराना पर्चा (यदि हो)
+📞 कॉल/व्हाट्सएप: +91 8077799516
+
+कृपया निर्धारित समय से *10 मिनट पहले* क्लिनिक पहुँचें।
+
+साथ में अवश्य लाएँ:
+• पिछला प्रिस्क्रिप्शन
 • मेडिकल रिपोर्ट (यदि हो)
-• अपना वर्तमान चश्मा या कॉन्टैक्ट लेंस
+• वर्तमान चश्मा / कॉन्टैक्ट लेंस
 
-यदि आप किसी कारणवश नहीं आ सकते हैं, तो कृपया पहले से हमें सूचित करें ताकि आपके लिए नया अपॉइंटमेंट तय किया जा सके।
+यदि आप निर्धारित तिथि पर नहीं आ सकते हैं, तो कृपया पहले से संपर्क करें ताकि आपका नया अपॉइंटमेंट निर्धारित किया जा सके।
 
-*एस एंड डी आई केयर सेंटर* पर विश्वास करने के लिए आपका धन्यवाद।
+*एस एंड डी आई केयर सेंटर* पर विश्वास करने के लिए धन्यवाद।
 
-📍 एस एंड डी आई केयर सेंटर
-📞 +91 8077799516
-
-हम आपके स्वागत के लिए तत्पर हैं।
+हम आपकी सेवा के लिए सदैव तत्पर हैं।
 `;
     const success = openWhatsApp(formattedPhone, msg);
 
@@ -270,92 +244,13 @@ We look forward to welcoming you.
         );
     }
 
-    // if (!popup || popup.closed || typeof popup.closed === "undefined") {
-    //   alert(
-    //     "Unable to open WhatsApp. Please allow pop-ups in your browser and try again."
-    //   );
-    // }
   };
 
-  // const submitReschedule = async () => {
-  //   if (!selectedAppointment) return;
-  //   if (!newDate || !newTime) {
-  //     alert("Fill all fields");
-  //     return;
-  //   }
-
-  //   try {
-  //     await api.put(`/appointments/${selectedAppointment.id}`, {
-  //       date: newDate,
-  //       time: newTime
-  //     });
-
-  //     // ✅ WhatsApp update after reschedule
-  //     const msg = `Hello ${selectedAppointment.patient_name}, your appointment has been rescheduled to ${newDate} at ${newTime}`;
-  //     const url = `https://wa.me/${selectedAppointment.patient_phone}?text=${encodeURIComponent(msg)}`;
-  //     window.open(url, "_blank");
-
-  //     alert("Rescheduled & Notified ✅");
-
-  //     setShowModal(false);
-  //     setNewDate("");
-  //     setNewTime("");
-  //     fetchData();
-
-  //   } catch {
-  //     alert("Error ❌");
-  //   }
-  // };
-
-  // const submitReschedule = async () => {
-  //   if (!selectedAppointment) return;
-
-  //   if (!newDate || !newTime) {
-  //     alert("Fill all fields");
-  //     return;
-  //   }
-
-  //   const formattedTime = newTime.length === 5 ? `${newTime}:00` : newTime;
-
-  //   try {
-  //     await api.put(`/appointments/${selectedAppointment.id}`, {
-  //       patient_id: selectedAppointment.patient_id,
-  //       doctor_id: selectedAppointment.doctor_id,
-  //       date: newDate,
-  //       time: formattedTime,
-  //       notes: selectedAppointment.notes || ""
-  //     });
-
-  //     const phone = selectedAppointment.patient_phone.startsWith("91")
-  //       ? selectedAppointment.patient_phone
-  //       : `91${selectedAppointment.patient_phone}`;
-
-  //     const msg = `Hello ${selectedAppointment.patient_name}, your appointment has been rescheduled to ${newDate} at ${formattedTime}`;
-  //     const url = `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
-  //     window.open(url, "_blank");
-
-  //     alert("Rescheduled & Notified ✅");
-
-  //     setShowModal(false);
-  //     setNewDate("");
-  //     setNewTime("");
-  //     fetchData();
-
-  //   } catch (err) {
-  //     console.log(err.response?.data); // 👈 check now
-  //     alert("Error ❌");
-  //   }
-  // };
 
   const submitReschedule = async () => {
     if (!selectedAppointment) return;
 
     if (saving) return;
-
-    // if (!newDate || !newTime) {
-    //   alert("Please select both date and time.");
-    //   return;
-    // }
     const validationErrors = {};
 
     if (!newDate) {
@@ -393,22 +288,19 @@ We look forward to welcoming you.
 
       setSaving(true);
 
-      await api.put(`/appointments/${selectedAppointment.id}`, {
+      await api.post("/appointments/", {
         patient_id: selectedAppointment.patient_id,
         doctor_id: selectedAppointment.doctor_id,
         date: newDate,
         time: formattedTime,
-        notes: selectedAppointment.notes || "",
+        notes: "Follow-up Appointment",
       });
 
-      // const phone = selectedAppointment.patient_phone.startsWith("91")
-      //   ? selectedAppointment.patient_phone
-      //   : `91${selectedAppointment.patient_phone}`;
-      const phone = formatPhoneNumber(
+      const patient_phone = formatPhoneNumber(
           selectedAppointment.patient_phone
       );
 
-      if (!phone) {
+      if (!patient_phone) {
           alert("Appointment rescheduled successfully, but patient phone number is unavailable.");
 
           setShowModal(false);
@@ -418,88 +310,47 @@ We look forward to welcoming you.
           setSlotsError("");
           setBookedSlots([]);
           setModalError("");
-          fetchData();
+          fetchFollowups();
 
           return;
       }
-      // const msg = `Hello ${selectedAppointment.patient_name}, your appointment has been rescheduled to ${newDate} at ${formattedTime}`;
+
 const msg = `
-Dear ${selectedAppointment.patient_name} Ji,
+Dear ${selectedAppointment.patient_name},
 
 Greetings from *S&D Eye Care Centre*.
 
-Your *appointment has been successfully rescheduled.*
+Your appointment has been successfully Scheduled.
 
 ━━━━━━━━━━━━━━━━━━
 📅 *New Appointment Date:* ${newDate}
 🕒 *New Appointment Time:* ${formattedTime}
 ━━━━━━━━━━━━━━━━━━
 
-Please arrive *10 minutes before* your appointment.
+Kindly arrive *10 minutes before* your scheduled appointment.
 
-Kindly bring:
+Please carry:
 • Previous prescription
 • Medical reports (if any)
 • Current spectacles/contact lenses
 
-If the new appointment date or time is not convenient for you, please contact us in advance so we can arrange another suitable appointment.
+If this new schedule is inconvenient, please contact us for further assistance.
 
 Thank you for choosing *S&D Eye Care Centre*.
 
 📍 S&D Eye Care Centre
 📞 +91 8077799516
 
-We look forward to seeing you at your appointment.
-
-━━━━━━━━━━━━━━━━━━
-
-प्रिय ${selectedAppointment.patient_name} जी,
-
-*एस एंड डी आई केयर सेंटर* की ओर से नमस्कार।
-
-आपका *अपॉइंटमेंट सफलतापूर्वक पुनर्निर्धारित (Reschedule) कर दिया गया है।*
-
-━━━━━━━━━━━━━━━━━━
-📅 *नई अपॉइंटमेंट तारीख:* ${newDate}
-🕒 *नया अपॉइंटमेंट समय:* ${formattedTime}
-━━━━━━━━━━━━━━━━━━
-
-कृपया अपने अपॉइंटमेंट के समय से *10 मिनट पहले* क्लिनिक पहुँचें।
-
-कृपया अपने साथ लाएँ:
-• पुराना पर्चा (यदि हो)
-• मेडिकल रिपोर्ट (यदि हो)
-• अपना वर्तमान चश्मा या कॉन्टैक्ट लेंस
-
-यदि नई अपॉइंटमेंट की तारीख या समय आपके लिए सुविधाजनक नहीं है, तो कृपया पहले से हमें सूचित करें ताकि आपके लिए नया समय निर्धारित किया जा सके।
-
-*एस एंड डी आई केयर सेंटर* पर विश्वास करने के लिए आपका धन्यवाद।
-
-📍 एस एंड डी आई केयर सेंटर
-📞 +91 8077799516
-
-हम आपकी सेवा के लिए सदैव तत्पर हैं।
+We appreciate your cooperation.
 `;
-      // const url = `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
-      const success = openWhatsApp(phone, msg);
+      
+      const success = openWhatsApp(patient_phone, msg);
 
       if (!success) {
           alert(
               "Unable to open WhatsApp. Please allow pop-ups in your browser."
           );
       }
-
-
-      // window.open(url, "_blank");
-
-      // const popup = window.open(url, "_blank");
-
-      // if (!popup || popup.closed || typeof popup.closed === "undefined") {
-      //   alert(
-      //     "Appointment rescheduled successfully, but WhatsApp could not be opened."
-      //   );
-      // }
-
 
       alert("Appointment rescheduled successfully.");
 
@@ -513,7 +364,7 @@ We look forward to seeing you at your appointment.
       setBookedSlots([]);
       setModalError("");
 
-      fetchData();
+      fetchFollowups();
     } catch (err) {
       console.error("Reschedule:", err);
 
@@ -551,29 +402,6 @@ We look forward to seeing you at your appointment.
       setSaving(false);
     }
   };
-
-
-  // 🔁 Reschedule
-  // const handleReschedule = async (id) => {
-  //   const newDate = prompt("Enter new date (YYYY-MM-DD)");
-  //   const newTime = prompt("Enter new time (HH:MM:SS)");
-
-  //   if (!newDate || !newTime) return;
-
-  //   try {
-  //     await api.put(`/appointments/${id}`, {
-  //       date: newDate,
-  //       time: newTime
-  //     });
-
-  //     alert("Rescheduled ✅");
-  //     fetchData();
-
-  //   } catch {
-  //     alert("Error ❌");
-  //   }
-  // };
-
   return (
     <div>
       <button
@@ -583,7 +411,7 @@ We look forward to seeing you at your appointment.
        Back
       </button>
       <h1 className="text-2xl font-bold text-blue-800 mb-6">
-        Tomorrow Appointments
+        Follow-Up Patients
       </h1>
       {error && (
         <div className="mb-4 p-4 rounded-lg border border-red-300 bg-red-100 text-red-700">
@@ -591,18 +419,21 @@ We look forward to seeing you at your appointment.
         </div>
       )}
       <div className="bg-white p-6 rounded-xl shadow">
+
+
         <table className="w-full text-left">
 
           <thead>
             <tr className="border-b">
-              {/* <th className="p-2">Patient ID</th>
-              <th className="p-2">Doctor</th>
-              <th className="p-2">Time</th> */}
               <th className="p-2">Patient ID</th>
               <th className="p-2">Name</th>
               <th className="p-2">Phone</th>
               <th className="p-2">Doctor</th>
-              <th className="p-2">Time</th>
+              {/* <th className="p-2">Next Visit</th> */}
+              <th className="p-2">Last Visit</th>
+              <th className="p-2">Reason</th>
+
+
               <th className="p-2">Actions</th>
             </tr>
           </thead>
@@ -611,22 +442,23 @@ We look forward to seeing you at your appointment.
               {loading ? (
                 <tr>
                   <td colSpan="6" className="text-center p-6 text-gray-500">
-                    Loading tomorrow's appointments...
+                    Loading Follow-up records...
                   </td>
                 </tr>
-              ) : data.length > 0 ? (
-                data.map((a) => (
-                  <tr key={a.id} className="border-b">
-                    <td className="p-2">{a.patient_code}</td>
-                    <td className="p-2">{a.patient_name}</td>
-                    <td className="p-2">{a.patient_phone}</td>
-                    <td className="p-2">{a.doctor_name}</td>
-                    <td className="p-2">{a.time}</td>
-
+              ) : followups.length > 0 ? (
+                followups.map((item) => (
+                  <tr key={item.id} className="border-b">
+                    <td className="p-2">{item.patient_code}</td>
+                    <td className="p-2">{item.patient_name}</td>
+                    <td className="p-2">{item.patient_phone}</td>
+                    <td className="p-2">{item.doctor_name}</td>
+                    {/* <td className="p-2">{item.next_visit_date}</td> */}
+                    <td className="p-2">{item.created_at?.split("T")[0]}</td>
+                    <td className="p-2">{item.next_visit_reason}</td>
                     <td className="p-2 flex gap-2">
                       <button
                         onClick={() =>
-                          handleReminder(a.patient_phone, a.patient_name, a.time)
+                          handleReminder(item.patient_phone, item.patient_name, item.next_visit_date)
                         }
                         className="bg-green-500 text-white px-3 py-1 rounded"
                       >
@@ -634,33 +466,27 @@ We look forward to seeing you at your appointment.
                       </button>
 
                       <button
-                        disabled={saving}
-                        // onClick={() => {
-                        //   setSelectedAppointment(a);
-                        //   setShowModal(true);
-                        // }}
-
+                        disabled={saving || item.scheduled}
                         onClick={() => {
-                            setSelectedAppointment(a);
+                          setSelectedAppointment(item);
 
-                            setModalError("");
-                            setErrors({});
-                            setSlotsError("");
-                            setBookedSlots([]);
+                          setModalError("");
+                          setErrors({});
+                          setSlotsError("");
+                          setBookedSlots([]);
 
-                            setNewDate("");
-                            setNewTime("");
+                          setNewDate("");
+                          setNewTime("");
 
-                            setShowModal(true);
+                          setShowModal(true);
                         }}
-
                         className={`px-3 py-1 rounded text-white ${
-                          saving
+                          saving || item.scheduled
                             ? "bg-gray-400 cursor-not-allowed"
                             : "bg-yellow-500 hover:bg-yellow-600"
                         }`}
                       >
-                        Reschedule
+                        {item.scheduled ? "Scheduled" : "Schedule"}
                       </button>
                     </td>
                   </tr>
@@ -668,7 +494,7 @@ We look forward to seeing you at your appointment.
               ) : (
                 <tr>
                   <td colSpan="6" className="text-center p-6 text-gray-500">
-                    No appointments scheduled for tomorrow.
+                    No Follow-up records for tomorrow.
                   </td>
                 </tr>
               )}
@@ -688,12 +514,7 @@ We look forward to seeing you at your appointment.
                   {modalError}
                 </div>
               )}
-              {/* <input
-                type="date"
-                value={newDate}
-                onChange={(e) => setNewDate(e.target.value)}
-                className="w-full mb-3 p-2 border rounded"
-              /> */}
+              
               <input
                 type="date"
                 disabled={slotsLoading || saving}
@@ -726,13 +547,6 @@ We look forward to seeing you at your appointment.
                   {errors.newDate}
                 </p>
               )}
-              {/* <input
-                type="time"
-                value={newTime}
-                onChange={(e) => setNewTime(e.target.value)}
-                className="w-full mb-4 p-2 border rounded"
-              /> */}
-
               {slotsError && (
                 <div className="mb-3 p-3 rounded-lg bg-red-100 border border-red-300 text-red-700">
                   {slotsError}
@@ -751,8 +565,7 @@ We look forward to seeing you at your appointment.
                   return (
                     <div
                       key={slot}
-                      // onClick={() => !isBooked && setNewTime(slot)}
-
+                      
                       onClick={() => {
                         if (!isBooked) {
                             setNewTime(slot);
@@ -786,19 +599,6 @@ We look forward to seeing you at your appointment.
               )}
 
               <div className="flex justify-end gap-2">
-                {/* <button
-                  // onClick={() => setShowModal(false)}
-
-                  onClick={() => {
-                    setShowModal(false);
-                    setNewDate("");
-                    setNewTime("");
-                  }}
-
-                  className="px-4 py-2 bg-gray-300 rounded"
-                >
-                  Cancel
-                </button> */}
                 <button
                   disabled={saving}
                   onClick={() => {
@@ -824,15 +624,6 @@ We look forward to seeing you at your appointment.
                 >
                   Cancel
                 </button>
-
-
-                {/* <button
-                  onClick={submitReschedule}
-                  className="px-4 py-2 bg-blue-600 text-white rounded"
-                >
-                  Save
-                </button> */}
-
                 <button
                   onClick={submitReschedule}
                   disabled={saving || slotsLoading}
@@ -855,4 +646,4 @@ We look forward to seeing you at your appointment.
   );
 }
 
-export default TomorrowAppointments;
+export default FollowUp;

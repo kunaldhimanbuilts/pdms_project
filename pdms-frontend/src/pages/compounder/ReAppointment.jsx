@@ -22,46 +22,93 @@ function ReAppointment() {
     time: "",
     notes: ""
   });
+  const [loadingDoctors, setLoadingDoctors] = useState(false);
+  const [error, setError] = useState("");
+
+  const [searching, setSearching] = useState(false);
+  const [loadingSlots, setLoadingSlots] = useState(false);
+  const [savingAppointment, setSavingAppointment] = useState(false);
+  const [errors, setErrors] = useState({});
+
+
   useEffect(() => {
     if (appointment.doctor_id && appointment.date) {
       fetchSlots(appointment.doctor_id, appointment.date);
     }
   }, [appointment.doctor_id, appointment.date]);
 
+  // useEffect(() => {
+  //   const fetchDoctors = async () => {
+  //     const res = await api.get("/users/doctors");
+  //     setDoctors(res.data);
+  //   };
+  //   fetchDoctors();
+  // }, []);
+
   useEffect(() => {
     const fetchDoctors = async () => {
-      const res = await api.get("/users/doctors");
-      setDoctors(res.data);
+      setLoadingDoctors(true);
+      setError("");
+
+      try {
+        const res = await api.get("/users/doctors");
+        setDoctors(res.data);
+      } catch (err) {
+        console.error(err);
+
+        if (!err.response) {
+          setError("Unable to connect to the server.");
+        } else if (err.response.status === 401) {
+          setError("Session expired. Please login again.");
+        } else {
+          setError("Unable to load doctors.");
+        }
+      } finally {
+        setLoadingDoctors(false);
+      }
     };
+
     fetchDoctors();
   }, []);
-  // 🔍 Search Patient
+
   // const handleSearch = async () => {
   //   try {
-  //     const res = await api.get(`/patients/search/${code}`);
-  //     setPatient(res.data);
-
-  //     const last = await api.get(`/appointments/last/${res.data.id}`);
-  //     setLastData(last.data);
-
-
-  //     // fetch history
-  //     const hist = await api.get(`/diagnosis/patient/${res.data.id}`);
-  //     setHistory(hist.data);
-
-  //   } catch {
-  //     alert("Patient not found ❌");
+  //     const res = await api.get(`/patients/search-list/${code}`);
+  //     setSearchResults(res.data);
+  //   } catch (err) {
+  //     setSearchResults([]);
+  //     alert("No patient found");
   //   }
   // };
+
   const handleSearch = async () => {
-    try {
-      const res = await api.get(`/patients/search-list/${code}`);
-      setSearchResults(res.data);
-    } catch (err) {
-      setSearchResults([]);
-      alert("No patient found");
-    }
-  };
+      if (!code.trim()) {
+          setError("Please enter Patient ID, Name, Phone, or Address.");
+          setSearchResults([]);
+          return;
+      }
+      setSearching(true);
+      try {
+          const res = await api.get(`/patients/search-list/${code}`);
+          setSearchResults(res.data);
+          setError("");
+      } catch (err) {
+          console.error(err);
+          setSearchResults([]);
+
+          if (!err.response) {
+              setError("Unable to connect to the server.");
+          } else if (err.response.status === 404) {
+              setError("No patient found.");
+          } else if (err.response.status === 401) {
+              setError("Session expired. Please login again.");
+          } else {
+              setError("Unable to search patients.");
+          }
+      }finally {
+          setSearching(false);
+      }
+  }
   const selectPatient = async (selectedPatient) => {
     try {
       setPatient(selectedPatient);
@@ -74,9 +121,23 @@ function ReAppointment() {
 
       setSearchResults([]);
       setCode(selectedPatient.name);
-    } catch {
-      alert("Unable to load patient");
+      setError("");
+    } 
+
+    catch (err) {
+        console.error(err);
+
+        if (!err.response) {
+            setError("Unable to connect to the server.");
+        } else if (err.response.status === 404) {
+            setError("Patient details not found.");
+        } else if (err.response.status === 401) {
+            setError("Session expired. Please login again.");
+        } else {
+            setError("Unable to load patient details.");
+        }
     }
+
   };
   const [slots, setSlots] = useState([]);
   const [bookedSlots, setBookedSlots] = useState([]);
@@ -87,12 +148,40 @@ function ReAppointment() {
   }, []);
 
   
-  const fetchSlots = async (doctorId, date) => {
-    const res = await api.get(`/appointments/by-date?doctor_id=${doctorId}&date=${date}`);
+  // const fetchSlots = async (doctorId, date) => {
+  //   const res = await api.get(`/appointments/by-date?doctor_id=${doctorId}&date=${date}`);
 
-    const formatted = res.data.map(t => t.slice(0, 5));
-    setBookedSlots(formatted);
+  //   const formatted = res.data.map(t => t.slice(0, 5));
+  //   setBookedSlots(formatted);
+  // };
+
+  const fetchSlots = async (doctorId, date) => {
+    setLoadingSlots(true);
+      try {
+          const res = await api.get(
+              `/appointments/by-date?doctor_id=${doctorId}&date=${date}`
+          );
+
+          const formatted = res.data.map((t) => t.slice(0, 5));
+          setBookedSlots(formatted);
+          setError("");
+      } catch (err) {
+          console.error(err);
+          setBookedSlots([]);
+
+          if (!err.response) {
+              setError("Unable to connect to the server.");
+          } else if (err.response.status === 401) {
+              setError("Session expired. Please login again.");
+          } else {
+              setError("Unable to load appointment slots.");
+          }
+      }finally {
+          setLoadingSlots(false);
+      }
   };
+
+
   const generateSlots = () => {
     const slots = [];
     let start = 9 * 60;   // 9:00 in minutes
@@ -110,6 +199,37 @@ function ReAppointment() {
   };
  
   const handleReAppointment = async () => {
+
+  const validationErrors = {};
+
+  if (!patient) {
+      setError("Please select a patient.");
+      return;
+  }
+
+  if (!appointment.doctor_id) {
+      validationErrors.doctor_id = "Please select a doctor.";
+  }
+
+  if (!appointment.date) {
+      validationErrors.date = "Please select an appointment date.";
+  }
+
+  if (!appointment.time) {
+      validationErrors.time = "Please select an appointment time.";
+  }
+
+  if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+  }
+
+  setErrors({});
+  setError("");
+  if (savingAppointment) return;
+
+
+  setSavingAppointment(true);
     try {
       await api.post("/appointments/", {
         patient_id: patient.id,
@@ -118,30 +238,122 @@ function ReAppointment() {
         time: appointment.time,
         notes: appointment.notes
       });
+      setError("");
+      
 
       // 🔥 WhatsApp Message
       const doctorName = doctors.find(d => d.id == appointment.doctor_id)?.name;
 
-      const message = `
-  Hello ${patient.name},
+const message = `
+Dear ${patient.name},
 
-  Your re-appointment is confirmed ✅
+Greetings from *S&D Eye Care Centre*.
 
-  Doctor: ${doctorName}
-  Date: ${appointment.date}
-  Time: ${appointment.time}
+Your *re-appointment has been successfully confirmed.*
 
-  Please visit on time.
-      `;
+━━━━━━━━━━━━━━━━━━
+👨‍⚕️ *Consulting Doctor:* ${doctorName}
+📅 *Appointment Date:* ${appointment.date}
+🕒 *Appointment Time:* ${appointment.time}
+━━━━━━━━━━━━━━━━━━
 
-      const phone = patient.phone.replace(/\D/g, "");
-      const url = `https://wa.me/91${phone}?text=${encodeURIComponent(message)}`;
+Please arrive *10 minutes before* your appointment.
 
-      window.open(url, "_blank");
+Kindly bring:
+• Previous prescription
+• Medical reports (if any)
+• Current spectacles/contact lenses
 
-    } catch {
-      alert("Error ❌");
+If you are unable to visit on the scheduled date and time, please let us know in advance so we can arrange another appointment for you.
+
+Thank you for choosing *S&D Eye Care Centre*.
+
+📍 S&D Eye Care Centre
+📞 +91 8077799516
+
+We look forward to welcoming you.
+
+━━━━━━━━━━━━━━━━━━
+
+प्रिय ${patient.name} जी,
+
+*एस एंड डी आई केयर सेंटर* की ओर से नमस्कार।
+
+आपका *दोबारा अपॉइंटमेंट सफलतापूर्वक बुक हो गया है।*
+
+━━━━━━━━━━━━━━━━━━
+👨‍⚕️ *डॉक्टर:* ${doctorName}
+📅 *अपॉइंटमेंट की तारीख:* ${appointment.date}
+🕒 *अपॉइंटमेंट का समय:* ${appointment.time}
+━━━━━━━━━━━━━━━━━━
+
+कृपया अपने अपॉइंटमेंट के समय से *10 मिनट पहले* क्लिनिक पहुँचें।
+
+कृपया अपने साथ लाएँ:
+• पिछला पर्चा (Prescription)
+• मेडिकल रिपोर्ट (यदि हो)
+• अपना वर्तमान चश्मा या कॉन्टैक्ट लेंस
+
+यदि आप तय समय पर नहीं आ सकते हैं, तो कृपया पहले से हमें सूचित करें ताकि आपके लिए नया अपॉइंटमेंट तय किया जा सके।
+
+*एस एंड डी आई केयर सेंटर* पर भरोसा करने के लिए आपका धन्यवाद।
+
+📍 एस एंड डी आई केयर सेंटर
+📞 +91 8077799516
+
+हम आपके स्वागत के लिए तत्पर हैं।
+`;
+
+      const phone = patient.phone?.replace(/\D/g, "");
+
+      if (phone) {
+          const url = `https://wa.me/91${phone}?text=${encodeURIComponent(message)}`;
+
+          const popup = window.open(url, "_blank");
+
+          if (!popup || popup.closed) {
+              alert(
+                  "Appointment scheduled successfully, but WhatsApp could not be opened."
+              );
+          } else {
+              alert("Appointment scheduled successfully.");
+          }
+      } else {
+          alert(
+              "Appointment scheduled successfully, but WhatsApp could not be opened."
+          );
+      }
+
+      setAppointment({
+          doctor_id: "",
+          date: "",
+          time: "",
+          notes: "",
+      });
+      setBookedSlots([]);
+      setErrors({});
+      setError("");
+      doctorRef.current?.focus();
+
+    } 
+    catch (err) {
+        console.error(err);
+
+        if (!err.response) {
+            setError("Unable to connect to the server.");
+        } else if (err.response.status === 400) {
+            setError("Invalid appointment details.");
+        } else if (err.response.status === 401) {
+            setError("Session expired. Please login again.");
+        } else if (err.response.status === 409) {
+            setError("This appointment slot is already booked.");
+        } else {
+            setError("Unable to schedule appointment.");
+        }
+    }finally {
+        setSavingAppointment(false);
     }
+
   };
   const handleEnterNext = (e) => {
     if (e.key === "Enter") {
@@ -161,7 +373,9 @@ function ReAppointment() {
       const index = elements.indexOf(e.target);
 
       if (index === elements.length - 1) {
-        handleReAppointment(); // 🔥 last → submit
+        if (!savingAppointment) {
+                handleReAppointment();
+            }
       } else {
         elements[index + 1].focus(); // 👉 next
       }
@@ -180,8 +394,17 @@ function ReAppointment() {
 
   const selectToday = () => {
     setAppointment((prev) => ({
-      ...prev,
-      date: formatDate(new Date()),
+        ...prev,
+        date: formatDate(new Date()),
+        time: "",
+    }));
+
+    setBookedSlots([]);
+
+    setErrors((prev) => ({
+        ...prev,
+        date: "",
+        time: "",
     }));
   };
 
@@ -190,8 +413,17 @@ function ReAppointment() {
     tomorrow.setDate(tomorrow.getDate() + 1);
 
     setAppointment((prev) => ({
-      ...prev,
-      date: formatDate(tomorrow),
+        ...prev,
+        date: formatDate(tomorrow),
+        time: "",
+    }));
+
+    setBookedSlots([]);
+
+    setErrors((prev) => ({
+        ...prev,
+        date: "",
+        time: "",
     }));
   };
 
@@ -243,13 +475,18 @@ function ReAppointment() {
         {/* RIGHT */}
         <button
           onClick={handleSearch}
+          disabled={searching}
           className="bg-blue-600 text-white px-5 py-2 rounded-lg shadow hover:bg-blue-700"
         >
-          Search
+          {searching ? "Searching..." : "Search"}
         </button>
 
       </div>
-
+{error && (
+  <div className="mb-4 rounded-lg border border-red-300 bg-red-100 px-4 py-3 text-red-700">
+    {error}
+  </div>
+)}
 {searchResults.length > 0 && (
   <div className="bg-white rounded-lg shadow mt-4 overflow-hidden">
     <table className="w-full">
@@ -385,15 +622,39 @@ function ReAppointment() {
 
 
               <div className="p-4 grid grid-cols-4 gap-4">
-                <select
+                {/* <select
                   ref={doctorRef}
+                  disabled={loadingDoctors}
                   className="input bg-white"
                   onChange={(e) =>
                     setAppointment({ ...appointment, doctor_id: e.target.value })
                   }
                   onKeyDown={handleEnterNext}
+                > */}
+                <select
+                    ref={doctorRef}
+                    value={appointment.doctor_id}
+                    className={`input bg-white ${
+                        errors.doctor_id ? "border-red-500" : ""
+                    }`}
+                    onChange={(e) => {
+                        setAppointment((prev) => ({
+                            ...prev,
+                            doctor_id: e.target.value,
+                            time: "",
+                        }));
+
+                        setBookedSlots([]);
+
+                        setErrors((prev) => ({
+                            ...prev,
+                            doctor_id: "",
+                            time: "",
+                        }));
+                    }}
                 >
-                  <option>Select Doctor</option>
+
+                  <option>{loadingDoctors ? "Loading doctors..." : "Select Doctor"}</option>
                   {doctors.map((doc) => (
                     <option key={doc.id} value={doc.id}>
                       {doc.name}
@@ -408,7 +669,7 @@ function ReAppointment() {
                   }
                   onKeyDown={handleEnterNext}
                 /> */}
-                <input
+                {/* <input
                   type="date"
                   className="input bg-white"
                   value={appointment.date}
@@ -417,7 +678,31 @@ function ReAppointment() {
                     setAppointment({ ...appointment, date: e.target.value })
                   }
                   onKeyDown={handleEnterNext}
+                /> */}
+
+                <input
+                    type="date"
+                    value={appointment.date}
+                    className={`input bg-white ${
+                        errors.date ? "border-red-500" : ""
+                    }`}
+                    onChange={(e) => {
+                        setAppointment((prev) => ({
+                            ...prev,
+                            date: e.target.value,
+                            time: "",
+                        }));
+
+                        setBookedSlots([]);
+
+                        setErrors((prev) => ({
+                            ...prev,
+                            date: "",
+                            time: "",
+                        }));
+                    }}
                 />
+
                 <button
                   type="button"
                   onClick={selectToday}
@@ -446,6 +731,22 @@ function ReAppointment() {
                 </button>               
                 
               </div>
+              {errors.doctor_id && (
+                  <p className="text-red-500 text-sm mt-1">
+                      {errors.doctor_id}
+                  </p>
+              )}
+
+              {loadingSlots && (
+                  <p className="text-blue-600 font-medium mb-3">
+                      Loading available slots...
+                  </p>
+              )}
+              {errors.date && (
+                  <p className="text-red-500 text-sm mt-1">
+                      {errors.date}
+                  </p>
+              )}
               <div className="grid grid-cols-6 gap-3 mt-4">
                 {slots.map((slot) => {
                   const isBooked = bookedSlots.includes(slot);
@@ -454,7 +755,24 @@ function ReAppointment() {
                   return (
                     <div
                       key={slot}
-                      onClick={() => !isBooked && setAppointment({ ...appointment, time: slot })}
+                      // onClick={() => !isBooked && setAppointment({ ...appointment, time: slot })}
+
+                      onClick={() => {
+                          if (isBooked) return;
+
+                          setAppointment({
+                              ...appointment,
+                              time: slot,
+                          });
+
+                          if (errors.time) {
+                              setErrors((prev) => ({
+                                  ...prev,
+                                  time: "",
+                              }));
+                          }
+                      }}
+
                       // className={`p-3 rounded-lg text-center cursor-pointer shadow
                       //   ${isBooked ? "bg-red-400 text-white cursor-not-allowed" : "bg-green-400 text-white hover:scale-105"}
                       // `}
@@ -471,6 +789,12 @@ function ReAppointment() {
                   );
                 })}
               </div>
+              {errors.time && (
+                  <p className="text-red-500 text-sm mt-3">
+                      {errors.time}
+                  </p>
+              )}
+
               <div className="p-4">
                 <textarea
                   placeholder="Notes"
@@ -484,13 +808,24 @@ function ReAppointment() {
 
               {/* 🔥 FOOTER BAR */}
               <div className="bg-gradient-to-r from-blue-200 to-blue-400 p-4 flex justify-end">
-                <button
+                {/* <button
                 
                   type="submit"
                   className="bg-blue-700 text-white px-8 py-2 rounded-lg shadow hover:bg-blue-800"
                 >
                   Schedule Appointment
+                </button> */}
+
+                <button
+                    type="submit"
+                    disabled={savingAppointment}
+                    className="bg-blue-700 text-white px-8 py-2 rounded-lg shadow hover:bg-blue-800 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                    {savingAppointment
+                        ? "Scheduling..."
+                        : "Schedule Appointment"}
                 </button>
+
               </div>
 
             </div>

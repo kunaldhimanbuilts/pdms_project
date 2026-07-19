@@ -19,7 +19,7 @@ from app.routes import admin
 from app.routes import dashboard
 from fastapi.middleware.cors import CORSMiddleware
 from app.routes import user
-
+from app.routes import followup
 
 
 
@@ -34,11 +34,12 @@ app.add_middleware(
 )
 app.include_router(auth.router, prefix="/auth", tags=["Auth"])
 app.include_router(patient.router, prefix="/patients", tags=["Patients"])
+
 app.include_router(appointment.router, prefix="/appointments", tags=["Appointments"])
 app.include_router(diagnosis.router, prefix="/diagnosis", tags=["Diagnosis"])
 
 app.include_router(medicine.router, prefix="/medicines", tags=["Medicines"])
-
+app.include_router(followup.router)
 app.include_router(admin.router, prefix="/admin", tags=["Admin"])
 app.include_router(dashboard.router, prefix="/dashboard")
 

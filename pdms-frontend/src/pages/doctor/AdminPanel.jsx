@@ -7,34 +7,186 @@ function AdminPanel() {
   const [medicines, setMedicines] = useState([]);
   const [form, setForm] = useState({ name: "", type: "" });
   const [editId, setEditId] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [submitLoading, setSubmitLoading] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(null);
+  const [error, setError] = useState("");
+  const [errors, setErrors] = useState({
+    name: "",
+    type: "",
+  });
 
   useEffect(() => {
     fetchMedicines();
   }, []);
 
+  // const fetchMedicines = async () => {
+  //   const res = await api.get("/medicines/");
+  //   setMedicines(res.data);
+  // };
   const fetchMedicines = async () => {
-    const res = await api.get("/medicines/");
-    setMedicines(res.data);
+    try {
+      setLoading(true);
+      setError("");
+
+      const res = await api.get("/medicines/");
+      setMedicines(res.data);
+    } 
+    
+    catch (err) {
+      console.error("Fetch medicines failed:", err);
+
+      if (err.response) {
+        switch (err.response.status) {
+          case 401:
+            setError("Your session has expired. Please login again.");
+            break;
+
+          case 404:
+            setError("Medicine API not found.");
+            break;
+
+          case 500:
+            setError("Server error. Please try again later.");
+            break;
+
+          default:
+            setError("Failed to load medicines.");
+        }
+      } else {
+        setError("Network error. Please check your internet connection.");
+      }
+    }    
+    finally {
+      setLoading(false);
+    }
   };
 
+
   // ➕ Add / Update
+  // const handleSubmit = async () => {
+  //   try {
+  //     if (editId) {
+  //       await api.put(`/medicines/${editId}`, form);
+  //       setEditId(null);
+  //     } else {
+  //       await api.post("/medicines/", form);
+  //     }
+
+  //     setForm({ name: "", type: "" });
+  //     fetchMedicines();
+
+  //   } catch {
+  //     alert("Error ❌");
+  //   }
+  // };
+
+  const validateForm = () => {
+    const newErrors = {
+      name: "",
+      type: "",
+    };
+
+    let valid = true;
+
+    const name = form.name.trim();
+
+    if (!name) {
+      newErrors.name = "Medicine name is required.";
+      valid = false;
+    } else if (name.length < 2) {
+      newErrors.name = "Medicine name must be at least 2 characters.";
+      valid = false;
+    } else if (name.length > 100) {
+      newErrors.name = "Medicine name cannot exceed 100 characters.";
+      valid = false;
+    }
+
+    if (!form.type) {
+      newErrors.type = "Please select a medicine type.";
+      valid = false;
+    }
+
+    setErrors(newErrors);
+    return valid;
+  };
+
   const handleSubmit = async () => {
+    if (!validateForm()) return;
+
+
+    const trimmedName = form.name.trim().toLowerCase();
+
+    const duplicate = medicines.find(
+      (m) =>
+        m.name.trim().toLowerCase() === trimmedName &&
+        m.id !== editId
+    );
+
+    if (duplicate) {
+      setError("Medicine already exists.");
+      setErrors((prev) => ({
+        ...prev,
+        name: "Medicine already exists.",
+      }));
+      return;
+    }
+
+    if (submitLoading) return;
     try {
+      setSubmitLoading(true);
+      setError("");
+      const payload = {
+        name: form.name.trim(),
+        type: form.type,
+      };
       if (editId) {
-        await api.put(`/medicines/${editId}`, form);
+        await api.put(`/medicines/${editId}`, payload);
         setEditId(null);
       } else {
-        await api.post("/medicines/", form);
+        await api.post("/medicines/", payload);
       }
 
       setForm({ name: "", type: "" });
       fetchMedicines();
+    } 
+    
+    catch (err) {
+      console.error("Save medicine failed:", err);
 
-    } catch {
-      alert("Error ❌");
+      if (err.response) {
+        switch (err.response.status) {
+          case 400:
+            setError("Invalid medicine details.");
+            break;
+
+          case 401:
+            setError("Unauthorized. Please login again.");
+            break;
+
+          case 404:
+            setError("Medicine not found.");
+            break;
+
+          case 409:
+            setError("Medicine already exists.");
+            break;
+
+          case 500:
+            setError("Server error. Please try again later.");
+            break;
+
+          default:
+            setError("Failed to save medicine.");
+        }
+      } else {
+        setError("Network error. Please check your internet connection.");
+      }
+    }    
+    finally {
+      setSubmitLoading(false);
     }
   };
-
   // ✏️ Edit
   const handleEdit = (med) => {
     setForm({ name: med.name, type: med.type });
@@ -42,13 +194,56 @@ function AdminPanel() {
   };
 
   // ❌ Delete
+  // const handleDelete = async (id) => {
+  //   if (!confirm("Delete this medicine?")) return;
+
+  //   await api.delete(`/medicines/${id}`);
+  //   fetchMedicines();
+  // };
   const handleDelete = async (id) => {
     if (!confirm("Delete this medicine?")) return;
+    if (deleteLoading) return;
 
-    await api.delete(`/medicines/${id}`);
-    fetchMedicines();
+    try {
+      setDeleteLoading(id);
+      setError("");
+
+      await api.delete(`/medicines/${id}`);
+      fetchMedicines();
+    } 
+        
+    catch (err) {
+      console.error("Delete medicine failed:", err);
+
+      if (err.response) {
+        switch (err.response.status) {
+          case 401:
+            setError("Unauthorized.");
+            break;
+
+          case 404:
+            setError("Medicine not found.");
+            break;
+
+          case 500:
+            setError("Server error.");
+            break;
+          case 409:
+            setError(
+              "Medicine is already used in prescriptions and cannot be deleted."
+            );
+            break;
+          default:
+            setError("Failed to delete medicine.");
+        }
+      } else {
+        setError("Network error.");
+      }
+    }    
+    finally {
+      setDeleteLoading(null);
+    }
   };
-
   return (
   <div className="p-6 bg-gradient-to-br from-blue-50 to-blue-100 min-h-screen space-y-6">
 
@@ -77,21 +272,69 @@ function AdminPanel() {
         Total: <b>{medicines.length}</b>
       </div>
     </div>
-
+    {error && (
+      <div className="bg-red-100 border border-red-300 text-red-700 p-3 rounded-lg">
+        {error}
+      </div>
+    )}
     {/* 🔹 FORM CARD */}
     <div className="bg-white p-5 rounded-xl shadow flex flex-col md:flex-row gap-4 items-center">
 
       <input
         placeholder="Medicine Name"
-        className="border rounded-xl p-2.5 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+        // className="border rounded-xl p-2.5 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+
+        className={`border rounded-xl p-2.5 w-full focus:outline-none focus:ring-2 focus:ring-blue-400 ${
+          errors.name ? "border-red-500" : ""
+        }`}
+
         value={form.name}
-        onChange={(e) => setForm({ ...form, name: e.target.value })}
+        // onChange={(e) => setForm({ ...form, name: e.target.value })}
+        onChange={(e) => {
+          setForm({
+            ...form,
+            name: e.target.value,
+          });
+
+          if (errors.name || error) {
+            setErrors((prev) => ({
+              ...prev,
+              name: "",
+            }));
+            setError("");
+          }
+        }}
+
+        
       />
 
+      {errors.name && (
+        <p className="text-red-500 text-sm mt-1">
+          {errors.name}
+        </p>
+      )}
+
+
       <select
-        className="border rounded-xl p-2.5 w-full focus:outline-none focus:ring-2 focus:ring-blue-400"
+        className={`border rounded-xl p-2.5 w-full focus:outline-none focus:ring-2 focus:ring-blue-400 ${
+          errors.type ? "border-red-500" : ""
+        }`}        
         value={form.type}
-        onChange={(e) => setForm({ ...form, type: e.target.value })}
+        // onChange={(e) => setForm({ ...form, type: e.target.value })}
+        onChange={(e) => {
+          setForm({
+            ...form,
+            type: e.target.value,
+          });
+
+          if (errors.type) {
+            setErrors((prev) => ({
+              ...prev,
+              type: "",
+            }));
+          }
+        }}
+
       >
         <option value="">Select Type</option>
         <option value="tablet">Tablet</option>
@@ -104,8 +347,12 @@ function AdminPanel() {
         <option value="injection">Injection</option>
 
       </select>
-
-      <button
+      {errors.type && (
+        <p className="text-red-500 text-sm mt-1">
+          {errors.type}
+        </p>
+      )}
+      {/* <button
         onClick={handleSubmit}
         className={`px-6 py-2.5 rounded-xl text-white shadow transition ${
           editId
@@ -114,7 +361,26 @@ function AdminPanel() {
         }`}
       >
         {editId ? "Update" : "Add "}
+      </button> */}
+      <button
+        onClick={handleSubmit}
+        disabled={submitLoading}
+        className={`px-6 py-2.5 rounded-xl text-white shadow transition ${
+          editId
+            ? "bg-yellow-500 hover:bg-yellow-600"
+            : "bg-blue-600 hover:bg-blue-700"
+        } ${
+          submitLoading
+            ? "opacity-50 cursor-not-allowed"
+            : ""
+        }`}
+      >
+        {submitLoading
+          ? (editId ? "Updating..." : "Adding...")
+          : (editId ? "Update" : "Add")}
       </button>
+
+
     </div>
 
     {/* 🔹 TABLE CARD */}
@@ -163,13 +429,23 @@ function AdminPanel() {
                     Edit
                   </button>
 
-                  <button
+                  {/* <button
                     onClick={() => handleDelete(m.id)}
                     className="px-3 py-1 bg-red-500 text-white rounded-lg hover:bg-red-600"
                   >
                     Delete
+                  </button> */}
+                  <button
+                    onClick={() => handleDelete(m.id)}
+                    disabled={deleteLoading === m.id}
+                    className={`px-3 py-1 rounded-lg text-white ${
+                      deleteLoading === m.id
+                        ? "bg-red-300 cursor-not-allowed"
+                        : "bg-red-500 hover:bg-red-600"
+                    }`}
+                  >
+                    {deleteLoading === m.id ? "Deleting..." : "Delete"}
                   </button>
-
                 </td>
               </tr>
             ))}
@@ -182,6 +458,33 @@ function AdminPanel() {
               </tr>
             )}
           </tbody>
+
+          {/* <tbody>
+            {loading ? (
+              <tr>
+                <td colSpan="4" className="text-center p-6">
+                  Loading medicines...
+                </td>
+              </tr>
+            ) : error ? (
+              <tr>
+                <td colSpan="4" className="text-center p-6 text-red-500">
+                  {error}
+                </td>
+              </tr>
+            ) : medicines.length === 0 ? (
+              <tr>
+                <td colSpan="4" className="text-center p-6 text-gray-500">
+                  No medicines found.
+                </td>
+              </tr>
+            ) : (
+              medicines.map((m, index) => (
+                
+              ))
+            )}
+          </tbody> */}
+
 
         </table>
       </div>

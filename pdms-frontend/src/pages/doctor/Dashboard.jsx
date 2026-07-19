@@ -10,31 +10,109 @@ function DoctorDashboard() {
   const completed = appointments.filter(a => a.status === "completed").length;
   const cancelled = appointments.filter(a => a.status === "cancelled").length;
 
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [isFetching, setIsFetching] = useState(false);
+  const [pollingEnabled, setPollingEnabled] = useState(true);
+
+
+
   // useEffect(() => {
   //   fetchToday();
   // }, []);
 
-  useEffect(() => {
+  // useEffect(() => {
+  //   fetchToday();
+
+  //   const interval = setInterval(fetchToday, 30000); // 30 sec
+
+  //   return () => clearInterval(interval);
+  // }, []);  
+
+  // useEffect(() => {
+  //   fetchToday();
+  //   const interval = setInterval(() => {
+  //     if (pollingEnabled && !isFetching) {
+  //       fetchToday();
+  //     }
+  //   }, 30000);
+
+
+  //   return () => clearInterval(interval);
+  // }, [isFetching]);
+useEffect(() => {
+  fetchToday();
+
+  const interval = setInterval(() => {
     fetchToday();
+  }, 30000);
 
-    const interval = setInterval(fetchToday, 30000); // 30 sec
-
-    return () => clearInterval(interval);
-  }, []);  
+  return () => clearInterval(interval);
+}, []);
   useEffect(() => {
     if (id) {
       setSearchCode(id);   // 🔥 important for UI input
       handleSearch(id);
     }
   }, [id]);
+  // const fetchToday = async () => {
+  //   try {
+  //     const res = await api.get("/appointments/todays");
+  //     setAppointments(res.data);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
+
   const fetchToday = async () => {
+    if (isFetching) return;
+    
+
     try {
+      setIsFetching(true);
+      setLoading(true);
+      setError("");
+
       const res = await api.get("/appointments/todays");
+
       setAppointments(res.data);
+      setPollingEnabled(true);
     } catch (err) {
-      console.log(err);
+      console.error("Failed to fetch dashboard data:", err);
+
+      setAppointments([]);
+      setPollingEnabled(false);
+
+      if (err.response) {
+        switch (err.response.status) {
+          case 400:
+            setError("Invalid dashboard request.");
+            break;
+
+          case 401:
+            setError("Your session has expired. Please login again.");
+            break;
+
+          case 404:
+            setError("Dashboard data not found.");
+            break;
+
+          case 500:
+            setError("Server error. Please try again later.");
+            break;
+
+          default:
+            setError("Failed to load dashboard.");
+        }
+      } else {
+        setError("Network error. Please check your internet connection.");
+      }
+    } finally {
+      setLoading(false);
+      setIsFetching(false);
     }
   };
+
 
   // return (
   //   <div>
@@ -157,7 +235,18 @@ function DoctorDashboard() {
   return (
     // <div className="min-h-screen bg-gray-100">
     <div className="min-h-screen bg-gray-100 px-6 md:px-10">
+      {error && (
+        <div className="mx-10 mt-4 bg-red-100 border border-red-300 text-red-700 p-4 rounded-lg flex justify-between items-center">
+          <span>{error}</span>
 
+          <button
+            onClick={fetchToday}
+            className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg"
+          >
+            Retry
+          </button>
+        </div>
+      )}
       {/* 🔷 HERO */}
       <div className="bg-gradient-to-r from-blue-200 via-blue-100 to-green-200 rounded-xl pt-10 pb-20 px-8 md:px-10 mt-4">
         
@@ -279,7 +368,7 @@ function DoctorDashboard() {
               </tr>
             </thead>
 
-            <tbody>
+            {/* <tbody>
               {appointments.map((a) => (
                 <tr 
                  key={a.id} 
@@ -304,7 +393,75 @@ function DoctorDashboard() {
 
                 </tr>
               ))}
+            </tbody> */}
+
+
+
+            <tbody>
+              {loading ? (
+                <tr>
+                  <td colSpan="4" className="text-center p-6 text-gray-500">
+                    Loading today's appointments...
+                  </td>
+                </tr>
+              ) : appointments.length > 0 ? (
+                appointments.map((a) => (
+                  // <tr
+                  //   key={a.id}
+                  //   onClick={() => navigate(`/diagnosis-v2/${a.patient_code}`)}
+                  //   className="border-b hover:bg-blue-50 cursor-pointer transition"
+                  // >
+
+                  <tr
+                    key={a.id}
+                    onClick={() => {
+                      if (!isFetching) {
+                        navigate(`/diagnosis-v2/${a.patient_code}`);
+                      }
+                    }}
+                    className={`border-b transition ${
+                      isFetching
+                        ? "opacity-60 cursor-not-allowed"
+                        : "hover:bg-blue-50 cursor-pointer"
+                    }`}
+                  >
+
+                    <td className="p-3">{a.patient_name}</td>
+
+                    <td className="p-3">
+                      {a.patient_code}
+                    </td>
+
+                    <td className="p-3">{a.time}</td>
+
+                    <td className="p-3">
+                      <span
+                        className={`px-3 py-1 rounded-full text-xs font-medium ${
+                          a.status === "completed"
+                            ? "bg-green-100 text-green-700"
+                            : a.status === "pending"
+                            ? "bg-yellow-100 text-yellow-700"
+                            : "bg-red-100 text-red-700"
+                        }`}
+                      >
+                        {a.status}
+                      </span>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td
+                    colSpan="4"
+                    className="text-center p-6 text-gray-500"
+                  >
+                    No appointments scheduled for today.
+                  </td>
+                </tr>
+              )}
             </tbody>
+
+
           </table>
 
         </div>

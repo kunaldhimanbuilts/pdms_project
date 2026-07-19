@@ -1,10 +1,22 @@
 export default function HistoryPanel({
     history,
+    loading,
     getMedicineName,
     currentIndex,
     setCurrentIndex,
 }) {
-
+if (loading) {
+  return (
+    <div className="flex-[1] bg-white rounded-xl shadow flex items-center justify-center h-[120vh] no-print">
+      <div className="text-center">
+        <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto"></div>
+        <p className="mt-3 text-gray-500">
+          Loading patient history...
+        </p>
+      </div>
+    </div>
+  );
+}
     
     return (
 
@@ -24,7 +36,7 @@ export default function HistoryPanel({
                         onClick={() =>
                         setCurrentIndex(prev => (prev > 0 ? prev - 1 : prev))
                         }
-                        disabled={currentIndex === 0}
+                        disabled={loading || currentIndex === 0}
                         className="w-9 h-9 flex items-center justify-center rounded-lg border bg-white shadow-sm hover:bg-gray-100 disabled:opacity-40 disabled:cursor-not-allowed"
                     >
                         &lt;
@@ -40,7 +52,7 @@ export default function HistoryPanel({
                             prev < history.length - 1 ? prev + 1 : prev
                         )
                         }
-                        disabled={currentIndex === history.length - 1}
+                        disabled={loading || currentIndex === history.length - 1}
                         className="w-9 h-9 flex items-center justify-center rounded-lg border bg-white shadow-sm hover:bg-gray-100 disabled:opacity-40 disabled:cursor-not-allowed"
                     >
                         &gt;
@@ -57,6 +69,8 @@ export default function HistoryPanel({
 
                 
             )}
+
+            
             <div className="flex-1 overflow-y-auto p-1">
 
                 {history.length > 0 && (() => {

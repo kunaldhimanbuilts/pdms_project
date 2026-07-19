@@ -7,25 +7,62 @@ function Patients() {
   const patientsPerPage = 20;
   const [patients, setPatients] = useState([]);
   const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const navigate = useNavigate();
+  
 
   useEffect(() => {
     fetchPatients();
   }, []);
 
+  // const fetchPatients = async () => {
+  //   const res = await api.get("/admin/patients");
+  //   setPatients(res.data);
+  // };
   const fetchPatients = async () => {
-    const res = await api.get("/admin/patients");
-    setPatients(res.data);
+    setLoading(true);
+    setError("");
+
+    try {
+      const res = await api.get("/admin/patients");
+      setPatients(res.data);
+    } catch (err) {
+      console.error(err);
+      setError("Unable to load patients.");
+    } finally {
+      setLoading(false);
+    }
   };
+
 
   // 🔍 Search
   const handleSearch = async () => {
+
+    if (!search.trim()) {
+      setError("Please enter Patient ID, Name or Phone.");
+      return;
+    }
+
+    setError("");
+
+    setLoading(true);
+
     try {
       const res = await api.get(`/admin/patients/search/${search}`);
       setPatients(res.data);
-    } catch {
-      alert("Patient not found ❌");
+    } 
+    catch (err) {
+      console.error(err);
+
+      setError("Patient not found.");
     }
+
+
+    finally {
+      setLoading(false);
+    }
+
   };
   const indexOfLast = currentPage * patientsPerPage;
   const indexOfFirst = indexOfLast - patientsPerPage;
@@ -34,7 +71,12 @@ function Patients() {
 
   const totalPages = Math.ceil(patients.length / patientsPerPage);
 
-
+  const handleReset = () => {
+    setSearch("");
+    setError("");
+    setCurrentPage(1);
+    fetchPatients();
+  };
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
 
@@ -55,13 +97,16 @@ function Patients() {
 
           <button
             onClick={handleSearch}
-            className="bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700 transition"
+            disabled={loading}
+            className="bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Search
           </button>
 
           <button
-            onClick={fetchPatients}
+            
+            onClick={handleReset}
+            disabled={loading}
             className="bg-gray-200 px-4 py-2 rounded-lg hover:bg-gray-300 transition"
           >
             Reset
@@ -69,8 +114,19 @@ function Patients() {
 
         </div>
 
-      </div>      
+      </div>  
 
+      {error && (
+        <div className="mb-4 rounded-lg bg-red-100 border border-red-300 text-red-700 px-4 py-2">
+          {error}
+        </div>
+      )}
+          
+      {loading && (
+        <p className="text-blue-600 mb-4">
+          Loading patients...
+        </p>
+      )}
       {/* Table */}
       <div className="bg-white p-6 rounded-xl shadow-md">
         <table className="w-full text-left border-collapse">

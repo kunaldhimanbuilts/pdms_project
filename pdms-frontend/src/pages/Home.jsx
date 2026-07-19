@@ -11,18 +11,45 @@ export default function Home() {
     today_appointments: 0,
     active_doctors: 0,
   });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  // useEffect(() => {
+  //   const fetchStats = async () => {
+  //     try {
+  //       const res = await api.get("/dashboard/stats");
+  //       setStats(res.data);
+  //     } catch (err) {
+  //       console.log(err);
+  //     }
+  //   };
+  //   fetchStats();
+  // }, []);
 
   useEffect(() => {
     const fetchStats = async () => {
+      setLoading(true);
+      setError("");
+
       try {
         const res = await api.get("/dashboard/stats");
         setStats(res.data);
       } catch (err) {
-        console.log(err);
+        console.error(err);
+
+        if (!err.response) {
+          setError("Unable to connect to the server.");
+        } else {
+          setError("Unable to load dashboard.");
+        }
+      } finally {
+        setLoading(false);
       }
     };
+
     fetchStats();
   }, []);
+
 
   return (
     // <div className="min-h-screen bg-gradient-to-r from-blue-100 via-white to-green-100 p-6 flex justify-center items-center">
@@ -35,6 +62,17 @@ export default function Home() {
         <div className="flex items-center px-6 py-4 border-b bg-gray-50">
           <img src={logo} alt="logo" className="h-12" />
           <img src={logo2} alt="logo2" className="h-12" />
+          {loading && (
+            <div className="mx-auto max-w-5xl mb-4 rounded-lg border border-red-300 bg-red-100 px-4 py-3 text-red-700">
+              <p >Loading dashboard...</p>
+            </div>
+          )}
+          {error && (
+            <div className="mx-auto max-w-5xl mb-4 rounded-lg border border-red-300 bg-red-100 px-4 py-3 text-red-700">
+              {error}
+            </div>
+          )}
+
         </div>
 
         {/* 🔷 HERO SECTION */}
@@ -95,6 +133,7 @@ export default function Home() {
 
         {/* 🔷 STATS */}
         {/* <div className="grid grid-cols-3 gap-6 px-10 -mt-16 relative z-10"> */}
+        {!loading && (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 px-16 -mt-20 relative z-10 max-w-5xl mx-auto">
           
           {/* <div className="bg-white rounded-xl shadow-md p-5 flex justify-between items-center"> */}
@@ -125,6 +164,7 @@ export default function Home() {
           </div>
 
         </div>
+        )}
 
         {/* 🔷 LOGIN CARDS */}
         {/* <div className="grid grid-cols-3 gap-8 px-10 pb-10"> */}

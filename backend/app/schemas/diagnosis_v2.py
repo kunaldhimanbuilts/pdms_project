@@ -11,7 +11,7 @@ class PrescriptionItemV2(BaseModel):
     duration: Optional[str] = None
     # instructions: str
     instructions: Optional[str] = None
-    type: str
+    type: Optional[str] = None
 
 
 # 🔥 MAIN SCHEMA
@@ -30,9 +30,9 @@ class DiagnosisV2Create(BaseModel):
     allergy_history: str = ''
 
     # 🔹 COMPLEX JSON
-    refraction: Dict[str, Any]
-    ocular_exam: Dict[str, Any]
-    fundus: Dict[str, Any]
+    refraction: Dict[str, Any] = {}
+    ocular_exam: Dict[str, Any] = {}
+    fundus: Dict[str, Any] = {}
 
     # 🔹 EXTRA FIELDS
     clinical_impression: str = ''

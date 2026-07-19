@@ -20,8 +20,12 @@ const [history, setHistory] = useState([]);
 const [patient, setPatient] = useState(null);
 const [appointment, setAppointment] = useState(null);
 const [medicines, setMedicines] = useState([]);
-const [message, setMessage] = useState(null);
+// const [message, setMessage] = useState(null);
+const [messages, setMessages] = useState([]);
 const [currentIndex, setCurrentIndex] = useState(0);
+const [loadingMedicines, setLoadingMedicines] = useState(false);
+const [loadingHistory, setLoadingHistory] = useState(false);
+const [medicineError, setMedicineError] = useState("");
 const visionAfterOptions = [
   "6/60",
   "6/24",
@@ -65,7 +69,7 @@ const visionOptions = [
   "PL-",
   "NLP",
 ];
-const defaultSlitLamp = {
+const normalSlitLamp = {
   eyeball_re: "Flat",
   eyeball_le: "Flat",
 
@@ -87,18 +91,91 @@ const defaultSlitLamp = {
   pupil_re: "Round, Regular and Reacting",
   pupil_le: "Round, Regular and Reacting",
 };
+
+const emptySlitLamp = {
+  eyeball_re: "",
+  eyeball_le: "",
+
+  conj_re: "",
+  conj_le: "",
+
+  sclera_re: "",
+  sclera_le: "",
+
+  cornea_re: "",
+  cornea_le: "",
+
+  ac_re: "",
+  ac_le: "",
+
+  iris_re: "",
+  iris_le: "",
+
+  pupil_re: "",
+  pupil_le: "",
+};
 // full form state (future ready)
 // useEffect(() => {
 //   firstInputRef.current?.focus();
 // }, []);
+// useEffect(() => {
+//   const fetchMedicines = async () => {
+//     const res = await api.get("/medicines/");
+//     setMedicines(res.data);
+//   };
+
+//   fetchMedicines();
+// }, []);
+const addMessage = (type, text) => {
+  const id = Date.now() + Math.random();
+
+  setMessages((prev) => [
+    ...prev,
+    {
+      id,
+      type,
+      text,
+    },
+  ]);
+
+  setTimeout(() => {
+    setMessages((prev) => prev.filter((m) => m.id !== id));
+  }, 9000);
+};
 useEffect(() => {
   const fetchMedicines = async () => {
-    const res = await api.get("/medicines/");
-    setMedicines(res.data);
+    setLoadingMedicines(true);
+    setMedicineError("");
+
+    try {
+      const res = await api.get("/medicines/");
+      setMedicines(res.data);
+    } catch (err) {
+      console.error(err);
+
+      if (!err.response) {
+        setMedicineError(
+          "Unable to connect to server. Please check your internet connection."
+        );
+      } else if (err.response.status === 400) {
+        setMedicineError("Invalid request.");
+      } else if (err.response.status === 401) {
+        setMedicineError("Session expired. Please login again.");
+      } else if (err.response.status === 404) {
+        setMedicineError("Medicine list not found.");
+      } else if (err.response.status === 409) {
+        setMedicineError("Medicine data conflict.");
+      } else {
+        setMedicineError("Failed to load medicines.");
+      }
+    } finally {
+      setLoadingMedicines(false);
+    }
   };
 
   fetchMedicines();
 }, []);
+
 useEffect(() => {
   if (id) {
     setSearchCode(id);     // fill input box
@@ -140,28 +217,12 @@ const [form, setForm] = useState({
   },
 
   ocular_exam: {
-    slit_lamp: { ...defaultSlitLamp },
+    
+    slit_lamp: { ...emptySlitLamp },
     iop: {},
     lacrimal: {}
   },
 
-  // post_dilated_exam: {
-  //   dilated_drop: "",
-
-  //   pupil: {
-  //     re_size: "",
-  //     re_reaction: "",
-  //     le_size: "",
-  //     le_reaction: "",
-  //   },
-
-  //   lens: {
-  //     re: "",
-  //     le: "",
-  //   },
-
-  //   comment: "",
-  // },
   fundus: {},
   prescriptions: [
     {
@@ -268,102 +329,247 @@ useEffect(() => {
 
   return () => clearInterval(interval);
 }, []);
-useEffect(() => {
-  if (!message) return;
 
-  const timer = setTimeout(() => {
-    setMessage(null);
-  }, 4000);
-
-  return () => clearTimeout(timer);
-}, [message]);
 const toggleSection = (sec) => {
 setOpenSection(openSection === sec ? "" : sec);
 };
 
 const handleSearch = async (code) => {
+  if (loadingSearch || loadingSave) return;
+
+  // const searchValue = searchCode.trim();
+  const searchValue = (code ?? searchCode).trim();
+
+  // setMessage("");
+
+  if (!searchValue) {
+    // setMessage({
+    //   type: "error",
+    //   text: "",
+    // });
+    addMessage("error", "Please enter a Patient Code.");
+    return;
+  }
+  const patientCodeRegex = /^PDMS\d+$/i;
+
+  if (!patientCodeRegex.test(searchValue)) {
+    // setMessage({
+    //   type: "error",
+    //   text: "",
+    // });
+    addMessage("error", "Please enter a valid Patient Code (e.g. PDMS0001).");
+    return;
+  }
   setLoadingSearch(true);
   try {
     // 🔹 PATIENT
-    const res = await api.get(`/patients/search/${code}`);
+    const res = await api.get(`/patients/search/${searchValue}`);
     setPatient(res.data);
 
     // 🔹 APPOINTMENT (same as V1)
-    const apptRes = await api.get("/appointments/todays");
+    // const apptRes = await api.get("/appointments/todays");
 
-    const found = apptRes.data.find(
-      a => a.patient_id === res.data.id && a.status === "pending"
-    );
+    // const found = apptRes.data.find(
+    //   a => a.patient_id === res.data.id && a.status === "pending"
+    // );
 
-    if (!found) {
-      // alert("No pending appointment ❌");
-      setMessage({ type: "error", text: "No pending appointment ❌" });
+    // if (!found) {
+    //   // alert("No pending appointment ❌");
+    //   setMessage({ type: "error", text: "No pending appointment ❌" });
+    //   setAppointment(null);
+    //   return;
+    // }
+
+    // setAppointment(found);
+
+    try {
+      const apptRes = await api.get("/appointments/todays");
+
+      const found = apptRes.data.find(
+        (a) =>
+          a.patient_id === res.data.id &&
+          a.status === "pending"
+      );
+
+      if (!found) {
+        setAppointment(null);
+
+        // setMessage({
+        //   type: "error",
+        //   text: "",
+        // });
+        addMessage("error", "No pending appointment found.");
+
+        return;
+      }
+
+      setAppointment(found);
+    } catch (err) {
+      console.error(err);
+
       setAppointment(null);
+
+      if (!err.response) {
+        addMessage(
+          "error",
+          "Unable to load appointments. Please check your internet connection."
+        );
+      } else if (err.response.status === 401) {
+        addMessage("error", "Session expired. Please login again.");
+      } else if (err.response.status === 404) {
+        addMessage("error", "Appointment data not found.");
+      } else {
+        addMessage("error", "Failed to load appointments.");
+      }
+
       return;
     }
 
-    setAppointment(found);
     // 🔥 FETCH HISTORY
-    const historyRes = await api.get(`/diagnosis-v2/patient/${res.data.id}`);
+    // const historyRes = await api.get(`/diagnosis-v2/patient/${res.data.id}`);
     
-    setHistory(
-      historyRes.data.sort(
-        (a, b) =>
-          new Date(b.diagnosis.created_at) -
-          new Date(a.diagnosis.created_at)
-      )
-    );
+    // setHistory(
+    //   historyRes.data.sort(
+    //     (a, b) =>
+    //       new Date(b.diagnosis.created_at) -
+    //       new Date(a.diagnosis.created_at)
+    //   )
+    // );
+    setLoadingHistory(true);
+
+    try {
+      const historyRes = await api.get(
+        `/diagnosis-v2/patient/${res.data.id}`
+      );
+
+      setHistory(
+        historyRes.data.sort(
+          (a, b) =>
+            new Date(b.diagnosis.created_at) -
+            new Date(a.diagnosis.created_at)
+        )
+      );
+    } catch (err) {
+      console.error(err);
+
+      setHistory([]);
+
+      if (!err.response) {
+        addMessage(
+          "warning",
+          "Unable to load patient history. Please check your internet connection."
+        );
+      } else if (err.response.status === 401) {
+        addMessage("error", "Session expired. Please login again.");
+      } else if (err.response.status === 404) {
+        // No history exists yet
+        setHistory([]);
+      } else {
+        addMessage("warning", "Failed to load patient history.");
+      }
+    } finally {
+      setLoadingHistory(false);
+    }
+
 
 
     setTimeout(() => {
       const input = document.querySelector("[data-complaint]");
       input?.focus();
     }, 200);
-  } catch (err) {
+  }
+  catch (err) {
     console.error(err);
-    // alert("Patient not found ❌");
-    setMessage({ type: "error", text: "Patient not found ❌" });
+
+    if (!err.response) {
+      addMessage(
+        "error",
+        "Unable to connect to server. Please check your internet connection."
+      );
+    } else if (err.response.status === 400) {
+      addMessage("error", "Invalid Patient Code.");
+    } else if (err.response.status === 401) {
+      addMessage("error", "Session expired. Please login again.");
+    } else if (err.response.status === 404) {
+      addMessage("error", "Patient not found.");
+    } else if (err.response.status === 409) {
+      addMessage("error", "Patient record conflict.");
+    } else {
+      addMessage("error", "Failed to search patient.");
+    }
+  }  
   
-  } finally {
+  finally {
     setLoadingSearch(false); // 🔥 STOP
   }
 };
 
 const handleSave = async () => {
-  const cleanComplaints = form.chief_complaints.filter(c => c.complaint);
-  const cleanSystemic = form.systemic_history.filter(s => s.disease);
+  if (loadingSave || loadingSearch) return;
+  
+  // const cleanComplaints = form.chief_complaints.filter(c => c.complaint);
+  const cleanComplaints = form.chief_complaints
+    .filter((c) => c.complaint?.trim())
+    .map((c) => ({
+      ...c,
+      complaint: c.complaint.trim(),
+    }));
+
+  // const cleanSystemic = form.systemic_history.filter(s => s.disease);
+  const cleanSystemic = form.systemic_history
+    .filter((s) => s.disease?.trim())
+    .map((s) => ({
+      ...s,
+      disease: s.disease.trim(),
+    }));
   // const cleanPrescriptions = form.prescriptions.filter(
   //   p => p.medicine_id && p.dosage
   // );
+  // const cleanPrescriptions = form.prescriptions
+  //   .filter((p) => (p.medicine_id || p.medicine_name) && p.dosage)
+  //   .map((p) => ({
+  //     medicine_id: p.medicine_id || null,
+  //     medicine_name: p.medicine_name || "",
+
+  //     type: p.type,
+  //     dosage: p.dosage,
+  //     duration: p.duration,
+  //     instructions: p.instructions,
+      
+  //   }));
+
   const cleanPrescriptions = form.prescriptions
-    .filter((p) => (p.medicine_id || p.medicine_name) && p.dosage)
+    .filter(
+      (p) =>
+        (p.medicine_id || p.medicine_name?.trim())
+    )
     .map((p) => ({
       medicine_id: p.medicine_id || null,
-      medicine_name: p.medicine_name || "",
-
-      type: p.type,
-      dosage: p.dosage,
-      duration: p.duration,
-      instructions: p.instructions,
+      medicine_name: p.medicine_name?.trim() || "",
+      type: p.type?.trim() || "",
+      dosage: p.dosage?.trim() || "",
+      duration: p.duration?.trim() || "",
+      instructions: p.instructions?.trim() || "",
     }));
 
 
   // ❌ VALIDATIONS
   if (!patient || !appointment) {
     // alert("Patient or appointment missing ❌");
-    setMessage({ type: "error", text: "Patient or Appointment not found ❌" });
+    // setMessage({ type: "error", text: "" });
+    addMessage("error", "Patient or Appointment not found.");
     return;
   }
   const newErrors = {};
 
   // Chief Complaint
-  if (!form.chief_complaints.some(c => c.complaint)) {
-    newErrors.complaint = true;
+  if (!form.chief_complaints.some((c) => c.complaint?.trim())) {
+    newErrors.complaint = "Chief Complaint is required.";
   }
 
   // Clinical Impression
-  if (!form.clinical_impression) {
-    newErrors.clinical = true;
+  if (!form.clinical_impression?.trim()) {
+    newErrors.clinical = "Clinical Impression is required.";
   }
 
   // Prescription
@@ -372,10 +578,12 @@ const handleSave = async () => {
   // }
   if (
     !form.prescriptions.some(
-      (p) => (p.medicine_id || p.medicine_name) && p.dosage
+      (p) =>
+        (p.medicine_id || p.medicine_name?.trim()) &&
+        p.dosage?.trim()
     )
   ) {
-    newErrors.prescription = true;
+    newErrors.prescription = "At least one prescription is required.";
   }
 
 
@@ -414,7 +622,11 @@ const handleSave = async () => {
     const res = await api.post("/diagnosis-v2/", payload);
 
     // alert("Saved Successfully 🚀");
-    setMessage({ type: "success", text: "Saved Successfully 🚀" });
+    // setMessage({ type: "", text: " 🚀" });
+    addMessage("success", "Saved Successfully.");
+
+    setErrors({});
+
     setPrintData(form);
     handleSearch(patient.patient_code);
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -449,28 +661,11 @@ const handleSave = async () => {
         final_refraction: {}
       },
       ocular_exam: {
-        slit_lamp: { ...defaultSlitLamp },
+        slit_lamp: { ...emptySlitLamp },
         iop: {},
         lacrimal: {}
       },
-
-      // post_dilated_exam: {
-      //   dilated_drop: "",
-
-      //   pupil: {
-      //     re_size: "",
-      //     re_reaction: "",
-      //     le_size: "",
-      //     le_reaction: "",
-      //   },
-
-      //   lens: {
-      //     re: "",
-      //     le: "",
-      //   },
-
-      //   comment: "",
-      // },      
+      
       fundus: {},
 
       prescriptions: [
@@ -484,15 +679,77 @@ const handleSave = async () => {
         },
       ]
     });
-  } catch (err) {
-    console.error(err);
-    // alert("Error saving ❌");
-    setMessage({ type: "error", text: "Error saving ❌" });
-  }finally {
+  } 
+  // catch (err) {
+  //   console.error(err);
+  //   // alert("Error saving ❌");
+  //   setMessage({ type: "error", text: "Error saving ❌" });
+  // }
+      catch (err) {
+        console.error(err);
+
+        if (!err.response) {
+          addMessage(
+            "error",
+            "Unable to connect to server. Please check your internet connection."
+          );
+        } else if (err.response.status === 400) {
+          addMessage(
+            "error",
+            err.response.data?.detail || "Please check the entered data."
+          );
+        } else if (err.response.status === 401) {
+          addMessage("error", "Session expired. Please login again.");
+        } else if (err.response.status === 403) {
+          addMessage("error", "You are not authorized to save this diagnosis.");
+        } else if (err.response.status === 404) {
+          addMessage(
+            "error",
+            err.response.data?.detail || "Patient or appointment not found."
+          );
+        } else if (err.response.status === 409) {
+          addMessage("error", "Diagnosis already exists.");
+        }
+        
+        else if (err.response.status === 422) {
+          const detail = err.response.data?.detail;
+
+          let message = "Validation failed. Please check the required fields.";
+
+          if (Array.isArray(detail) && detail.length > 0) {
+            message = detail.map((d) => d.msg).join(", ");
+          }
+
+          // setMessage({
+          //   type: "error",
+          //   text: ,
+          // });
+          addMessage("error", message);
+        }
+        else {
+          // setMessage({
+          //   type: "error",
+          //   text: "",
+          // });
+          addMessage("error", "Failed to save diagnosis. Please try again.");
+        }
+      }
+
+  finally {
     setLoadingSave(false);
   }
 };
-
+const fillNormalSlitLamp = () => {
+  setForm((prev) => ({
+    ...prev,
+    ocular_exam: {
+      ...prev.ocular_exam,
+      slit_lamp: {
+        ...normalSlitLamp,
+      },
+    },
+  }));
+};
 const updateNested = (section, subSection, field, value) => {
   setForm(prev => ({
     ...prev,
@@ -526,7 +783,14 @@ const calculateAge = (dob) => {
   return age;
 };
 const handleRefresh = () => {
+
   setSpinning(true); // start spin
+
+  // setMessage(null);
+  setMessages([]);
+  setErrors({});
+  setSearchCode("");
+
   setPatient(null);
   setAppointment(null);
   setHistory([]);
@@ -562,27 +826,10 @@ const handleRefresh = () => {
       final_refraction: {}
     },
     ocular_exam: {
-      slit_lamp: { ...defaultSlitLamp },
+      slit_lamp: { ...emptySlitLamp },
       iop: {},
       lacrimal: {}
     },
-    // post_dilated_exam: {
-    //   dilated_drop: "",
-
-    //   pupil: {
-    //     re_size: "",
-    //     re_reaction: "",
-    //     le_size: "",
-    //     le_reaction: "",
-    //   },
-
-    //   lens: {
-    //     re: "",
-    //     le: "",
-    //   },
-
-    //   comment: "",
-    // },
     fundus: {},
     prescriptions: [
       {
@@ -663,7 +910,7 @@ const removeRetinoscopy = (index) => {
       <div className="flex gap-2 w-full bg-gradient-to-br from-blue-100 to-blue-200 min-h-screen overflow-x-hidden">
         <div className="flex-[3] space-y-4 no-print p-4">
        
-          {message && (
+          {/* {message && (
           
             <div
               className={`p-3 rounded text-white ${
@@ -674,8 +921,45 @@ const removeRetinoscopy = (index) => {
               <button onClick={() => setMessage(null)}>✖</button>
 
             </div>
+          )} */}
+
+          {messages.map((msg) => (
+            <div
+              key={msg.id}
+              className={`mb-2 flex justify-between items-center rounded-lg p-3 text-white ${
+                msg.type === "error"
+                  ? "bg-red-500"
+                  : msg.type === "warning"
+                  ? "bg-yellow-500"
+                  : "bg-green-500"
+              }`}
+            >
+              <span>{msg.text}</span>
+
+              <button
+                onClick={() =>
+                  setMessages((prev) =>
+                    prev.filter((m) => m.id !== msg.id)
+                  )
+                }
+              >
+                ✖
+              </button>
+            </div>
+          ))}
+
+          {loadingMedicines && (
+            <div className="mb-3 rounded-lg bg-blue-100 border border-blue-300 p-3 text-blue-700">
+              Loading medicines...
+            </div>
+          )}    
+          {medicineError && (
+            <div className="mb-3 rounded-lg bg-red-100 border border-red-300 p-3 text-red-700">
+              {medicineError}
+            </div>
           )}
-          
+
+
           <div className="flex items-center gap-3 bg-white p-4 rounded-xl shadow">
 
             <button
@@ -697,8 +981,7 @@ const removeRetinoscopy = (index) => {
             <button
               onClick={() => handleSearch(searchCode)}
               className="bg-blue-600 text-white px-4 py-2 rounded-lg"
-              disabled={loadingSearch}
-            >
+              disabled={loadingSearch || loadingSave}            >
               {loadingSearch ? "Searching..." : "Search"}
             </button>
             
@@ -853,6 +1136,12 @@ const removeRetinoscopy = (index) => {
                       </button>
                     </div>
                   ))}
+                  {errors.complaint && (
+                    <p className="text-sm text-red-600">
+                      {errors.complaint}
+                    </p>
+                  )}
+
                   <button
                     onClick={() => {
                       const updated = [...form.chief_complaints, {}];
@@ -1930,7 +2219,19 @@ const removeRetinoscopy = (index) => {
 
                 {/* 🔥 SLIT LAMP */}
                 <div>
-                  <p className="font-semibold">Slit Lamp Examination</p>
+
+                  <div className="flex justify-between m-2">
+                    <p className="font-semibold">Slit Lamp Examination</p>
+                    <button
+                      type="button"
+                      onClick={fillNormalSlitLamp}
+                      className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg shadow"
+                    >
+                      Fill Normal
+                    </button>
+                  </div>
+
+                  
 
                   <div className="grid grid-cols-3 gap-2">
                     <div></div>
@@ -3055,22 +3356,27 @@ const removeRetinoscopy = (index) => {
                 </div>
               
                 {/* 🔥 CLINICAL IMPRESSION */}
-                <div className="mb-4">
+                <div className="">
 
                   <p className="font-semibold mb-2">Clinical impression</p>
-                <textarea
-                  // className={`border p-2 w-full ${errors.clinical ? "border-red-500" : ""}`}
-                  
-                  className={`w-full border rounded-xl p-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white shadow-sm resize-none ${errors.clinical ? "border-red-500" : ""}`}
-                  placeholder="Clinical Impression"
-                  value={form.clinical_impression || ""}
-                  onChange={(e) =>
-                    setForm({ ...form, clinical_impression: e.target.value })
-                  }
-                  onKeyDown={handleEnterNext}
-                />
+                  <textarea
+                    // className={`border p-2 w-full ${errors.clinical ? "border-red-500" : ""}`}
+                    
+                    className={`w-full border rounded-xl p-3 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white shadow-sm resize-none ${errors.clinical ? "border-red-500" : ""}`}
+                    placeholder="Clinical Impression"
+                    value={form.clinical_impression || ""}
+                    onChange={(e) =>
+                      setForm({ ...form, clinical_impression: e.target.value })
+                    }
+                    onKeyDown={handleEnterNext}
+                  />
                 </div>
 
+                {errors.clinical && (
+                  <p className="text-sm text-red-600">
+                    {errors.clinical}
+                  </p>
+                )}
                 {/* 🔥 ADVICE */}
                 <textarea
                   placeholder="Advice"
@@ -3094,7 +3400,7 @@ const removeRetinoscopy = (index) => {
                 />
 
                 {/* 🔥 PRESCRIPTION */}
-                <div className="mb-4">
+                <div className="mb-1">
                   <p className="font-semibold mb-4 ">Prescription</p>
                   {form.prescriptions.map((p, i) => (
                     <div key={i} className="grid grid-cols-6 gap-3 mb-3">
@@ -3316,7 +3622,11 @@ const removeRetinoscopy = (index) => {
                     + Add Medicine
                   </button>
                 </div>
-
+                {errors.prescription && (
+                  <p className="text-sm text-red-600">
+                    {errors.prescription}
+                  </p>
+                )}
                 {/* 🔹 NEXT VISIT */}
                 <p className="font-semibold mb-2 ">Next visit date</p>
                 <input
@@ -3338,7 +3648,8 @@ const removeRetinoscopy = (index) => {
               onClick={() => {
                 if (!patient) {
                   // alert("No patient ❌");
-                  setMessage({ type: "error", text: "No patient ❌" });
+                  // setMessage({ type: "error", text: "No patient ❌" });
+                  addMessage("error", "Patient not found.");
                   return;
                 }
                 window.print();
@@ -3348,16 +3659,33 @@ const removeRetinoscopy = (index) => {
             >
               Print
             </button>
+            <div className="grid grid-cols-1 gap-1">
             <button
               onClick={handleSave}
               // className="bg-blue-600 text-white px-6 py-2 rounded"
               className="bg-gradient-to-r from-blue-700 to-blue-900 text-white px-8 py-2 rounded-xl shadow"
 
-              disabled={loadingSave}
+              disabled={loadingSave || loadingSearch}
             >
 
             {loadingSave ? "Saving..." : "SAVE"}
             </button>
+            {errors.prescription && (
+              <p className="text-sm text-red-600">
+                {errors.prescription}
+              </p>
+            )}
+            {errors.clinical && (
+              <p className="text-sm text-red-600">
+                {errors.clinical}
+              </p>
+            )}
+            {errors.complaint && (
+              <p className="mt-1 text-sm text-red-600">
+                {errors.complaint}
+              </p>
+            )}
+            </div>
           </div>
 
 
@@ -3369,6 +3697,7 @@ const removeRetinoscopy = (index) => {
             getMedicineName={getMedicineName}
             currentIndex={currentIndex}
             setCurrentIndex={setCurrentIndex}
+            loading={loadingHistory}
         />
 
       </div>

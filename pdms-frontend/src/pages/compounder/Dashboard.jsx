@@ -6,19 +6,43 @@ import { useNavigate } from "react-router-dom";
 function Dashboard() {
   const navigate = useNavigate();
   const [appointments, setAppointments] = useState([]);
+  const [error, setError] = useState("");
+  const [loading, setLoading] =useState(false);
 
   useEffect(() => {
     fetchTomorrow();
   }, []);
 
+  // const fetchTomorrow = async () => {
+  //   try {
+  //     const res = await api.get("/appointments/tomorrow");
+  //     setAppointments(res.data);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
   const fetchTomorrow = async () => {
-    try {
-      const res = await api.get("/appointments/tomorrow");
-      setAppointments(res.data);
-    } catch (err) {
-      console.log(err);
-    }
+      setLoading(true);
+      setError("");
+
+      try {
+          const res = await api.get("/appointments/tomorrow");
+          setAppointments(res.data);
+      } catch (err) {
+          console.error(err);
+
+          if (!err.response) {
+              setError("Unable to connect to the server.");
+          } else if (err.response.status === 401) {
+              setError("Session expired. Please login again.");
+          } else {
+              setError("Unable to load tomorrow's appointments.");
+          }
+      } finally {
+          setLoading(false);
+      }
   };
+
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
 
@@ -63,7 +87,16 @@ function Dashboard() {
         </div>
 
       </div>
-
+{error && (
+    <div className="mb-4 rounded-lg border border-red-300 bg-red-100 px-4 py-3 text-red-700">
+        {error}
+    </div>
+)}
+{loading && (
+    <div className="mb-4 rounded-lg bg-blue-100 border border-blue-300 px-4 py-3 text-blue-700">
+        Loading tomorrow's appointments...
+    </div>
+)}
       {/* 🔷 TABLE SECTION */}
       <div className="bg-white rounded-2xl shadow-md p-6">
 
@@ -82,7 +115,7 @@ function Dashboard() {
             </tr>
           </thead>
 
-          <tbody>
+          {/* <tbody>
             {appointments.map((a) => (
               <tr key={a.id} className="border-b hover:bg-gray-50">
                 <td className="p-2">{a.patient_code}</td>
@@ -93,15 +126,49 @@ function Dashboard() {
               </tr>
             ))}
           </tbody>
+          
+          */}
+
+<tbody>
+  {!loading && !error && appointments.length === 0 ? (
+    <tr>
+      <td
+        colSpan={5}
+        className="p-6 text-center text-gray-500"
+      >
+        No appointments scheduled for tomorrow.
+      </td>
+    </tr>
+  ) : (
+    appointments.map((a) => (
+      <tr key={a.id} className="border-b hover:bg-gray-50">
+        <td className="p-2">{a.patient_code}</td>
+        <td className="p-2">{a.patient_name}</td>
+        <td className="p-2">{a.patient_phone}</td>
+        <td className="p-2">{a.doctor_name}</td>
+        <td className="p-2">{a.time}</td>
+      </tr>
+    ))
+  )}
+</tbody>
+
         </table>
 
         {/* VIEW ALL BUTTON */}
-        <div className="flex justify-center mt-6">
+        <div className="flex justify-between mt-6">
           <button
             onClick={() => navigate("/compounder/tomorrow")}
             className="flex items-center gap-2 border font-bold border-blue-500 text-blue-600 px-5 py-2 rounded-lg hover:bg-blue-50"
           >
-             View All Appointments
+             Tomorrow's Appointments
+          </button>
+        {/* </div>
+        <div className="flex justify-center mt-6"> */}
+          <button
+            onClick={() => navigate("/compounder/followUp")}
+            className="flex items-center gap-2 border font-bold border-blue-500 text-blue-600 px-5 py-2 rounded-lg hover:bg-blue-50"
+          >
+             Follow-Up Patients
           </button>
         </div>
 

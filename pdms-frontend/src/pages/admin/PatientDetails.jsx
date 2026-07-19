@@ -11,24 +11,103 @@ function PatientDetails() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const { id } = useParams();
   const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  // useEffect(() => {
+  //   fetchDetails();
+
+  //   // 🔥 fetch medicines
+  //   api.get("/medicines/").then(res => setMedicines(res.data));
+  // }, []);
 
   useEffect(() => {
-    fetchDetails();
-
-    // 🔥 fetch medicines
-    api.get("/medicines/").then(res => setMedicines(res.data));
+      fetchDetails();
+      fetchMedicines();
   }, []);
+
   const getMedicineName = (id) => {
     const med = medicines.find(m => m.id === id);
     return med ? med.name : `ID: ${id}`;
   };
 
+  // const fetchDetails = async () => {
+  //   const res = await api.get(`/admin/patients/${id}`);
+  //   setData(res.data);
+  // };
+  // const fetchDetails = async () => {
+  //     setLoading(true);
+  //     setError("");
+
+  //     try {
+  //         const res = await api.get(`/admin/patients/${id}`);
+  //         setData(res.data);
+  //     } catch (err) {
+  //         console.error(err);
+  //         setError("Unable to load patient details.");
+  //     } finally {
+  //         setLoading(false);
+  //     }
+  // };
+
+
   const fetchDetails = async () => {
-    const res = await api.get(`/admin/patients/${id}`);
-    setData(res.data);
+      if (!id || isNaN(Number(id))) {
+          setError("Invalid patient ID.");
+          return;
+      }
+
+      setLoading(true);
+      setError("");
+
+      try {
+          const res = await api.get(`/admin/patients/${id}`);
+          setData(res.data);
+      } catch (err) {
+          console.error(err);
+
+          if (!err.response) {
+              setError("Unable to connect to the server. Please check your internet connection.");
+          } else if (err.response.status === 404) {
+              setError("Patient not found.");
+          } else if (err.response.status === 401) {
+              setError("Session expired. Please login again.");
+          } else {
+              setError("Unable to load patient details.");
+          }
+      } finally {
+          setLoading(false);
+      }
   };
 
-  if (!data) return <p>Loading...</p>;
+  const fetchMedicines = async () => {
+      try {
+          const res = await api.get("/medicines/");
+          setMedicines(res.data);
+      } catch (err) {
+          console.error("Failed to load medicines:", err);
+      }
+  };
+
+  // if (!data) return <p>Loading...</p>;
+  if (loading) {
+      return (
+          <div className="p-6">
+              <p>Loading patient details...</p>
+          </div>
+      );
+  }
+  if (error) {
+      return (
+          <div className="p-6">
+              <div className="rounded-lg bg-red-100 border border-red-300 text-red-700 p-4">
+                  {error}
+              </div>
+          </div>
+      );
+  }
+  if (!data) {
+      return null;
+  }
 
   const { patient, appointments, diagnosis_v2 = [] } = data;
   const history = diagnosis_v2;

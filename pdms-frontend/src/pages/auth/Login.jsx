@@ -43,9 +43,24 @@ export default function Login() {
       localStorage.setItem("doctor", JSON.stringify(res.data.user));
 
       navigate(`/${res.data.role}`);
-    } catch {
-      setError("Invalid credentials");
-    } finally {
+    } 
+    // catch {
+    //   setError("Invalid credentials");
+
+
+    catch (err) {
+        console.error(err);
+
+        if (!err.response) {
+            setError("Unable to connect to the server.");
+        } else if (err.response.status === 401) {
+            setError("Invalid email or password.");
+        } else {
+            setError("Login failed. Please try again.");
+        }
+    }
+
+    finally {
       setLoading(false);
     }
   };

@@ -51,18 +51,45 @@ def update_medicine(med_id: int, data: MedicineCreate, db: Session = Depends(get
 
 
 # ✅ Delete Medicine
-@router.delete("/{med_id}")
-def delete_medicine(med_id: int, db: Session = Depends(get_db), user=Depends(require_role("doctor"))):
+# @router.delete("/{med_id}")
+# def delete_medicine(med_id: int, db: Session = Depends(get_db), user=Depends(require_role("doctor"))):
 
+#     med = db.query(Medicine).filter(Medicine.id == med_id).first()
+
+#     if not med:
+#         raise HTTPException(status_code=404, detail="Medicine not found")
+
+#     db.delete(med)
+#     db.commit()
+
+#     return {"message": "Deleted successfully"}
+
+
+from sqlalchemy.exc import IntegrityError
+
+@router.delete("/{med_id}")
+def delete_medicine(
+    med_id: int,
+    db: Session = Depends(get_db),
+    user=Depends(require_role("doctor"))
+):
     med = db.query(Medicine).filter(Medicine.id == med_id).first()
 
     if not med:
         raise HTTPException(status_code=404, detail="Medicine not found")
 
-    db.delete(med)
-    db.commit()
+    try:
+        db.delete(med)
+        db.commit()
 
-    return {"message": "Deleted successfully"}
+        return {"message": "Deleted successfully"}
+
+    except IntegrityError:
+        db.rollback()
+        raise HTTPException(
+            status_code=409,
+            detail="Medicine is already used in prescriptions and cannot be deleted."
+        )
 
 @router.get("/type/{type}")
 def get_by_type(type: str, db: Session = Depends(get_db), user=Depends(require_role("doctor"))):

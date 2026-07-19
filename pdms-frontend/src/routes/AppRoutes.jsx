@@ -6,7 +6,7 @@ import Login from "../pages/auth/Login";
 import ProtectedRoute from "./ProtectedRoute";
 import DiagnosisV2 from "../pages/doctor/DiagnosisV2";
 
-
+import FollowUp from "../pages/compounder/FollowUp";
 import CompounderDashboard from "../pages/compounder/Dashboard";
 import RegisterPatient from "../pages/compounder/RegisterPatient";
 import ReAppointment from "../pages/compounder/ReAppointment";
@@ -82,6 +82,16 @@ function AppRoutes() {
             <ProtectedRoute role="compounder">
             <Layout>
                 <CompounderDashboard />
+            </Layout>
+            </ProtectedRoute>
+        }
+        />
+        <Route
+        path="/compounder/followup"
+        element={
+            <ProtectedRoute role="compounder">
+            <Layout>
+                <FollowUp />
             </Layout>
             </ProtectedRoute>
         }
